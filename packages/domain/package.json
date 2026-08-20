@@ -1,0 +1,27 @@
+{
+  "name": "@operations-hub/domain",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Shared Operations Hub domain: types, business rules, state machines, reports and deterministic fixture. Framework-independent.",
+  "sideEffects": false,
+  "main": "./dist/src/index.js",
+  "types": "./dist/src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/src/index.d.ts",
+      "import": "./dist/src/index.js"
+    },
+    "./fixtures/operations-hub-v1.json": "./fixtures/operations-hub-v1.json"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.11"
+  }
+}

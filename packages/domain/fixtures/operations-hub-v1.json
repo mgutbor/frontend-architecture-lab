@@ -1,0 +1,486 @@
+{
+  "datasetVersion": "v1",
+  "users": [
+    {
+      "id": "user-001",
+      "name": "Ada Lovelace",
+      "email": "ada.lovelace@operations-hub.dev",
+      "teamId": "team-001",
+      "createdAt": "2025-09-02T09:00:00Z",
+      "updatedAt": "2025-09-02T09:00:00Z"
+    },
+    {
+      "id": "user-002",
+      "name": "Alan Turing",
+      "email": "alan.turing@operations-hub.dev",
+      "teamId": "team-001",
+      "createdAt": "2025-09-02T09:00:00Z",
+      "updatedAt": "2025-09-02T09:00:00Z"
+    },
+    {
+      "id": "user-003",
+      "name": "Grace Hopper",
+      "email": "grace.hopper@operations-hub.dev",
+      "teamId": "team-001",
+      "createdAt": "2025-09-02T09:00:00Z",
+      "updatedAt": "2025-09-02T09:00:00Z"
+    },
+    {
+      "id": "user-004",
+      "name": "Katherine Johnson",
+      "email": "katherine.johnson@operations-hub.dev",
+      "teamId": "team-002",
+      "createdAt": "2025-09-08T09:00:00Z",
+      "updatedAt": "2025-09-08T09:00:00Z"
+    },
+    {
+      "id": "user-005",
+      "name": "Margaret Hamilton",
+      "email": "margaret.hamilton@operations-hub.dev",
+      "teamId": "team-002",
+      "createdAt": "2025-09-08T09:00:00Z",
+      "updatedAt": "2025-09-08T09:00:00Z"
+    },
+    {
+      "id": "user-006",
+      "name": "Edsger Dijkstra",
+      "email": "edsger.dijkstra@operations-hub.dev",
+      "teamId": "team-002",
+      "createdAt": "2025-09-08T09:00:00Z",
+      "updatedAt": "2025-09-08T09:00:00Z"
+    },
+    {
+      "id": "user-007",
+      "name": "Barbara Liskov",
+      "email": "barbara.liskov@operations-hub.dev",
+      "teamId": "team-003",
+      "createdAt": "2025-10-02T09:00:00Z",
+      "updatedAt": "2025-10-02T09:00:00Z"
+    },
+    {
+      "id": "user-008",
+      "name": "Linus Torvalds",
+      "email": "linus.torvalds@operations-hub.dev",
+      "teamId": "team-003",
+      "createdAt": "2025-10-02T09:00:00Z",
+      "updatedAt": "2025-10-02T09:00:00Z"
+    }
+  ],
+  "teams": [
+    {
+      "id": "team-001",
+      "name": "Core Platform",
+      "description": "Plataforma y sistemas centrales.",
+      "createdAt": "2025-09-01T09:00:00Z",
+      "updatedAt": "2025-09-01T09:00:00Z"
+    },
+    {
+      "id": "team-002",
+      "name": "Data Insights",
+      "description": "Análisis, informes y datos.",
+      "createdAt": "2025-09-01T09:00:00Z",
+      "updatedAt": "2025-09-01T09:00:00Z"
+    },
+    {
+      "id": "team-003",
+      "name": "Customer Success",
+      "description": "Incorporación y soporte de clientes.",
+      "createdAt": "2025-10-01T09:00:00Z",
+      "updatedAt": "2025-10-01T09:00:00Z"
+    }
+  ],
+  "projects": [
+    {
+      "id": "project-001",
+      "name": "Incident Response Portal",
+      "description": null,
+      "status": "active",
+      "ownerId": "user-001",
+      "teamId": "team-001",
+      "createdAt": "2025-11-03T09:00:00Z",
+      "updatedAt": "2025-11-03T09:00:00Z"
+    },
+    {
+      "id": "project-002",
+      "name": "Alerting Pipeline",
+      "description": null,
+      "status": "completed",
+      "ownerId": "user-002",
+      "teamId": "team-001",
+      "createdAt": "2025-10-20T09:00:00Z",
+      "updatedAt": "2025-10-20T09:00:00Z"
+    },
+    {
+      "id": "project-003",
+      "name": "Reporting Dashboard",
+      "description": null,
+      "status": "active",
+      "ownerId": "user-004",
+      "teamId": "team-002",
+      "createdAt": "2025-11-10T09:00:00Z",
+      "updatedAt": "2025-11-10T09:00:00Z"
+    },
+    {
+      "id": "project-004",
+      "name": "Data Ingest Service",
+      "description": null,
+      "status": "planned",
+      "ownerId": "user-005",
+      "teamId": "team-002",
+      "createdAt": "2025-12-01T09:00:00Z",
+      "updatedAt": "2025-12-01T09:00:00Z"
+    },
+    {
+      "id": "project-005",
+      "name": "Customer Onboarding",
+      "description": null,
+      "status": "completed",
+      "ownerId": "user-007",
+      "teamId": "team-003",
+      "createdAt": "2025-11-17T09:00:00Z",
+      "updatedAt": "2025-11-17T09:00:00Z"
+    },
+    {
+      "id": "project-006",
+      "name": "Legacy Migration",
+      "description": null,
+      "status": "active",
+      "ownerId": "user-008",
+      "teamId": "team-003",
+      "createdAt": "2026-01-12T09:00:00Z",
+      "updatedAt": "2026-01-12T09:00:00Z"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "task-001",
+      "title": "Define incident severity levels",
+      "description": null,
+      "status": "completed",
+      "priority": "high",
+      "assigneeId": "user-001",
+      "projectId": "project-001",
+      "createdAt": "2025-11-04T09:00:00Z",
+      "updatedAt": "2025-11-04T09:00:00Z"
+    },
+    {
+      "id": "task-002",
+      "title": "Build incident intake form",
+      "description": null,
+      "status": "completed",
+      "priority": "high",
+      "assigneeId": "user-001",
+      "projectId": "project-001",
+      "createdAt": "2025-11-05T09:00:00Z",
+      "updatedAt": "2025-11-05T09:00:00Z"
+    },
+    {
+      "id": "task-003",
+      "title": "Implement status timeline",
+      "description": null,
+      "status": "in-progress",
+      "priority": "high",
+      "assigneeId": "user-002",
+      "projectId": "project-001",
+      "createdAt": "2025-11-06T09:00:00Z",
+      "updatedAt": "2025-11-06T09:00:00Z"
+    },
+    {
+      "id": "task-004",
+      "title": "Add SLA counters",
+      "description": null,
+      "status": "in-progress",
+      "priority": "medium",
+      "assigneeId": "user-003",
+      "projectId": "project-001",
+      "createdAt": "2025-11-07T09:00:00Z",
+      "updatedAt": "2025-11-07T09:00:00Z"
+    },
+    {
+      "id": "task-005",
+      "title": "Create escalation rules",
+      "description": null,
+      "status": "todo",
+      "priority": "medium",
+      "assigneeId": "user-002",
+      "projectId": "project-001",
+      "createdAt": "2025-11-08T09:00:00Z",
+      "updatedAt": "2025-11-08T09:00:00Z"
+    },
+    {
+      "id": "task-006",
+      "title": "Design notification templates",
+      "description": null,
+      "status": "todo",
+      "priority": "low",
+      "assigneeId": "user-003",
+      "projectId": "project-001",
+      "createdAt": "2025-11-09T09:00:00Z",
+      "updatedAt": "2025-11-09T09:00:00Z"
+    },
+    {
+      "id": "task-007",
+      "title": "Write incident documentation",
+      "description": null,
+      "status": "todo",
+      "priority": "low",
+      "assigneeId": null,
+      "projectId": "project-001",
+      "createdAt": "2025-11-10T09:00:00Z",
+      "updatedAt": "2025-11-10T09:00:00Z"
+    },
+    {
+      "id": "task-008",
+      "title": "Archive resolved incidents",
+      "description": null,
+      "status": "cancelled",
+      "priority": "low",
+      "assigneeId": "user-001",
+      "projectId": "project-001",
+      "createdAt": "2025-11-11T09:00:00Z",
+      "updatedAt": "2025-11-11T09:00:00Z"
+    },
+    {
+      "id": "task-009",
+      "title": "Set up alert routing",
+      "description": null,
+      "status": "completed",
+      "priority": "high",
+      "assigneeId": "user-002",
+      "projectId": "project-002",
+      "createdAt": "2025-10-21T09:00:00Z",
+      "updatedAt": "2025-10-21T09:00:00Z"
+    },
+    {
+      "id": "task-010",
+      "title": "Configure alert thresholds",
+      "description": null,
+      "status": "completed",
+      "priority": "medium",
+      "assigneeId": "user-002",
+      "projectId": "project-002",
+      "createdAt": "2025-10-22T09:00:00Z",
+      "updatedAt": "2025-10-22T09:00:00Z"
+    },
+    {
+      "id": "task-011",
+      "title": "Build alert deduplication",
+      "description": null,
+      "status": "completed",
+      "priority": "high",
+      "assigneeId": "user-003",
+      "projectId": "project-002",
+      "createdAt": "2025-10-23T09:00:00Z",
+      "updatedAt": "2025-10-23T09:00:00Z"
+    },
+    {
+      "id": "task-012",
+      "title": "Add silence windows",
+      "description": null,
+      "status": "completed",
+      "priority": "medium",
+      "assigneeId": "user-001",
+      "projectId": "project-002",
+      "createdAt": "2025-10-24T09:00:00Z",
+      "updatedAt": "2025-10-24T09:00:00Z"
+    },
+    {
+      "id": "task-013",
+      "title": "Export alert history",
+      "description": null,
+      "status": "completed",
+      "priority": "low",
+      "assigneeId": "user-003",
+      "projectId": "project-002",
+      "createdAt": "2025-10-25T09:00:00Z",
+      "updatedAt": "2025-10-25T09:00:00Z"
+    },
+    {
+      "id": "task-014",
+      "title": "Migrate alert storage",
+      "description": null,
+      "status": "completed",
+      "priority": "medium",
+      "assigneeId": "user-001",
+      "projectId": "project-002",
+      "createdAt": "2025-10-26T09:00:00Z",
+      "updatedAt": "2025-10-26T09:00:00Z"
+    },
+    {
+      "id": "task-015",
+      "title": "Design report layouts",
+      "description": null,
+      "status": "completed",
+      "priority": "high",
+      "assigneeId": "user-004",
+      "projectId": "project-003",
+      "createdAt": "2025-11-11T09:00:00Z",
+      "updatedAt": "2025-11-11T09:00:00Z"
+    },
+    {
+      "id": "task-016",
+      "title": "Build task metrics widget",
+      "description": null,
+      "status": "in-progress",
+      "priority": "high",
+      "assigneeId": "user-005",
+      "projectId": "project-003",
+      "createdAt": "2025-11-12T09:00:00Z",
+      "updatedAt": "2025-11-12T09:00:00Z"
+    },
+    {
+      "id": "task-017",
+      "title": "Build project metrics widget",
+      "description": null,
+      "status": "in-progress",
+      "priority": "medium",
+      "assigneeId": "user-004",
+      "projectId": "project-003",
+      "createdAt": "2025-11-13T09:00:00Z",
+      "updatedAt": "2025-11-13T09:00:00Z"
+    },
+    {
+      "id": "task-018",
+      "title": "Add completion rate card",
+      "description": null,
+      "status": "todo",
+      "priority": "medium",
+      "assigneeId": "user-006",
+      "projectId": "project-003",
+      "createdAt": "2025-11-14T09:00:00Z",
+      "updatedAt": "2025-11-14T09:00:00Z"
+    },
+    {
+      "id": "task-019",
+      "title": "Style report tables",
+      "description": null,
+      "status": "todo",
+      "priority": "low",
+      "assigneeId": "user-005",
+      "projectId": "project-003",
+      "createdAt": "2025-11-15T09:00:00Z",
+      "updatedAt": "2025-11-15T09:00:00Z"
+    },
+    {
+      "id": "task-020",
+      "title": "Export report as PDF",
+      "description": null,
+      "status": "todo",
+      "priority": "low",
+      "assigneeId": null,
+      "projectId": "project-003",
+      "createdAt": "2025-11-16T09:00:00Z",
+      "updatedAt": "2025-11-16T09:00:00Z"
+    },
+    {
+      "id": "task-021",
+      "title": "Define ingestion schema",
+      "description": null,
+      "status": "todo",
+      "priority": "high",
+      "assigneeId": "user-005",
+      "projectId": "project-004",
+      "createdAt": "2025-12-02T09:00:00Z",
+      "updatedAt": "2025-12-02T09:00:00Z"
+    },
+    {
+      "id": "task-022",
+      "title": "Build ingestion worker",
+      "description": null,
+      "status": "todo",
+      "priority": "high",
+      "assigneeId": "user-006",
+      "projectId": "project-004",
+      "createdAt": "2025-12-03T09:00:00Z",
+      "updatedAt": "2025-12-03T09:00:00Z"
+    },
+    {
+      "id": "task-023",
+      "title": "Add retry logic",
+      "description": null,
+      "status": "in-progress",
+      "priority": "medium",
+      "assigneeId": "user-006",
+      "projectId": "project-004",
+      "createdAt": "2025-12-04T09:00:00Z",
+      "updatedAt": "2025-12-04T09:00:00Z"
+    },
+    {
+      "id": "task-024",
+      "title": "Write ingestion tests",
+      "description": null,
+      "status": "cancelled",
+      "priority": "medium",
+      "assigneeId": "user-004",
+      "projectId": "project-004",
+      "createdAt": "2025-12-05T09:00:00Z",
+      "updatedAt": "2025-12-05T09:00:00Z"
+    },
+    {
+      "id": "task-025",
+      "title": "Create onboarding checklist",
+      "description": null,
+      "status": "completed",
+      "priority": "high",
+      "assigneeId": "user-007",
+      "projectId": "project-005",
+      "createdAt": "2025-11-18T09:00:00Z",
+      "updatedAt": "2025-11-18T09:00:00Z"
+    },
+    {
+      "id": "task-026",
+      "title": "Build welcome email",
+      "description": null,
+      "status": "completed",
+      "priority": "medium",
+      "assigneeId": "user-007",
+      "projectId": "project-005",
+      "createdAt": "2025-11-19T09:00:00Z",
+      "updatedAt": "2025-11-19T09:00:00Z"
+    },
+    {
+      "id": "task-027",
+      "title": "Add guided tour",
+      "description": null,
+      "status": "completed",
+      "priority": "low",
+      "assigneeId": "user-008",
+      "projectId": "project-005",
+      "createdAt": "2025-11-20T09:00:00Z",
+      "updatedAt": "2025-11-20T09:00:00Z"
+    },
+    {
+      "id": "task-028",
+      "title": "Collect customer feedback",
+      "description": null,
+      "status": "in-progress",
+      "priority": "medium",
+      "assigneeId": "user-008",
+      "projectId": "project-005",
+      "createdAt": "2025-11-21T09:00:00Z",
+      "updatedAt": "2025-11-21T09:00:00Z"
+    },
+    {
+      "id": "task-029",
+      "title": "Build support handoff",
+      "description": null,
+      "status": "in-progress",
+      "priority": "medium",
+      "assigneeId": "user-007",
+      "projectId": "project-005",
+      "createdAt": "2025-11-22T09:00:00Z",
+      "updatedAt": "2025-11-22T09:00:00Z"
+    },
+    {
+      "id": "task-030",
+      "title": "Measure activation rate",
+      "description": null,
+      "status": "todo",
+      "priority": "low",
+      "assigneeId": "user-008",
+      "projectId": "project-005",
+      "createdAt": "2025-11-23T09:00:00Z",
+      "updatedAt": "2025-11-23T09:00:00Z"
+    }
+  ]
+}
