@@ -17,14 +17,17 @@ El paquete no conoce ninguna UI: no contiene React, Angular, componentes, routin
 
 ## 2. Qué pertenece a React (`apps/react-app`)
 
-React+Vite+TypeScript, con una frontera de datos explícita y un store mínimo sin librería:
+React+Vite+TypeScript, con una frontera de datos explícita y un store mínimo sin librería. Desde la **Fase 4** implementa el contrato funcional completo (las 6 áreas funcionales del contrato):
 
 - `src/adapters/domain-adapter.ts` — frontera «cómo se obtienen los datos»: hoy llama a `loadFixture()`; mañana puede sustituirse por un cliente API sin tocar la UI.
-- `src/services/domain-store.ts` — store externo mínimo (patrón `useSyncExternalStore`) que mantiene el `Dataset` y expone mutaciones que **delegan las reglas en el dominio** (`canTransitionProject`).
+- `src/services/domain-store.ts` — store externo mínimo (patrón `useSyncExternalStore`) que mantiene el `Dataset` y expone **todas las mutaciones de sesión** (crear/editar proyectos y tareas, transiciones, asignaciones, cambio de equipo de un usuario) **delegando las reglas en el dominio** (`canTransitionProject`, `canTransitionTask`, `validateProjectInput`, `validateTaskInput`, `validateUserInput`). Nunca reimplementa reglas.
+- `src/services/ids.ts` y `src/services/filters.ts` — helpers de sesión: siguiente id del patrón `entity-NNN` y filtros/búsqueda de presentación (subcadena case-insensitive combinada con filtros, AND).
 - `src/hooks/use-domain-store.ts` — puente entre el store y React (`useSyncExternalStore`).
-- `src/features/dashboard/`, `src/features/projects/` — páginas por área funcional; los informes se calculan con `buildGlobalReport`/`buildTeamReport` del dominio, nunca en la UI.
-- `src/components/` — componentes de presentación reutilizables (`kpi-card`, `transition-buttons`).
-- `src/app/App.tsx` — composición raíz y estado de UI (sección visible).
+- `src/features/dashboard|projects|tasks|teams|reports|settings/` — páginas por área funcional; los informes se calculan con los builders del dominio (`buildGlobalReport`, `buildProjectReport`, `buildTeamReport`, `computeTaskCounts`), nunca en la UI.
+- `src/features/*/project-form.tsx`, `task-form.tsx` — formularios de creación/edición que reutilizan los validadores del dominio y muestran errores inline asociados a cada campo (ACC-3/4).
+- `src/components/` — componentes de presentación reutilizables (`kpi-card`, `transition-buttons`, `field`, `empty-state`, `status-badge`, `priority-badge`, `feedback`).
+- `src/app/App.tsx` — composición raíz, **navegación persistente por estado entre las 6 áreas** (NAV-1…3; decisión de Fase 4: sin routing por URL) y el estado de UI de Settings (`showCompletedTasks`, en memoria, reseteado al recargar — SET-4).
+- `src/app/error-boundary.tsx` — defensa mínima (los datos son un fixture síncrono, TR-1; no hay capa artificial de loading/error).
 
 ## 3. Qué pertenece a Angular (`apps/angular-app`)
 

@@ -1,4 +1,7 @@
-/* Minimal global styles: the focus of this phase is architecture, not design. */
+/* Global styles for the Operations Hub React Monolith.
+   The focus of the laboratory is architecture, not design, but WCAG 2.2 AA
+   contrast and visible focus are contract requirements (ACC-2, ACC-6). */
+
 * {
   box-sizing: border-box;
 }
@@ -11,4 +14,335 @@ body {
     sans-serif;
   color: #1f2933;
   background: #f5f7fa;
+}
+
+/* Visible keyboard focus everywhere (ACC-2). */
+:focus-visible {
+  outline: 2px solid #1d4ed8;
+  outline-offset: 2px;
+}
+
+.app {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Header and persistent navigation (NAV-1, ACC-5). */
+.app-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #d2d6dc;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.app-header nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.app-header nav button {
+  padding: 0.4rem 0.75rem;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  color: #1f2933;
+  font: inherit;
+  cursor: pointer;
+}
+
+.app-header nav button:hover {
+  background: #e4e7eb;
+}
+
+.app-header nav button.active {
+  background: #1d4ed8;
+  color: #ffffff;
+  border-color: #1d4ed8;
+}
+
+main {
+  padding-top: 1rem;
+}
+
+/* Section headings. */
+h2 {
+  font-size: 1.1rem;
+}
+
+/* KPI cards (dashboard). */
+.kpis {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.kpi-card {
+  flex: 1 1 140px;
+  background: #ffffff;
+  border: 1px solid #d2d6dc;
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+}
+
+.kpi-label {
+  display: block;
+  font-size: 0.8rem;
+  color: #52606d;
+}
+
+.kpi-value {
+  font-size: 1.4rem;
+}
+
+/* Panels and lists. */
+.panels {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: #ffffff;
+  border: 1px solid #d2d6dc;
+  border-radius: 6px;
+}
+
+.list li {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid #e4e7eb;
+}
+
+.list li:last-child {
+  border-bottom: none;
+}
+
+.list-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.list-row .grow {
+  flex: 1 1 auto;
+}
+
+/* Toolbar with search + filters. */
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: end;
+  margin-bottom: 0.75rem;
+}
+
+.toolbar .field {
+  min-width: 180px;
+}
+
+/* Forms. */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.field label {
+  font-size: 0.85rem;
+  color: #3e4c59;
+}
+
+.field input,
+.field select,
+.field textarea {
+  padding: 0.4rem 0.5rem;
+  border: 1px solid #9aa5b1;
+  border-radius: 4px;
+  font: inherit;
+  background: #ffffff;
+}
+
+.field input[aria-invalid='true'],
+.field select[aria-invalid='true'],
+.field textarea[aria-invalid='true'] {
+  border-color: #b91c1c;
+}
+
+.field-error {
+  color: #b91c1c;
+  font-size: 0.85rem;
+}
+
+.form-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+button,
+input[type='submit'] {
+  padding: 0.4rem 0.9rem;
+  border: 1px solid #9aa5b1;
+  border-radius: 4px;
+  background: #ffffff;
+  color: #1f2933;
+  font: inherit;
+  cursor: pointer;
+}
+
+button:hover,
+input[type='submit']:hover {
+  background: #e4e7eb;
+}
+
+button.primary {
+  background: #1d4ed8;
+  border-color: #1d4ed8;
+  color: #ffffff;
+}
+
+/* Badges. */
+.status-badge,
+.priority-badge {
+  display: inline-block;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  background: #e4e7eb;
+  color: #1f2933;
+}
+
+/* List rows used as buttons (projects, teams). */
+.list button {
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: transparent;
+}
+
+.list button:hover {
+  background: #eef1f4;
+}
+
+.list button.selected {
+  background: #e0e7ff;
+}
+
+.project-row,
+.team-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.project-meta,
+.team-meta {
+  color: #52606d;
+  font-size: 0.85rem;
+}
+
+/* Task rows. */
+.task-project,
+.task-assignee {
+  color: #52606d;
+  font-size: 0.85rem;
+}
+
+.transitions {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.transitions button {
+  font-size: 0.8rem;
+  padding: 0.2rem 0.6rem;
+}
+
+.assign-select {
+  padding: 0.2rem 0.4rem;
+  font-size: 0.85rem;
+}
+
+/* Metric tables (reports). */
+.metric-table {
+  border-collapse: collapse;
+  background: #ffffff;
+  border: 1px solid #d2d6dc;
+  border-radius: 6px;
+  min-width: 220px;
+}
+
+.metric-table caption {
+  text-align: left;
+  font-weight: 600;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid #d2d6dc;
+}
+
+.metric-table th,
+.metric-table td {
+  text-align: left;
+  padding: 0.4rem 0.75rem;
+  border-bottom: 1px solid #e4e7eb;
+}
+
+.metric-table tr:last-child th,
+.metric-table tr:last-child td {
+  border-bottom: none;
+}
+
+.metric-table td {
+  text-align: right;
+}
+
+/* Empty and feedback states. */
+.empty-state {
+  color: #52606d;
+  font-style: italic;
+  padding: 1rem;
+}
+
+.feedback {
+  color: #065f46;
+  font-weight: 500;
+}
+
+/* Error boundary fallback. */
+.error-boundary {
+  padding: 2rem;
+  text-align: center;
+}
+
+/* Settings checkbox. */
+.setting-checkbox label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #1f2933;
+  font-size: 0.95rem;
+}
+
+.setting-checkbox input {
+  width: 1.1rem;
+  height: 1.1rem;
 }

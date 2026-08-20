@@ -1,12 +1,17 @@
-import type { ProjectStatus } from '@operations-hub/domain'
-
-export interface TransitionButtonsProps {
-  from: ProjectStatus
-  targets: ProjectStatus[]
-  onTransition(target: ProjectStatus): void
+export interface TransitionButtonsProps<T extends string> {
+  from: T
+  targets: T[]
+  onTransition(target: T): void
 }
 
-export function TransitionButtons({ from, targets, onTransition }: TransitionButtonsProps) {
+// Renders the valid status transitions for an entity. The targets come from
+// the domain state machines (PROJECT_TRANSITIONS / TASK_TRANSITIONS), so only
+// documented transitions are ever offered (PRJ-EDIT-3, TSK-STATUS-1/2).
+export function TransitionButtons<T extends string>({
+  from,
+  targets,
+  onTransition,
+}: TransitionButtonsProps<T>) {
   return (
     <div className="transitions">
       {targets.map((target) => (

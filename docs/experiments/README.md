@@ -14,7 +14,7 @@ Este directorio contiene la documentación de cada experimento de arquitectura f
 
 ## Experimentos planificados
 
-- React Monolith (implementado: Fase 2; contrato completo en fases posteriores)
+- React Monolith (implementado: Fase 2; **contrato funcional completo: Fase 4**)
 - Angular Monolith (implementado: Fase 2; contrato completo en fases posteriores)
 - Web Components
 - Lit
