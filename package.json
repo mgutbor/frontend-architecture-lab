@@ -1,0 +1,28 @@
+{
+  "name": "frontend-architecture-lab",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Monorepo laboratory for comparing frontend architectures using the same fictional product: Operations Hub.",
+  "license": "MIT",
+  "packageManager": "pnpm@10.34.5",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc --noEmit",
+    "test": "echo \"Phase 0: no test suites configured yet\"",
+    "build": "echo \"Phase 0: no packages to build yet\"",
+    "check": "pnpm lint && pnpm format:check && pnpm typecheck && pnpm test && pnpm build"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "eslint": "^9.39.5",
+    "globals": "^17.11.0",
+    "prettier": "^3.9.6",
+    "turbo": "^2.10.11",
+    "typescript": "^5.9.3"
+  }
+}

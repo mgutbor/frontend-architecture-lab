@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+out/
+*.tsbuildinfo
+
+# Coverage
+coverage/
+
+# Turborepo
+.turbo/
+
+# Test and reporting artifacts
+playwright-report/
+test-results/
+storybook-static/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Editors and IDEs
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
