@@ -6,11 +6,11 @@ Este directorio contiene la documentación de cada experimento de arquitectura f
 
 ## Documentos
 
-| Documento                                  | Contenido                                                                                                                            |
-| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
-| [metrics.md](./metrics.md)                 | **Metodología de métricas** (aprobada en Fase 0.1): qué se mide, cómo, entorno de referencia y reglas de captura/reporte.            |
-| [baseline-phase2.md](./baseline-phase2.md) | **Baseline de Fase 2**: primer ciclo de medición (React, Angular y Domain) con resultados, limitaciones, interpretación y evidencia. |
-| [results/](./results/)                     | Evidencia cruda de los ciclos de medición (JSON generado por `pnpm measure`).                                                        |
+| Documento                                              | Contenido                                                                                                                              |
+| ------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
+| [metrics.md](./metrics.md)                             | **Metodología de métricas** (aprobada en Fase 0.1): qué se mide, cómo, entorno de referencia y reglas de captura/reporte.              |     | [baseline-phase2.md](./baseline-phase2.md) | **Baseline de Fase 2**: primer ciclo de medición (React, Angular y Domain) con resultados, limitaciones, interpretación y evidencia. |
+| [react-monolith-phase4.md](./react-monolith-phase4.md) | **Fase 4.1**: comparación del React Monolith (contrato completo) contra el baseline — código, build, bundle, tests, arquitectura y DX. |
+| [results/](./results/)                                 | Evidencia cruda de los ciclos de medición (JSON generado por `pnpm measure`).                                                          |
 
 ## Experimentos planificados
 
