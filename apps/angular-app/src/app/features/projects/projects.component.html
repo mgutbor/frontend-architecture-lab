@@ -1,0 +1,43 @@
+<div class="projects-layout">
+  <ul class="project-list">
+    @for (project of projects(); track project.id) {
+      <li>
+        <button
+          type="button"
+          [class.selected]="selectedId() === project.id"
+          (click)="selectProject(project.id)"
+        >
+          {{ project.name }} ({{ project.status }})
+        </button>
+      </li>
+    }
+  </ul>
+
+  @if (selected(); as project) {
+    <section class="project-detail">
+      <h2>{{ project.name }}</h2>
+      <p>
+        Status: <strong>{{ project.status }}</strong>
+      </p>
+      <p>Owner: {{ userName(project.ownerId) }} · Team: {{ teamName(project.teamId) }}</p>
+
+      <h3>Valid transitions</h3>
+      <div class="transitions">
+        @for (target of availableTransitions(); track $index) {
+          <button type="button" (click)="transition(target)">
+            {{ project.status }} → {{ target }}
+          </button>
+        }
+      </div>
+
+      <h3>Tasks ({{ selectedTasks().length }})</h3>
+      <ul>
+        @for (task of selectedTasks(); track task.id) {
+          <li>{{ task.title }} — {{ task.status }} — {{ task.priority }}</li>
+        }
+      </ul>
+    </section>
+  } @else {
+    <p>Select a project to see its state and its valid transitions.</p>
+  }
+</div>

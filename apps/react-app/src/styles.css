@@ -1,0 +1,14 @@
+/* Minimal global styles: the focus of this phase is architecture, not design. */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  color: #1f2933;
+  background: #f5f7fa;
+}

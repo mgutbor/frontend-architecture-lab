@@ -2,7 +2,14 @@
 
 Este directorio contiene los **ADR** (Architecture Decision Records) del proyecto: registros de decisiones arquitectónicas.
 
-> En la **Fase 0** no hay ADR publicados, y no se crean ADR «de demostración». La plantilla está disponible en [templates/ADR-TEMPLATE.md](./templates/ADR-TEMPLATE.md).
+> No se crean ADR «de demostración»: solo se registran decisiones arquitectónicas reales. La plantilla está disponible en [templates/ADR-TEMPLATE.md](./templates/ADR-TEMPLATE.md).
+
+## ADR publicados
+
+| ADR                                                                                                    | Decisión                                                                                        | Estado     |
+| ------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------- | ---------- |
+| [ADR-001 — Paquete de dominio compartido `@operations-hub/domain`](./ADR-001-shared-domain-package.md) | Fuente única de dominio y datos para todos los experimentos (Fase 1).                           | `Accepted` |
+| [ADR-002 — Gestión de estado en React y Angular](./ADR-002-state-management-react-angular.md)          | Estado de dominio/derivado/UI con mecanismos nativos de cada framework, sin librerías (Fase 2). | `Accepted` |
 
 ## ¿Qué es un ADR?
 

@@ -13,6 +13,9 @@ coverage/
 # Turborepo
 .turbo/
 
+# Angular CLI cache
+.angular/
+
 # Test and reporting artifacts
 playwright-report/
 test-results/

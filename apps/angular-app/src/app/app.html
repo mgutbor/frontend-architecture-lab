@@ -1,0 +1,27 @@
+<header class="app-header">
+  <h1>Operations Hub</h1>
+  <nav aria-label="Sections">
+    <button
+      type="button"
+      [class.active]="section() === 'dashboard'"
+      (click)="selectSection('dashboard')"
+    >
+      Dashboard
+    </button>
+    <button
+      type="button"
+      [class.active]="section() === 'projects'"
+      (click)="selectSection('projects')"
+    >
+      Projects
+    </button>
+  </nav>
+</header>
+
+<main>
+  @if (section() === 'dashboard') {
+  <app-dashboard />
+  } @else {
+  <app-projects />
+  }
+</main>
