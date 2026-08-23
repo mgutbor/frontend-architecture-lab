@@ -1,43 +1,84 @@
-<div class="projects-layout">
-  <ul class="project-list">
-    @for (project of projects(); track project.id) {
-      <li>
-        <button
-          type="button"
-          [class.selected]="selectedId() === project.id"
-          (click)="selectProject(project.id)"
-        >
-          {{ project.name }} ({{ project.status }})
-        </button>
-      </li>
-    }
-  </ul>
+<section aria-label="Projects">
+  <div class="list-row">
+    <h2 class="grow">Projects</h2>
+    <button type="button" class="primary" (click)="mode.set('create')">New project</button>
+  </div>
 
-  @if (selected(); as project) {
-    <section class="project-detail">
-      <h2>{{ project.name }}</h2>
-      <p>
-        Status: <strong>{{ project.status }}</strong>
-      </p>
-      <p>Owner: {{ userName(project.ownerId) }} · Team: {{ teamName(project.teamId) }}</p>
-
-      <h3>Valid transitions</h3>
-      <div class="transitions">
-        @for (target of availableTransitions(); track $index) {
-          <button type="button" (click)="transition(target)">
-            {{ project.status }} → {{ target }}
-          </button>
-        }
+  @if (mode() === 'create' || mode() === 'edit') {
+    <app-project-form
+      [initial]="formInitial()"
+      [users]="users()"
+      [teams]="teams()"
+      (submit)="handleSubmit($event)"
+      (cancel)="mode.set('list')"
+    />
+  } @else {
+    <div class="toolbar">
+      <div class="field">
+        <label for="project-search">Search projects</label>
+        <input
+          id="project-search"
+          type="search"
+          [value]="search()"
+          (input)="search.set($any($event.target).value)"
+          placeholder="e.g. incident"
+        />
       </div>
+      <div class="field">
+        <label for="project-status-filter">Status</label>
+        <select
+          id="project-status-filter"
+          [value]="statusFilter()"
+          (change)="statusFilter.set($any($event.target).value)"
+        >
+          <option value="all">All</option>
+          <option value="planned">Planned</option>
+          <option value="active">Active</option>
+          <option value="completed">Completed</option>
+        </select>
+      </div>
+    </div>
 
-      <h3>Tasks ({{ selectedTasks().length }})</h3>
-      <ul>
-        @for (task of selectedTasks(); track task.id) {
-          <li>{{ task.title }} — {{ task.status }} — {{ task.priority }}</li>
+    <p class="results-count" aria-live="polite">
+      {{ filtered().length }} of {{ projects().length }} projects
+    </p>
+
+    <app-feedback [message]="feedback()" />
+
+    @if (filtered().length === 0) {
+      <app-empty-state message="No projects match the current search and filters." />
+    } @else {
+      <ul class="list project-list">
+        @for (project of filtered(); track project.id) {
+          <li>
+            <button
+              type="button"
+              class="project-row"
+              [class.selected]="project.id === selectedId()"
+              (click)="selectProject(project.id)"
+            >
+              <span class="project-name">{{ project.name }}</span>
+              <span class="project-meta">
+                {{ project.status }} · {{ userName(project.ownerId) }} ·
+                {{ teamName(project.teamId) }}
+              </span>
+            </button>
+          </li>
         }
       </ul>
-    </section>
-  } @else {
-    <p>Select a project to see its state and its valid transitions.</p>
+    }
+
+    @if (selected(); as project) {
+      <app-project-detail
+        [project]="project"
+        [tasks]="selectedTasks()"
+        [users]="users()"
+        [teams]="teams()"
+        (transition)="handleTransition($event)"
+        (edit)="mode.set('edit')"
+      />
+    } @else {
+      <p class="empty-state">Select a project to see its details.</p>
+    }
   }
-</div>
+</section>

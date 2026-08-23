@@ -1,0 +1,54 @@
+{
+  "experiment": "bundle-attribution-phase5",
+  "capturedAt": "2026-08-21T13:52:04.864Z",
+  "environment": {
+    "node": "v25.3.0",
+    "platform": "darwin-arm64",
+    "cpuModel": "Apple M1",
+    "cpuCores": 8,
+    "memoryBytes": 17179869184
+  },
+  "frameworks": {
+    "react": {
+      "js": {
+        "chunkCount": 1,
+        "totalRawBytes": 233547,
+        "totalGzipBytes": 68572,
+        "totalBrotliBytes": 58972,
+        "files": ["apps/react-app/dist/assets/index-CD8mnuHw.js"]
+      },
+      "css": {
+        "chunkCount": 1,
+        "totalRawBytes": 3666,
+        "totalGzipBytes": 1162,
+        "totalBrotliBytes": 949,
+        "files": ["apps/react-app/dist/assets/index-BXA4VAeP.css"]
+      },
+      "composition": {
+        "available": false,
+        "reason": "no .js.map found; run: vite build --sourcemap (reversible CLI flag)"
+      }
+    },
+    "angular": {
+      "js": {
+        "chunkCount": 1,
+        "totalRawBytes": 179634,
+        "totalGzipBytes": 53485,
+        "totalBrotliBytes": 47348,
+        "files": ["apps/angular-app/dist/angular-app/browser/main-4QCSDYDC.js"]
+      },
+      "css": {
+        "chunkCount": 1,
+        "totalRawBytes": 3438,
+        "totalGzipBytes": 1135,
+        "totalBrotliBytes": 911,
+        "files": ["apps/angular-app/dist/angular-app/browser/styles-PQCAFTK3.css"]
+      },
+      "composition": {
+        "available": false,
+        "reason": "stats.json not found; run: ng build --stats-json"
+      }
+    }
+  },
+  "method": "Symmetric where possible. Angular: esbuild metafile (exact bytesInOutput). React: source-map VLQ decode (approximation). Both measured from production dist builds generated with reversible CLI flags (ng build --stats-json; vite build --sourcemap). gzip/brotli via Node zlib default level, same as metrics.md."
+}

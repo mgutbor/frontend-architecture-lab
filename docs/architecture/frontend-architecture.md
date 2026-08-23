@@ -31,13 +31,17 @@ React+Vite+TypeScript, con una frontera de datos explícita y un store mínimo s
 
 ## 3. Qué pertenece a Angular (`apps/angular-app`)
 
-Angular 21 standalone + zoneless + signals, con su propia arquitectura (no copiada de React):
+Angular 21 standalone + zoneless + signals, con su propia arquitectura (no copiada de React). Desde la **Fase 5** implementa el contrato funcional completo (las 6 áreas funcionales del contrato), manteniendo las decisiones de ADR-002 (standalone, signals, DI, zoneless, sin NgRx ni librerías externas de estado):
 
 - `src/app/domain/domain-data.adapter.ts` — servicio (DI) que actúa de frontera de datos: hoy `loadFixture()`, mañana un cliente API.
-- `src/app/domain/domain.store.ts` — servicio `providedIn: 'root'` que mantiene el `Dataset` en un signal escribible y expone `dataset` como signal de solo lectura (`asReadonly`) + `computed` derivados; las mutaciones delegan en `canTransitionProject`.
-- `src/app/features/dashboard/`, `src/app/features/projects/` — componentes standalone por área funcional; estado derivado con `computed`.
-- `src/app/components/kpi-card.component.ts` — componente de presentación.
-- `src/app/app.ts` — composición raíz; estado de UI (sección visible) en un signal local.
+- `src/app/domain/domain.store.ts` — servicio `providedIn: 'root'` que mantiene el `Dataset` en un signal escribible **privado** y expone `dataset` como signal de solo lectura (`asReadonly`) + `computed` derivados (`isLoaded`). Expone **todas las mutaciones de sesión** (crear/editar proyectos y tareas, transiciones, asignaciones, cambio de equipo de un usuario) **delegando las reglas en el dominio** (`canTransitionProject`, `canTransitionTask`, `validateProjectInput`, `validateTaskInput`, `validateUserInput`). Nunca reimplementa reglas; mantiene inmutabilidad (nunca muta el fixture ni los objetos previos) y conserva la coherencia entre entidades relacionadas.
+- `src/app/services/ids.ts` y `src/app/services/filters.ts` — helpers de sesión: siguiente id del patrón `entity-NNN` y filtros/búsqueda de presentación (subcadena case-insensitive combinada con filtros, AND). Mismo rol que en React, implementados para Angular.
+- `src/app/features/dashboard|projects|tasks|teams|reports|settings/` — componentes standalone por área funcional; estado derivado con `computed` (informes con los builders del dominio: `buildGlobalReport`, `buildProjectReport`, `buildTeamReport`, `computeTaskCounts`, nunca en la UI).
+- `src/app/features/projects/project-form.component.ts` y `src/app/features/tasks/task-form.component.ts` — formularios de creación/edición que reutilizan los validadores del dominio y muestran errores inline asociados a cada campo (ACC-3/4, vía `aria-invalid` + `aria-describedby`).
+- `src/app/components/` — componentes de presentación reutilizables (`kpi-card`, `transition-buttons`, `field`, `empty-state`, `status-badge`, `priority-badge`, `feedback`); solo se crean cuando existe reutilización real, sin capa `shared` genérica.
+- `src/app/app.ts` — composición raíz; **navegación persistente por estado entre las 6 áreas** (NAV-1…3; sin routing por URL, coherente con la decisión de Fase 4) y el estado de UI de Settings (`showCompletedTasks`, signal en memoria, reseteado al recargar — SET-4).
+
+**Fronteras arquitectónicas (H5)**: 0 imports entre features, 1 adapter de dominio, estado de dominio encapsulado en el store, dominio compartido vía `@operations-hub/domain`, y ausencia de capa `shared` innecesaria.
 
 ## 4. Qué se comparte
 
@@ -69,7 +73,7 @@ flowchart LR
     subgraph ANG["apps/angular-app (Angular 21, signals)"]
         AAD["domain/domain-data.adapter.ts<br/>loadFixture() → Dataset"]
         AST["domain/domain.store.ts<br/>signal writable → asReadonly()"]
-        AUI["features/ (dashboard, projects)<br/>computed · buildGlobalReport<br/>buildTeamReport · PROJECT_TRANSITIONS"]
+        AUI["features/ (dashboard, projects, tasks,<br/>teams, reports, settings)<br/>computed · builders de informes del dominio<br/>PROJECT_TRANSITIONS · TASK_TRANSITIONS"]
     end
 
     FIX --> DOM
@@ -82,7 +86,7 @@ flowchart LR
 1. La aplicación carga el `Dataset` a través de su **adapter** (hoy: `loadFixture()`).
 2. El `Dataset` tipado se mantiene en el **estado de dominio** de la app (store/signal).
 3. Los componentes leen el estado y calculan **estado derivado** con los informes del dominio; nunca recalculan métricas localmente.
-4. Las interacciones que mutan estado pasan por las **reglas del dominio** (`canTransitionProject`), no por lógica duplicada en la UI.
+4. Las interacciones que mutan estado pasan por las **reglas del dominio** (`canTransitionProject`, `canTransitionTask`, validadores de input), no por lógica duplicada en la UI.
 
 ## 7. Cómo se ejecutan las reglas de negocio
 
@@ -109,7 +113,7 @@ Se distinguen tres tipos de estado:
 
 - **Estado de dominio**: el `Dataset` (y sus mutaciones). Vive en el store de cada app, se inicializa desde el adapter y solo cambia mediante mutaciones validadas por el dominio.
 - **Estado derivado**: informes y filas calculadas. Nunca se almacena; se computa desde el estado de dominio (React: `useMemo`; Angular: `computed`).
-- **Estado de UI**: selección de sección, proyecto seleccionado. Vive localmente (React: `useState`; Angular: `signal` local) y no contamina el estado de dominio.
+- **Estado de UI**: selección de sección, proyecto/equipo/tarea seleccionado, búsquedas y filtros visuales, y la preferencia `showCompletedTasks` (Settings, SET-1…4). Vive localmente (React: `useState`; Angular: `signal` local / signal en `App`) y no contamina el estado de dominio.
 
 **Decisión por framework** (documentada en ADR-002):
 

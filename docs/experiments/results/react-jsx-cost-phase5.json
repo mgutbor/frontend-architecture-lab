@@ -1,0 +1,139 @@
+{
+  "experiment": "react-jsx-cost-phase5",
+  "capturedAt": "2026-08-21T13:52:07.452Z",
+  "hypothesis": {
+    "id": "H10",
+    "text": "Una parte medible del incremento de app code de React es atribuible al JSX compilado, y su magnitud puede estimarse mediante una variante controlada del mismo componente."
+  },
+  "environment": {
+    "node": "v25.3.0",
+    "platform": "darwin-arm64",
+    "cpuModel": "Apple M1",
+    "cpuCores": 8,
+    "memoryBytes": 17179869184,
+    "reactVersion": "react/react-dom 19.2.8, vite 8.2.2 (rolldown 1.2.5), typescript 5.9.x"
+  },
+  "design": {
+    "variants": {
+      "A": "React Monolith real (vite build --sourcemap: 233 590 B raw; oficial sin sourcemap 233 547 B, +43 B del comentario sourceMappingURL)",
+      "B": "JSX-minimal: JSX mínimo en dashboard-page y tasks-page, MISMA lógica TS/estado/servicios/imports; la lógica se mantiene viva con un keeper experimental (DashboardPage.__keepAlive / TasksPage.__keepAlive) para que el minificador no la elimine",
+      "C": "JSX-rich: JSX artificialmente más rico (elementos, props, eventos, condiciones, listas, ARIA), misma lógica TS"
+    },
+    "keeperNote": "En React, a diferencia de Angular, el minificador elimina la lógica local no referenciada al vaciar el JSX. El keeper (una línea por componente) referencia toda la lógica para que el delta A→B mida JSX, no lógica. Verificado empíricamente: los strings de los handlers (Task moved to, Assignee updated., Task updated.) sobreviven en B.",
+    "controlled": [
+      "misma copia de apps/react-app (diff idéntico al árbol principal)",
+      "mismo node_modules (mismas versiones)",
+      "misma configuración de build (producción, minificación)",
+      "mismo flag CLI --sourcemap",
+      "dominio, fixture, servicios, estado, CSS y rutas intactos"
+    ],
+    "artifactsDir": "/tmp/lab-react-jsx"
+  },
+  "components": {
+    "selected": {
+      "dashboard": {
+        "label": "features/dashboard/dashboard-page.tsx",
+        "jsxLoc": 28,
+        "origA": 2100,
+        "origB": 1075,
+        "origC": 3796,
+        "vlqA": 3710,
+        "vlqB": 2589,
+        "vlqC": 4823,
+        "deltaOrigAB": 1025,
+        "deltaOrigAC": 1696,
+        "vlqNote": "aproximado"
+      },
+      "tasks": {
+        "label": "features/tasks/tasks-page.tsx",
+        "jsxLoc": 121,
+        "origA": 7676,
+        "origB": 3692,
+        "origC": 9258,
+        "vlqA": 0,
+        "vlqB": 0,
+        "vlqC": 0,
+        "deltaOrigAB": 3984,
+        "deltaOrigAC": 1582,
+        "vlqNote": "NO MEDIBLE por VLQ (0 segmentos en el source map)"
+      }
+    },
+    "cascade": {
+      "features/tasks/task-form.tsx": { "origA": 5703, "origB": 0, "droppedInB": true },
+      "components/kpi-card.tsx": { "origA": 303, "origB": 0, "droppedInB": true },
+      "components/empty-state.tsx": { "origA": 406, "origB": 406, "droppedInB": false },
+      "components/feedback.tsx": { "origA": 391, "origB": 391, "droppedInB": false },
+      "components/priority-badge.tsx": { "origA": 277, "origB": 277, "droppedInB": false },
+      "components/status-badge.tsx": { "origA": 309, "origB": 309, "droppedInB": false },
+      "components/transition-buttons.tsx": { "origA": 702, "origB": 702, "droppedInB": false }
+    },
+    "totalJsxTagLines": 402,
+    "jsxLocSelected": 149
+  },
+  "variants": {
+    "A": {
+      "raw": 233590,
+      "gzip": 68610,
+      "brotli": 59002,
+      "cssRaw": 0,
+      "modules": 40,
+      "categories": { "react runtime": 214561, "@operations-hub/domain": 11322, "app code": 16176 }
+    },
+    "B": {
+      "raw": 227042,
+      "gzip": 67844,
+      "brotli": 58380,
+      "cssRaw": 0,
+      "modules": 38,
+      "categories": { "react runtime": 212937, "@operations-hub/domain": 10339, "app code": 12235 }
+    },
+    "C": {
+      "raw": 236143,
+      "gzip": 69029,
+      "brotli": 59427,
+      "cssRaw": 0,
+      "modules": 40,
+      "categories": { "react runtime": 214561, "@operations-hub/domain": 12762, "app code": 17289 }
+    }
+  },
+  "deltas": {
+    "removeJsx": {
+      "raw": 6548,
+      "gzip": 766,
+      "brotli": 622,
+      "directOrigSelected": 5009,
+      "cascadeOrig": 6006
+    },
+    "richJsx": { "raw": 2553, "gzip": 419, "brotli": 425, "directOrigSelected": 3278 }
+  },
+  "jsxCost": {
+    "directOrigMeasured": 5009,
+    "directMinifiedMeasured": {
+      "dashboard": 1121,
+      "tasks": null,
+      "note": "solo dashboard medible por VLQ (aproximado); tasks NO MEDIBLE en minificado (0 segmentos). El total minificado A→B (−6 548 B) es exacto a nivel de bundle."
+    },
+    "cascadeOrigMeasured": 6006,
+    "totalObservedMinified": 6548,
+    "rateOrigPerReturnLine": 33.6,
+    "estimateAllJsxLow": 13514,
+    "estimateAllJsxHigh": 21623,
+    "note": "La extrapolación está en bytes FUENTE (orig, sin minificar). No se compara con el app code minificado (VLQ 16 176 B) porque sería mezclar unidades; la conversión minificada no es medible con fiabilidad (el único punto minificado por componente es dashboard: 1 121 B por VLQ, ratio ≈1,1× sobre orig)."
+  },
+  "reference": {
+    "reactMonolithRaw": 233547,
+    "reactIncrementRaw": 24985,
+    "reactAppCodeVlq": 16176,
+    "note": "reactMonolithRaw (oficial, sin sourcemap), reactIncrementRaw y reactAppCodeVlq proceden de Fases 4.1/5.3/5.4, no alterados. El app code VLQ (16 176 B) es aproximado; el real se estima en 16–26 kB."
+  },
+  "method": "Variantes A/B/C del mismo React Monolith en directorio temporal, única diferencia = cantidad de JSX en 2 componentes seleccionados. Atribución: source map + VLQ (Fase 5.3/5.4) para categorías y dashboard; sourcesContent (original bytes, exacto) para la atribución por componente. gzip/brotli via Node zlib default level.",
+  "limitations": [
+    "La atribución minificada por componente NO es medible para tasks-page (0 segmentos de source map — artefacto de cobertura de rolldown, igual que en el baseline de Fase 5.4). Se usa sourcesContent (bytes originales, exactos pero sin minificar) para la atribución por componente.",
+    "El coste directo orig mide la FUENTE JSX eliminada (unminified), no los bytes minificados del bundle. El único número minificado exacto por componente es el total del bundle (A→B −6 548 B).",
+    "El keeper (instrumentación experimental) añade una pequeña cantidad de bytes a B; el delta A→B infra-estima el JSX en ese margen (decenas de bytes).",
+    "El efecto cascada (componentes hijos eliminados) contiene JSX + lógica de los hijos: no es atribuible solo a JSX.",
+    "Las categorías VLQ (runtime/domain/app) varían entre variantes por cobertura del source map: los deltas de categoría NO son fiables; solo se reporta el total minificado.",
+    "La extrapolación a toda la app usa la heurística de líneas de tag (407) y un factor estimado de líneas return (×1,6): es aproximada y con amplia incertidumbre.",
+    "El experimento no mide el coste equivalente de templates AOT en Angular: la comparación entre Fases 5.5 y 5.6 es asimétrica (Angular minificado exacto por módulo vs React orig/unminified + total minificado)."
+  ]
+}

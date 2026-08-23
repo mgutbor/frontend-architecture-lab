@@ -1,0 +1,40 @@
+<section class="project-detail" [attr.aria-label]="'Project ' + project().name">
+  <div class="list-row">
+    <h2 class="grow">{{ project().name }}</h2>
+    <app-status-badge [status]="project().status" />
+  </div>
+  <p>{{ project().description ?? 'No description' }}</p>
+  <p>
+    Owner: <strong>{{ owner()?.name ?? project().ownerId }}</strong> · Team:
+    <strong>{{ team()?.name ?? project().teamId }}</strong>
+  </p>
+
+  <div class="list-row">
+    <button type="button" (click)="edit.emit()">Edit project</button>
+  </div>
+
+  <h3>Status</h3>
+  <p>
+    Current: <strong>{{ project().status }}</strong>
+  </p>
+  <app-transition-buttons
+    [from]="project().status"
+    [targets]="targets()"
+    (transition)="onTransition($event)"
+  />
+
+  <h3>Tasks ({{ tasks().length }})</h3>
+  @if (tasks().length === 0) {
+    <app-empty-state message="This project has no tasks yet." />
+  } @else {
+    <ul class="list">
+      @for (task of tasks(); track task.id) {
+        <li class="list-row">
+          <span class="grow">{{ task.title }}</span>
+          <app-status-badge [status]="task.status" />
+          <app-priority-badge [priority]="task.priority" />
+        </li>
+      }
+    </ul>
+  }
+</section>

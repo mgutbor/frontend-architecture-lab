@@ -1,0 +1,357 @@
+{
+  "experiment": "feature-bundle-cost-phase5",
+  "capturedAt": "2026-08-21T13:52:33.191Z",
+  "objective": "Descomponer por features y por tipo de coste la diferencia de +11 586 B entre el app code incremental de Angular (+36 571 B) y React (+24 985 B), o demostrar que la asimetría de herramientas impide una atribución fiable.",
+  "environment": {
+    "node": "v25.3.0",
+    "platform": "darwin-arm64",
+    "cpuModel": "Apple M1",
+    "cpuCores": 8,
+    "memoryBytes": 17179869184,
+    "angularMonolithStats": "/tmp/lab-angular-f58/apps/angular-app/dist/angular-app/stats.json",
+    "angularBaselineStats": "/tmp/lab-baseline-angular/apps/angular-app/dist/angular-app/stats.json",
+    "reactMonolithDist": "/tmp/lab-react-f58/apps/react-app/dist",
+    "reactBaselineDist": "/tmp/lab-baseline-react/apps/react-app/dist"
+  },
+  "method": "Angular: esbuild metafile (ng build --stats-json) → bytesInOutput EXACTOS por módulo, agrupados por feature. React: source map + sourcesContent (bytes fuente EXACTOS por módulo) + VLQ minificado solo donde el mapa tiene segmentos (dashboard). Reconciliación con los totales oficiales de Fase 5.4. Sin modificación de código funcional: los monoliths se reconstruyeron con flags CLI reversibles en directorios temporales (/tmp/lab-angular-f58, /tmp/lab-react-f58); los baselines proceden de Fase 5.4 (/tmp/lab-baseline-angular, /tmp/lab-baseline-react).",
+  "featureMapping": {
+    "Dashboard": ["Angular: features/dashboard/*", "React: features/dashboard/dashboard-page.tsx"],
+    "Projects": [
+      "Angular: features/projects/* (projects, project-detail, project-form)",
+      "React: features/projects/* (projects-page, project-detail, project-form)"
+    ],
+    "Tasks": [
+      "Angular: features/tasks/* (tasks, task-form)",
+      "React: features/tasks/* (tasks-page, task-form)"
+    ],
+    "Teams": ["Angular: features/teams/teams.component.ts", "React: features/teams/teams-page.tsx"],
+    "Reports": [
+      "Angular: features/reports/reports.component.ts",
+      "React: features/reports/reports-page.tsx"
+    ],
+    "Settings": [
+      "Angular: features/settings/settings.component.ts",
+      "React: features/settings/settings-page.tsx"
+    ],
+    "Shared components": ["Angular: components/* (7)", "React: components/* (7)"],
+    "Services": [
+      "Angular: services/* (filters, ids)",
+      "React: services/* (domain-store, filters, ids)"
+    ],
+    "Adapters": ["—", "React: adapters/domain-adapter.ts"],
+    "Hooks": ["—", "React: hooks/use-domain-store.ts"],
+    "Domain store/adapter": [
+      "Angular: domain/* (store, data-adapter)",
+      "React: dentro de services/adapters"
+    ],
+    "App shell": ["Angular: app.ts", "React: app/App.tsx, error-boundary.tsx, main.tsx"],
+    "note": "Correspondencia 1:1 para las 6 áreas del contrato; la distribución de archivos internos difiere (Angular separa store/adapter en domain/; React en services/ y adapters/)."
+  },
+  "angular": {
+    "baselineAppCodeBytes": 7571,
+    "monolithAppCodeBytes": 44142,
+    "incrementBytes": 36571,
+    "byFeature": [
+      {
+        "feature": "Dashboard",
+        "baselineBytes": 2247,
+        "monolithBytes": 1680,
+        "deltaBytes": -567,
+        "confidence": "EXACTA (metafile esbuild)"
+      },
+      {
+        "feature": "Projects",
+        "baselineBytes": 2426,
+        "monolithBytes": 12053,
+        "deltaBytes": 9627,
+        "confidence": "EXACTA (metafile esbuild)"
+      },
+      {
+        "feature": "Tasks",
+        "baselineBytes": 0,
+        "monolithBytes": 10435,
+        "deltaBytes": 10435,
+        "confidence": "EXACTA (metafile esbuild)"
+      },
+      {
+        "feature": "Teams",
+        "baselineBytes": 0,
+        "monolithBytes": 4112,
+        "deltaBytes": 4112,
+        "confidence": "EXACTA (metafile esbuild)"
+      },
+      {
+        "feature": "Reports",
+        "baselineBytes": 0,
+        "monolithBytes": 4456,
+        "deltaBytes": 4456,
+        "confidence": "EXACTA (metafile esbuild)"
+      },
+      {
+        "feature": "Settings",
+        "baselineBytes": 0,
+        "monolithBytes": 930,
+        "deltaBytes": 930,
+        "confidence": "EXACTA (metafile esbuild)"
+      },
+      {
+        "feature": "Shared components",
+        "baselineBytes": 691,
+        "monolithBytes": 3484,
+        "deltaBytes": 2793,
+        "confidence": "EXACTA (metafile esbuild)"
+      },
+      {
+        "feature": "Services",
+        "baselineBytes": 0,
+        "monolithBytes": 561,
+        "deltaBytes": 561,
+        "confidence": "EXACTA (metafile esbuild)"
+      },
+      {
+        "feature": "Adapters",
+        "baselineBytes": 0,
+        "monolithBytes": 0,
+        "deltaBytes": 0,
+        "confidence": "EXACTA (metafile esbuild)"
+      },
+      {
+        "feature": "Hooks",
+        "baselineBytes": 0,
+        "monolithBytes": 0,
+        "deltaBytes": 0,
+        "confidence": "EXACTA (metafile esbuild)"
+      },
+      {
+        "feature": "Domain store/adapter",
+        "baselineBytes": 654,
+        "monolithBytes": 3428,
+        "deltaBytes": 2774,
+        "confidence": "EXACTA (metafile esbuild)"
+      },
+      {
+        "feature": "App shell",
+        "baselineBytes": 1553,
+        "monolithBytes": 3003,
+        "deltaBytes": 1450,
+        "confidence": "EXACTA (metafile esbuild)"
+      },
+      {
+        "feature": "Entry",
+        "baselineBytes": 0,
+        "monolithBytes": 0,
+        "deltaBytes": 0,
+        "confidence": "EXACTA (metafile esbuild)"
+      }
+    ],
+    "note": "Atribución minificada EXACTA (metafile esbuild). Suma por feature = total app code."
+  },
+  "react": {
+    "baselineAppCodeSourceBytes": 9761,
+    "monolithAppCodeSourceBytes": 61215,
+    "incrementSourceBytes": 51454,
+    "byFeature": [
+      {
+        "feature": "Dashboard",
+        "baselineSourceBytes": 2539,
+        "monolithSourceBytes": 2100,
+        "deltaSourceBytes": -439,
+        "vlqMinifiedMonolith": 3710,
+        "confidence": "FUENTE EXACTA + VLQ minificado disponible"
+      },
+      {
+        "feature": "Projects",
+        "baselineSourceBytes": 2543,
+        "monolithSourceBytes": 14603,
+        "deltaSourceBytes": 12060,
+        "vlqMinifiedMonolith": null,
+        "confidence": "FUENTE EXACTA; minificado NO MEDIBLE (0 segmentos VLQ)"
+      },
+      {
+        "feature": "Tasks",
+        "baselineSourceBytes": 0,
+        "monolithSourceBytes": 13379,
+        "deltaSourceBytes": 13379,
+        "vlqMinifiedMonolith": null,
+        "confidence": "FUENTE EXACTA; minificado NO MEDIBLE (0 segmentos VLQ)"
+      },
+      {
+        "feature": "Teams",
+        "baselineSourceBytes": 0,
+        "monolithSourceBytes": 5568,
+        "deltaSourceBytes": 5568,
+        "vlqMinifiedMonolith": null,
+        "confidence": "FUENTE EXACTA; minificado NO MEDIBLE (0 segmentos VLQ)"
+      },
+      {
+        "feature": "Reports",
+        "baselineSourceBytes": 0,
+        "monolithSourceBytes": 4893,
+        "deltaSourceBytes": 4893,
+        "vlqMinifiedMonolith": null,
+        "confidence": "FUENTE EXACTA; minificado NO MEDIBLE (0 segmentos VLQ)"
+      },
+      {
+        "feature": "Settings",
+        "baselineSourceBytes": 0,
+        "monolithSourceBytes": 1097,
+        "deltaSourceBytes": 1097,
+        "vlqMinifiedMonolith": null,
+        "confidence": "FUENTE EXACTA; minificado NO MEDIBLE (0 segmentos VLQ)"
+      },
+      {
+        "feature": "Shared components",
+        "baselineSourceBytes": 827,
+        "monolithSourceBytes": 3221,
+        "deltaSourceBytes": 2394,
+        "vlqMinifiedMonolith": 5000,
+        "confidence": "FUENTE EXACTA + VLQ minificado disponible"
+      },
+      {
+        "feature": "Services",
+        "baselineSourceBytes": 1340,
+        "monolithSourceBytes": 10595,
+        "deltaSourceBytes": 9255,
+        "vlqMinifiedMonolith": 4181,
+        "confidence": "FUENTE EXACTA + VLQ minificado disponible"
+      },
+      {
+        "feature": "Adapters",
+        "baselineSourceBytes": 368,
+        "monolithSourceBytes": 368,
+        "deltaSourceBytes": 0,
+        "vlqMinifiedMonolith": 280,
+        "confidence": "FUENTE EXACTA + VLQ minificado disponible"
+      },
+      {
+        "feature": "Hooks",
+        "baselineSourceBytes": 503,
+        "monolithSourceBytes": 1246,
+        "deltaSourceBytes": 743,
+        "vlqMinifiedMonolith": 3005,
+        "confidence": "FUENTE EXACTA + VLQ minificado disponible"
+      },
+      {
+        "feature": "Domain store/adapter",
+        "baselineSourceBytes": 0,
+        "monolithSourceBytes": 0,
+        "deltaSourceBytes": 0,
+        "vlqMinifiedMonolith": null,
+        "confidence": "FUENTE EXACTA; minificado NO MEDIBLE (0 segmentos VLQ)"
+      },
+      {
+        "feature": "App shell",
+        "baselineSourceBytes": 1479,
+        "monolithSourceBytes": 3886,
+        "deltaSourceBytes": 2407,
+        "vlqMinifiedMonolith": null,
+        "confidence": "FUENTE EXACTA; minificado NO MEDIBLE (0 segmentos VLQ)"
+      },
+      {
+        "feature": "Entry",
+        "baselineSourceBytes": 162,
+        "monolithSourceBytes": 259,
+        "deltaSourceBytes": 97,
+        "vlqMinifiedMonolith": null,
+        "confidence": "FUENTE EXACTA; minificado NO MEDIBLE (0 segmentos VLQ)"
+      }
+    ],
+    "note": "Atribución en bytes FUENTE exacta (sourcesContent). El minificado por feature es NO MEDIBLE salvo dashboard (VLQ). El incremento minificado oficial es +24 985 B (Fase 5.4); la conversión fuente→minificado es inestable entre componentes (Fase 5.7: ratio 0,61 vs 1,09) y no se extrapola."
+  },
+  "official": {
+    "angularAppCodeIncrement": 36571,
+    "reactAppCodeIncrement": 24985,
+    "differenceAppCode": 11586,
+    "angularTotalIncrement": 43013,
+    "reactTotalIncrement": 24985,
+    "differenceTotal": 18028,
+    "note": "Cifras oficiales de Fase 5.4 (baseline-attribution-phase5.json), no alteradas."
+  },
+  "reconciliation": {
+    "angular": { "sumOfFeatures": 36571, "officialIncrement": 36571, "matches": true },
+    "react": {
+      "sumOfSourceFeatures": 51454,
+      "officialIncrementMinified": 24985,
+      "note": "Los incrementos de React solo son comparables en bytes fuente (suma = 51 454 B fuente); el incremento minificado oficial (+24 985 B) no se puede descomponer por feature con las herramientas disponibles."
+    },
+    "differenceAppCode": {
+      "official": 11586,
+      "explanation": "El lado Angular se descompone EXACTAMENTE en minificado (36 571 B). El lado React solo a nivel fuente (51 454 B fuente) + puntos minificados aislados (dashboard VLQ 3 710 B del monolith; teams JSX −1 730 B exacto de Fase 5.7). La asimetría de herramientas impide una descomposición minificada comparable por feature para la mayoría de features React."
+    }
+  },
+  "knownReactMinifiedPoints": {
+    "dashboard": {
+      "method": "VLQ (source map), Fase 5.6",
+      "monolithVlqBytes": 3710,
+      "jsxDeltaMinified": 1121
+    },
+    "teams": {
+      "method": "bundle-delta exacto sin cascada, Fase 5.7",
+      "jsxDeltaMinified": 1730,
+      "jsxDeltaSource": 2840
+    },
+    "dashboardPlusTasksTotal": {
+      "method": "bundle-delta A→B con cascada, Fase 5.6",
+      "minifiedDelta": 6548,
+      "sourceDelta": 5009
+    }
+  },
+  "costTypeTable": [
+    {
+      "type": "Templates AOT (Angular) / JSX (React)",
+      "react": "Dashboard −1 121 B (VLQ) · Teams −1 730 B (bundle-delta exacto) · Dashboard+Tasks −6 548 B total con cascada (Fases 5.6/5.7)",
+      "angular": "Directo −5 267 B (2 componentes, metafile) · total con cascada −10 593 B · extrapolación app 12 661–28 465 B (Fase 5.5)",
+      "difference": "NO COMPARABLE directamente: unidades y alcance distintos (minificado exacto Angular vs VLQ/bundle-delta React); única comparación soportada: −10 593 B (Angular) vs −6 548 B (React) para las mismas 2 áreas",
+      "evidence": "Fases 5.5 / 5.6 / 5.7"
+    },
+    {
+      "type": "Lógica app (no template/JSX)",
+      "react": "NO MEDIBLE por separado (el minificador elimina la lógica no referenciada; el keeper la conserva pero no se cuantificó por sí sola)",
+      "angular": "NO SEPARABLE dentro del módulo (clase + template compilada conviven en el mismo módulo del metafile)",
+      "difference": "NO MEDIBLE en ambos",
+      "evidence": "Fases 5.5 / 5.6"
+    },
+    {
+      "type": "Runtime retenido",
+      "react": "≈ 0 (verificado constante: 574 367 B originales idénticos baseline↔monolith, Fase 5.4)",
+      "angular": "+4 102 B (metafile: _debug_node-chunk +2 942, _resource-chunk +570, core.mjs +465, effects +123)",
+      "difference": "+4 102 B (Angular)",
+      "evidence": "Fase 5.4"
+    },
+    {
+      "type": "Domain retenido",
+      "react": "≈ 0 (constante verificada, Fase 5.4)",
+      "angular": "+2 322 B (retención por tree-shaking: validation.js 220→2 229; el monolith usa todos los validadores)",
+      "difference": "+2 322 B (Angular)",
+      "evidence": "Fase 5.4"
+    },
+    {
+      "type": "Dependencias",
+      "react": "0 nuevas",
+      "angular": "rxjs +18 B (retención); 0 dependencias nuevas",
+      "difference": "+18 B (Angular)",
+      "evidence": "Fase 5.4"
+    },
+    {
+      "type": "No atribuible",
+      "react": "Minificado por feature NO MEDIBLE (source map sin segmentos VLQ para features; solo dashboard) — residual del +24 985 B sin descomponer en minificado",
+      "angular": "0 (metafile atribuye el 100 % del app code)",
+      "difference": "Residual React = bloqueo metodológico, no bytes desconocidos",
+      "evidence": "Fases 5.6 / 5.7 / esta fase"
+    }
+  ],
+  "classification": "EXPLICACIÓN PARCIAL: el +11 586 B de diferencia de app code se descompone completamente en el lado Angular (minificado exacto por feature); en el lado React la descomposición es exacta solo en bytes fuente y el minificado por feature es NO MEDIBLE salvo Dashboard (VLQ) y Teams (bundle-delta). El residual no es bytes desconocidos sino un bloqueo metodológico del source map de rolldown (0 segmentos VLQ para las features), documentado en Fases 5.6/5.7.",
+  "limitations": [
+    "React: el source map de rolldown solo tiene segmentos VLQ para dashboard-page entre las features (0 para projects/tasks/teams/reports/settings/forms/App) → minificado por feature NO MEDIBLE salvo dashboard.",
+    "La comparación minificada por feature entre frameworks solo es posible para Dashboard (VLQ React 3 710 B vs metafile Angular 1 680 B) y para el coste de JSX/template de las 2 áreas medidas en Fases 5.5–5.7 (−10 593 B Angular vs −6 548 B React).",
+    "Los bytes fuente de React (61 215 B monolith) no son convertibles a minificado con un ratio único (Fase 5.7: ratio inestable 0,61–1,09).",
+    "Angular: dashboard y projects decrecen en minificado entre baseline y monolith (dashboard 2 247→1 680; projects 2 426→12 053 incluye detalle+form nuevos) — los deltas negativos son reales (refactor del baseline) y se reportan tal cual.",
+    "Las categorías Services/Adapters/Hooks/Domain store/adapter/App shell no son equivalentes 1:1 entre frameworks: se documentan por separado para no forzar la comparación.",
+    "Los monoliths se reconstruyeron en /tmp (fuera del repo) con flags CLI reversibles; los baselines proceden de Fase 5.4 (misma máquina/Node/versiones)."
+  ],
+  "threatsToValidity": [
+    "VLQ de dashboard es aproximado (segment-span heuristic): el punto minificado de Dashboard React es APROXIMADO, no exacto.",
+    "Los deltas fuente de React no deben leerse como deltas minificados: mezclar unidades sería un error.",
+    "El refactor de dashboard/projects entre baseline y monolith (Angular) introduce deltas negativos que no representan \"ahorro\" sino cambio de implementación."
+  ]
+}

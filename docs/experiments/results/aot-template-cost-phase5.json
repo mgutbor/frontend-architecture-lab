@@ -1,0 +1,162 @@
+{
+  "experiment": "aot-template-cost-phase5",
+  "capturedAt": "2026-08-21T13:52:06.489Z",
+  "hypothesis": {
+    "id": "H9",
+    "text": "Una parte significativa del incremento de app code de Angular (+36 571 B) procede de las instrucciones JavaScript generadas por las templates AOT."
+  },
+  "environment": {
+    "node": "v25.3.0",
+    "platform": "darwin-arm64",
+    "cpuModel": "Apple M1",
+    "cpuCores": 8,
+    "memoryBytes": 17179869184,
+    "angularVersion": "21.2.21 (misma que el monolith; node_modules compartido)",
+    "typescript": "5.9.2"
+  },
+  "design": {
+    "variants": {
+      "A": "Angular Monolith real (sin cambios)",
+      "B": "Template-minimal: template vacía para dashboard y tasks, misma lógica TS/imports/estado/servicios",
+      "C": "Template-rich: templates artificialmente más ricas para dashboard y tasks, misma lógica TS"
+    },
+    "controlled": [
+      "misma copia de apps/angular-app (diff idéntico al árbol principal)",
+      "mismo node_modules (mismas versiones Angular/TS/dependencias)",
+      "misma configuración de build (optimización, producción)",
+      "mismo flag CLI --stats-json",
+      "misma máquina/sesión/Node",
+      "dominio y fixture intactos (no modificados)"
+    ],
+    "artifactsDir": "/tmp/lab-angular-aot"
+  },
+  "components": {
+    "selected": {
+      "dashboard": {
+        "label": "src/app/features/dashboard/dashboard.component.ts",
+        "templateLoc": 34,
+        "bytesA": 1680,
+        "bytesB": 451,
+        "bytesC": 3506,
+        "templateCostDirect": 1229,
+        "bytesPerTemplateLoc": 36.1,
+        "richDelta": 1826,
+        "richTemplateLoc": 34
+      },
+      "tasks": {
+        "label": "src/app/features/tasks/tasks.component.ts",
+        "templateLoc": 102,
+        "bytesA": 5806,
+        "bytesB": 1768,
+        "bytesC": 7000,
+        "templateCostDirect": 4038,
+        "bytesPerTemplateLoc": 39.6,
+        "richDelta": 1194,
+        "richTemplateLoc": 102
+      }
+    },
+    "cascade": {
+      "features/tasks/task-form.component.ts": {
+        "bytesA": 4629,
+        "bytesB": 0,
+        "bytesC": 4629,
+        "droppedInB": true
+      },
+      "components/kpi-card.component.ts": {
+        "bytesA": 686,
+        "bytesB": 0,
+        "bytesC": 686,
+        "droppedInB": true
+      }
+    },
+    "totalTemplateLoc": 735,
+    "templateLocsPerComponent": {
+      "app.ts": 39,
+      "components/empty-state.component.ts": 1,
+      "components/feedback.component.ts": 1,
+      "components/field.component.ts": 11,
+      "components/kpi-card.component.ts": 6,
+      "components/priority-badge.component.ts": 1,
+      "components/status-badge.component.ts": 1,
+      "components/transition-buttons.component.ts": 7,
+      "features/dashboard/dashboard.component.ts": 34,
+      "features/projects/project-detail.component.ts": 41,
+      "features/projects/project-form.component.ts": 81,
+      "features/projects/projects.component.ts": 85,
+      "features/reports/reports.component.ts": 151,
+      "features/settings/settings.component.ts": 21,
+      "features/tasks/task-form.component.ts": 83,
+      "features/tasks/tasks.component.ts": 102,
+      "features/teams/teams.component.ts": 70
+    }
+  },
+  "variants": {
+    "A": {
+      "raw": 179634,
+      "appCode": 44142,
+      "core": 109943,
+      "domain": 16438,
+      "rxjs": 8634,
+      "entry": 34,
+      "yyOccurrences": 0,
+      "yyDistinct": 0
+    },
+    "B": {
+      "raw": 169041,
+      "appCode": 33600,
+      "core": 109892,
+      "domain": 16438,
+      "rxjs": 8634,
+      "entry": 34,
+      "yyOccurrences": 0,
+      "yyDistinct": 0
+    },
+    "C": {
+      "raw": 182654,
+      "appCode": 47162,
+      "core": 109943,
+      "domain": 16438,
+      "rxjs": 8634,
+      "entry": 34,
+      "yyOccurrences": 0,
+      "yyDistinct": 0
+    }
+  },
+  "deltas": {
+    "removeTemplates": {
+      "raw": 10593,
+      "appCode": 10542,
+      "core": 51,
+      "directSelectedComponents": 5267,
+      "cascade": 5315
+    },
+    "richTemplates": { "raw": 3020, "appCode": 3020 }
+  },
+  "templateCost": {
+    "directMeasured": 5267,
+    "cascadeMeasured": 5315,
+    "totalMeasuredEffect": 10633,
+    "perTemplateLocHigh": 38.7,
+    "perTemplateLocLow": 17.2,
+    "estimateAllTemplatesHigh": 28465,
+    "estimateAllTemplatesLow": 12661,
+    "percentOfAppCodeHigh": 64.5,
+    "percentOfAppCodeLow": 28.7,
+    "percentOfIncrementHigh": 77.8,
+    "percentOfIncrementLow": 34.6
+  },
+  "reference": {
+    "appCodeMonolith": 44142,
+    "appCodeIncrement": 36571,
+    "totalIncrement": 43013,
+    "note": "appCodeIncrement y totalIncrement proceden de Fase 5.4 (baseline-attribution-phase5.json), no alterados."
+  },
+  "method": "Variantes A/B/C del mismo Angular Monolith en directorio temporal (/tmp/lab-angular-aot), única diferencia = cantidad de template compilada en 2 componentes seleccionados. Metafile esbuild (ng build --stats-json): bytesInOutput exactos por módulo. El conteo de instrucciones ɵɵ no es medible en el bundle minificado (identificadores mangled por esbuild): se reporta el intento (0 ocurrencias) como NO MEDIBLE.",
+  "limitations": [
+    "El coste directo medido (bytes del módulo del componente) incluye las instrucciones de la template COMPILADA (ɵɵ*) y sus imports asociados; no es posible separar dentro del módulo instrucciones de template vs miembros de clase (la clase se conserva íntegra en B).",
+    "Al vaciar la template, los componentes hijos solo referenciados por ella se eliminan por tree-shaking (task-form, kpi-card): el efecto total A→B (10 593 B) incluye esa cascada, que contiene template + lógica de los hijos. Se distingue directo vs cascada.",
+    "La extrapolación a toda la app (735 LOC template) es lineal y asume que los 2 componentes seleccionados son representativos; las templates enriquecidas sugieren una tasa marginal menor para contenido simple (17-24 B/LOC vs 38.7 medidos) → rango amplio.",
+    "Las variantes experimentales se construyeron en /tmp/lab-angular-aot (fuera del repo) y no se versionan; el JSON referencia sus artefactos (reconstruibles según el anexo del informe).",
+    "El experimento no mide el coste equivalente de JSX en React: solo cuantifica el coste de templates AOT dentro de Angular."
+  ]
+}

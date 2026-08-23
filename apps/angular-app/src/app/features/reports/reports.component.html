@@ -1,0 +1,150 @@
+<section aria-label="Reports">
+  <h2>Reports</h2>
+
+  @if (globalReport(); as report) {
+    <h3>Global summary</h3>
+    <table class="metric-table">
+      <caption>
+        Global task summary
+      </caption>
+      <tbody>
+        <tr>
+          <th scope="row">Total tasks</th>
+          <td>{{ report.metrics.totalTasks }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Completed</th>
+          <td>{{ report.metrics.completedTasks }}</td>
+        </tr>
+        <tr>
+          <th scope="row">In progress</th>
+          <td>{{ report.metrics.inProgressTasks }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Todo</th>
+          <td>{{ report.metrics.todoTasks }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Cancelled</th>
+          <td>{{ report.metrics.cancelledTasks }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Completion rate</th>
+          <td>{{ formatRate(report.metrics.completionRate) }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Projects</th>
+          <td>{{ projects().length }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Teams</th>
+          <td>{{ teams().length }}</td>
+        </tr>
+      </tbody>
+    </table>
+  }
+
+  <h3>By project</h3>
+  <div class="field">
+    <label for="report-project">Project</label>
+    <select
+      id="report-project"
+      [value]="projectId()"
+      (change)="projectId.set($any($event.target).value)"
+    >
+      <option value="">Select a project</option>
+      @for (project of projects(); track project.id) {
+        <option [value]="project.id">{{ project.name }}</option>
+      }
+    </select>
+  </div>
+
+  @if (projectReport(); as report) {
+    <table class="metric-table">
+      <caption>
+        Metrics for
+        {{
+          report.targetId
+        }}
+      </caption>
+      <tbody>
+        <tr>
+          <th scope="row">Total tasks</th>
+          <td>{{ report.metrics.totalTasks }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Completed</th>
+          <td>{{ report.metrics.completedTasks }}</td>
+        </tr>
+        <tr>
+          <th scope="row">In progress</th>
+          <td>{{ report.metrics.inProgressTasks }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Todo</th>
+          <td>{{ report.metrics.todoTasks }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Cancelled</th>
+          <td>{{ report.metrics.cancelledTasks }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Completion rate</th>
+          <td>{{ formatRate(report.metrics.completionRate) }}</td>
+        </tr>
+      </tbody>
+    </table>
+  } @else {
+    <p class="empty-state">Select a project to see its metrics.</p>
+  }
+
+  <h3>Task metrics</h3>
+  <div class="panels">
+    <table class="metric-table">
+      <caption>
+        Distribution by status
+      </caption>
+      <tbody>
+        <tr>
+          <th scope="row">Todo</th>
+          <td>{{ statusCounts().todoTasks }}</td>
+        </tr>
+        <tr>
+          <th scope="row">In progress</th>
+          <td>{{ statusCounts().inProgressTasks }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Completed</th>
+          <td>{{ statusCounts().completedTasks }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Cancelled</th>
+          <td>{{ statusCounts().cancelledTasks }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Total</th>
+          <td>{{ statusCounts().totalTasks }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="metric-table">
+      <caption>
+        Distribution by priority
+      </caption>
+      <tbody>
+        <tr>
+          <th scope="row">High</th>
+          <td>{{ priorityCounts().high }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Medium</th>
+          <td>{{ priorityCounts().medium }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Low</th>
+          <td>{{ priorityCounts().low }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

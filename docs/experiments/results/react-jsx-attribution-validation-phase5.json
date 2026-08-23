@@ -1,0 +1,122 @@
+{
+  "experiment": "react-jsx-attribution-validation-phase5",
+  "capturedAt": "2026-08-21T13:52:08.116Z",
+  "objective": "Obtener un segundo punto independiente y fiable de conversión fuente→minificado para JSX y comprobar si la extrapolación de Fase 5.6 (13,5–21,6 kB) es razonable.",
+  "environment": {
+    "node": "v25.3.0",
+    "platform": "darwin-arm64",
+    "cpuModel": "Apple M1",
+    "cpuCores": 8,
+    "memoryBytes": 17179869184
+  },
+  "vlqCoverageFinding": "El source map de rolldown (variante A) solo tiene segmentos VLQ para dashboard-page entre las páginas de feature; teams-page, projects-page, reports-page, settings-page, project-detail, project-form, task-form y App.tsx tienen 0 segmentos. Componentes con JSX y segmentos: dashboard-page (870), kpi-card (616), feedback (263), empty-state (85), status-badge (62), priority-badge (29).",
+  "design": {
+    "component": {
+      "label": "features/teams/teams-page.tsx",
+      "jsxLoc": 91,
+      "totalLoc": 156,
+      "logic": "5 useMemo (selected, members, teamProjects, addableUsers, otherTeams), 2 handlers (handleAddMember, handleMoveMember) + teamCounts, 2 useState",
+      "conditions": "1 ternaria (selected ? detail : empty-state)",
+      "lists": "5 listas (teams, members, otherTeams, teamProjects, addableUsers)",
+      "children": "solo Feedback (compartido con otras features → sin cascada)",
+      "why": "Complejidad intermedia (91 líneas JSX), lógica separable, sin cascada (único hijo compartido) → el delta de bundle A→B es EXACTO y no depende de VLQ. VLQ no utilizable (0 segmentos), igual que las demás features."
+    },
+    "variants": {
+      "A": "React Monolith real (233 590 B con sourcemap; oficial 233 547 B)",
+      "B": "teams-page con JSX mínimo + keeper (misma lógica; TeamsPage.__keepAlive referencia los 10 valores/handlers)"
+    },
+    "keeper": {
+      "purpose": "a diferencia de Angular, el minificador de React elimina la lógica no referenciada al vaciar el JSX; el keeper la mantiene viva (mismo mecanismo que Fase 5.6)",
+      "references": "selectedId, feedback, selected, members, teamProjects, addableUsers, otherTeams, teamCounts, handleAddMember, handleMoveMember",
+      "estimatedOverhead": "decenas de bytes en B (infra-estima el delta JSX en ese margen)"
+    },
+    "artifactsDir": "/tmp/lab-react-jsx-v"
+  },
+  "results": {
+    "teams": {
+      "label": "features/teams/teams-page.tsx",
+      "jsxLoc": 91,
+      "origA": 5568,
+      "origB": 2728,
+      "vlqA": 0,
+      "vlqB": 0,
+      "deltaSource": 2840,
+      "deltaMinifiedBundle": 1730,
+      "minifiedMethod": "bundle-delta exacto (sin cascada)",
+      "vlqNote": "0 segmentos VLQ (source map de rolldown) — el punto usa bundle-delta",
+      "deltaGzip": 248,
+      "deltaBrotli": 230
+    },
+    "variantTotals": {
+      "A": { "raw": 233590, "gzip": 68610, "brotli": 59002 },
+      "B": { "raw": 231860, "gzip": 68362, "brotli": 58772 }
+    }
+  },
+  "conversionPoints": [
+    {
+      "component": "Dashboard",
+      "jsxLoc": 28,
+      "deltaSource": 1025,
+      "deltaMinified": 1121,
+      "ratioMinSource": 1.09,
+      "bytesPerLocSource": 36.6,
+      "bytesPerLocMinified": 40,
+      "method": "VLQ"
+    },
+    {
+      "component": "Teams",
+      "jsxLoc": 91,
+      "deltaSource": 2840,
+      "deltaMinified": 1730,
+      "ratioMinSource": 0.61,
+      "bytesPerLocSource": 31.2,
+      "bytesPerLocMinified": 19,
+      "method": "bundle-delta exacto"
+    }
+  ],
+  "h10": {
+    "criteria": {
+      "c1_twoIndependentComponents": {
+        "met": true,
+        "evidence": "Dashboard (VLQ −1 121 B minificado) y Teams (bundle-delta exacto −1 730 B minificado) muestran reducción al eliminar JSX; además tasks dentro del experimento 5.6 (−6 548 B totales)."
+      },
+      "c2_logicAlive": {
+        "met": true,
+        "evidence": "Keepers en ambos experimentos; strings de handlers presentes en los bundles B (added to, moved to, Task moved to, Assignee updated.) y strings JSX ausentes (Select a team, No tasks match)."
+      },
+      "c3_reproducible": {
+        "met": true,
+        "evidence": "Builds deterministas: variante A = mismo hash (index-CD8mnuHw.js) en 5.6, 5.7 y oficial."
+      },
+      "c4_notOnlyLoc": {
+        "met": true,
+        "evidence": "Dashboard usa VLQ (segmentos reales, 870); Teams usa delta de bundle exacto (sin cascada). Ninguna atribución depende de LOC."
+      },
+      "c5_noLogicOrTreeShakingConfound": {
+        "met": true,
+        "evidence": "Lógica verificada viva (keepers); teams sin cascada (solo Feedback compartido); dashboard cascade documentada por separado."
+      }
+    },
+    "verdict": "CONFIRMADA — se cumplen los 5 criterios. Nota: la magnitud es medible por componente, pero el RATIO de conversión fuente→minificado es inestable entre componentes (0,61 vs 1,09), lo que limita la extrapolación global, no la confirmación cualitativa."
+  },
+  "extrapolation": {
+    "fase56": { "low": 13514, "high": 21623, "unit": "bytes fuente" },
+    "assessment": "DOS puntos insuficientes para extrapolar: el ratio fuente→minificado es inestable (1.09 vs 0.61) y la tasa minificada por LOC JSX varía (40.0 vs 19.0 B/LOC). No se actualiza la estimación: no hay evidencia suficiente para convertir 13,5–21,6 kB fuente a minificado con fiabilidad.",
+    "conclusion": "extrapolación global NO mejorable con la evidencia disponible"
+  },
+  "impactOnPlus11586": {
+    "measured": {
+      "teams": "−1 730 B minificados (exacto) y −2 840 B fuente para 91 líneas JSX",
+      "dashboard": "−1 121 B minificados (VLQ aprox.) y −1 025 B fuente para 28 líneas JSX"
+    },
+    "inference": "El JSX es un coste real y medible por componente, pero la conversión fuente→minificado no es estable (ratio 0,61 exacto en Teams vs 1,09 VLQ en Dashboard).",
+    "hypothesis": "El +11 586 B de diferencia de app code podría deberse en parte a templates (Angular) vs JSX (React), pero la evidencia de 2 puntos no permite cuantificarlo.",
+    "notKnown": "El total de JSX minificado de la app de React; qué ratio generaliza (0,61 o 1,09); la separación JSX/lógica de las demás features."
+  },
+  "limitations": [
+    "teams-page no tiene VLQ (0 segmentos): el segundo punto usa bundle-delta exacto, que es fiable PERO solo porque no hay cascada; no aplicable a features con hijos exclusivos (projects-page, tasks-page).",
+    "Dos puntos de conversión son insuficientes para extrapolar: los ratios divergen (0,61 vs 1,09), posiblemente por densidad de JSX distinta (dashboard: muchas props/componentes por línea; teams: más DOM con texto) y por el overhead del keeper.",
+    "El keeper añade bytes a B (decenas): infra-estima el delta en ese margen.",
+    "La tasa por LOC depende de la definición de JSX LOC (bloque return); no se asume linealidad."
+  ]
+}

@@ -1,0 +1,101 @@
+<section aria-label="Tasks">
+  <div class="list-row">
+    <h2 class="grow">Tasks</h2>
+    <button type="button" class="primary" (click)="mode.set('create')">New task</button>
+  </div>
+
+  @if (mode() === 'create' || mode() === 'edit') {
+    <app-task-form
+      [initial]="formInitial()"
+      [users]="users()"
+      [projects]="projects()"
+      (submit)="handleSubmit($event)"
+      (cancel)="mode.set('list'); editingTaskId.set(null)"
+    />
+  } @else {
+    <div class="toolbar">
+      <div class="field">
+        <label for="task-search">Search tasks</label>
+        <input
+          id="task-search"
+          type="search"
+          [value]="search()"
+          (input)="search.set($any($event.target).value)"
+          placeholder="e.g. incident"
+        />
+      </div>
+      <div class="field">
+        <label for="task-status-filter">Status</label>
+        <select
+          id="task-status-filter"
+          [value]="statusFilter()"
+          (change)="statusFilter.set($any($event.target).value)"
+        >
+          <option value="all">All</option>
+          <option value="todo">Todo</option>
+          <option value="in-progress">In progress</option>
+          <option value="completed">Completed</option>
+          <option value="cancelled">Cancelled</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="task-priority-filter">Priority</label>
+        <select
+          id="task-priority-filter"
+          [value]="priorityFilter()"
+          (change)="priorityFilter.set($any($event.target).value)"
+        >
+          <option value="all">All</option>
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
+      </div>
+    </div>
+
+    <p class="results-count" aria-live="polite">
+      {{ filtered().length }} of {{ tasks().length }} tasks
+    </p>
+
+    <app-feedback [message]="feedback()" />
+
+    @if (filtered().length === 0) {
+      <app-empty-state message="No tasks match the current search and filters." />
+    } @else {
+      <ul class="list task-list">
+        @for (task of filtered(); track task.id) {
+          <li>
+            <div class="list-row">
+              <span class="grow">{{ task.title }}</span>
+              <span class="task-project">{{ projectName(task.projectId) }}</span>
+              <app-status-badge [status]="task.status" />
+              <app-priority-badge [priority]="task.priority" />
+              <span class="task-assignee">
+                {{ task.assigneeId === null ? 'Sin asignar' : userName(task.assigneeId) }}
+              </span>
+            </div>
+            <div class="list-row">
+              <app-transition-buttons
+                [from]="task.status"
+                [targets]="taskTargets(task.status)"
+                (transition)="handleTransition(task.id, $event)"
+              />
+              <select
+                class="assign-select"
+                [attr.aria-label]="'Assignee for ' + task.title"
+                [value]="task.assigneeId ?? ''"
+                (change)="handleAssign(task.id, $any($event.target).value)"
+              >
+                <option value="">Unassigned</option>
+                @for (user of users(); track user.id) {
+                  <option [value]="user.id">{{ user.name }}</option>
+                }
+              </select>
+              <button type="button" class="edit-task" (click)="startEdit(task.id)">Edit</button>
+            </div>
+          </li>
+        }
+      </ul>
+    }
+  }
+</section>

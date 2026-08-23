@@ -1,45 +1,33 @@
-@if (globalReport(); as report) {
-  <section class="kpis" aria-label="Global summary">
-    <app-kpi-card label="Total tasks" [value]="report.metrics.totalTasks" />
-    <app-kpi-card label="Completed" [value]="report.metrics.completedTasks" />
-    <app-kpi-card label="In progress" [value]="report.metrics.inProgressTasks" />
-    <app-kpi-card label="Todo" [value]="report.metrics.todoTasks" />
-    <app-kpi-card label="Cancelled" [value]="report.metrics.cancelledTasks" />
-    <app-kpi-card
-      label="Completion rate"
-      [value]="report.metrics.completionRate === null ? 'n/a' : report.metrics.completionRate + '%'"
-    />
+<div>
+  <h2>Operational summary</h2>
+
+  @if (globalReport(); as report) {
+    <section class="kpis" aria-label="Global task summary">
+      <app-kpi-card label="Total tasks" [value]="report.metrics.totalTasks" />
+      <app-kpi-card label="Completed" [value]="report.metrics.completedTasks" />
+      <app-kpi-card label="In progress" [value]="report.metrics.inProgressTasks" />
+      <app-kpi-card label="Todo" [value]="report.metrics.todoTasks" />
+      <app-kpi-card label="Cancelled" [value]="report.metrics.cancelledTasks" />
+      <app-kpi-card
+        label="Completion rate"
+        [value]="
+          report.metrics.completionRate === null ? 'n/a' : report.metrics.completionRate + '%'
+        "
+      />
+    </section>
+  }
+
+  <section class="panels" aria-label="Projects by status">
+    <div>
+      <h3>Projects by status</h3>
+      <ul class="list">
+        @for (status of statuses; track status) {
+          <li class="list-row">
+            <span class="grow">{{ status }}</span>
+            <strong>{{ projectsByStatus()[status] }}</strong>
+          </li>
+        }
+      </ul>
+    </div>
   </section>
-}
-
-<section class="panels">
-  <div>
-    <h2>Projects ({{ projects().length }})</h2>
-    <ul>
-      @for (project of projects(); track project.id) {
-        <li>{{ project.name }} — {{ project.status }}</li>
-      }
-    </ul>
-  </div>
-
-  <div>
-    <h2>Teams</h2>
-    <ul>
-      @for (team of teamRows(); track team.id) {
-        <li>
-          {{ team.name }} — {{ team.completionRate }} ({{ team.projects }} projects,
-          {{ team.members }} members)
-        </li>
-      }
-    </ul>
-  </div>
-
-  <div>
-    <h2>Tasks ({{ tasks().length }})</h2>
-    <ul>
-      @for (task of tasks(); track task.id) {
-        <li>{{ task.title }} — {{ task.status }}</li>
-      }
-    </ul>
-  </div>
-</section>
+</div>

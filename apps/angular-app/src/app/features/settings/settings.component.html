@@ -1,0 +1,20 @@
+<section aria-label="Settings">
+  <h2>Settings</h2>
+
+  <div class="field setting-checkbox">
+    <label for="show-completed-tasks">
+      <input
+        id="show-completed-tasks"
+        type="checkbox"
+        [checked]="showCompletedTasks()"
+        (change)="showCompletedTasks.set($any($event.target).checked)"
+      />
+      Show completed tasks in task lists
+    </label>
+  </div>
+
+  <p class="empty-state">
+    This preference applies for the current session and returns to its default value when the
+    application reloads (functional contract SET-4).
+  </p>
+</section>

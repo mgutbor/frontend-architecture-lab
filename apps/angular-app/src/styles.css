@@ -1,4 +1,6 @@
-/* Minimal global styles: the focus of this phase is architecture, not design. */
+/* Global styles shared by the feature views (list rows, badges, forms, tables).
+   The focus of this phase is architecture, not design, but contrast follows
+   WCAG 2.2 AA (ACC-6). */
 * {
   box-sizing: border-box;
 }
@@ -11,4 +13,303 @@ body {
     sans-serif;
   color: #1f2933;
   background: #f5f7fa;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: #1f2933;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+/* --- Layout helpers --- */
+.list-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.grow {
+  flex: 1;
+}
+
+.panels {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.75rem;
+}
+
+.toolbar {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 0.75rem 0;
+}
+
+/* --- Forms (ACC-3, ACC-4) --- */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.field label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.field input,
+.field select,
+.field textarea {
+  padding: 0.45rem 0.6rem;
+  border: 1px solid #cbd2d9;
+  border-radius: 6px;
+  background: #ffffff;
+  max-width: 32rem;
+}
+
+.field-error {
+  color: #b00020;
+  font-size: 0.85rem;
+  max-width: 32rem;
+}
+
+.form-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+button.primary {
+  background: #1f2933;
+  color: #ffffff;
+  border-color: #1f2933;
+}
+
+.setting-checkbox {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.setting-checkbox input {
+  width: auto;
+}
+
+/* --- Lists --- */
+.list {
+  list-style: none;
+  margin: 0.5rem 0;
+  padding: 0;
+}
+
+.list li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #e4e7eb;
+}
+
+.project-list button,
+.team-list button {
+  width: 100%;
+  text-align: left;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.project-list button.selected,
+.team-list button.selected {
+  background: #e4e7eb;
+  border-color: #9aa5b1;
+}
+
+.project-name,
+.team-name {
+  display: block;
+  font-weight: 600;
+}
+
+.project-meta,
+.team-meta {
+  display: block;
+  font-size: 0.85rem;
+  color: #3e4c59;
+}
+
+.task-project,
+.task-assignee {
+  font-size: 0.85rem;
+  color: #3e4c59;
+}
+
+.assign-select {
+  padding: 0.3rem 0.4rem;
+  border: 1px solid #cbd2d9;
+  border-radius: 6px;
+  background: #ffffff;
+}
+
+.move-label {
+  font-size: 0.85rem;
+  color: #3e4c59;
+}
+
+/* --- Badges --- */
+.status-badge,
+.priority-badge {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  border: 1px solid transparent;
+}
+
+.status-planned {
+  background: #ffe8cc;
+  color: #7a4a00;
+  border-color: #f0b429;
+}
+
+.status-active {
+  background: #dbeafe;
+  color: #1a3e6e;
+  border-color: #5e9be0;
+}
+
+.status-completed {
+  background: #e6f4ea;
+  color: #1e5e33;
+  border-color: #5bb98a;
+}
+
+.status-todo {
+  background: #f3f4f6;
+  color: #3e4c59;
+  border-color: #cbd2d9;
+}
+
+.status-in-progress {
+  background: #fff3cd;
+  color: #7a4a00;
+  border-color: #f0b429;
+}
+
+.status-cancelled {
+  background: #fbe9e7;
+  color: #8c1d18;
+  border-color: #e67e73;
+}
+
+.priority-low {
+  background: #f3f4f6;
+  color: #3e4c59;
+  border-color: #cbd2d9;
+}
+
+.priority-medium {
+  background: #fff3cd;
+  color: #7a4a00;
+  border-color: #f0b429;
+}
+
+.priority-high {
+  background: #fbe9e7;
+  color: #8c1d18;
+  border-color: #e67e73;
+}
+
+/* --- Feedback, empty states, results (ACC-8) --- */
+.feedback {
+  min-height: 1.2em;
+  color: #1a3e6e;
+  margin: 0.25rem 0;
+}
+
+.empty-state {
+  color: #3e4c59;
+  font-style: italic;
+  margin: 0.5rem 0;
+}
+
+.results-count {
+  color: #3e4c59;
+  font-size: 0.85rem;
+  margin: 0.25rem 0;
+}
+
+/* --- Transitions --- */
+.transitions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin: 0.25rem 0;
+}
+
+.transitions button {
+  padding: 0.3rem 0.6rem;
+  border: 1px solid #9aa5b1;
+  border-radius: 6px;
+  background: #ffffff;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+/* --- Detail sections --- */
+.project-detail,
+.team-detail {
+  margin-top: 1rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #e4e7eb;
+}
+
+/* --- Tables --- */
+.metric-table {
+  border-collapse: collapse;
+  margin: 0.5rem 0;
+  width: 100%;
+  max-width: 28rem;
+}
+
+.metric-table caption {
+  text-align: left;
+  font-weight: 600;
+  padding-bottom: 0.25rem;
+}
+
+.metric-table th,
+.metric-table td {
+  text-align: left;
+  padding: 0.35rem 0.75rem 0.35rem 0;
+  border-bottom: 1px solid #e4e7eb;
+}
+
+.metric-table th {
+  font-weight: 600;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #1f2933;
+  outline-offset: 2px;
 }

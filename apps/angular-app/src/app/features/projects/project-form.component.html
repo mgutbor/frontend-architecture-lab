@@ -1,0 +1,80 @@
+<form class="project-form" (submit)="handleSubmit($event)" novalidate>
+  <h3>{{ isEdit() ? 'Edit project' : 'New project' }}</h3>
+
+  <app-field [controlId]="'project-name'" label="Name" [errors]="fieldErrors('name')">
+    <input
+      id="project-name"
+      [value]="name()"
+      (input)="name.set($any($event.target).value); clearError('name')"
+      [attr.aria-invalid]="hasError('name')"
+      [attr.aria-describedby]="hasError('name') ? 'project-name-error' : null"
+    />
+  </app-field>
+
+  <app-field
+    [controlId]="'project-description'"
+    label="Description (optional)"
+    [errors]="fieldErrors('description')"
+  >
+    <textarea
+      id="project-description"
+      [value]="description()"
+      (input)="description.set($any($event.target).value); clearError('description')"
+      [attr.aria-invalid]="hasError('description')"
+      [attr.aria-describedby]="hasError('description') ? 'project-description-error' : null"
+    ></textarea>
+  </app-field>
+
+  <app-field [controlId]="'project-team'" label="Team" [errors]="fieldErrors('teamId')">
+    <select
+      id="project-team"
+      [value]="teamId()"
+      (change)="handleTeamChange($any($event.target).value); clearError('teamId')"
+      [attr.aria-invalid]="hasError('teamId')"
+      [attr.aria-describedby]="hasError('teamId') ? 'project-team-error' : null"
+    >
+      <option value="">Select a team</option>
+      @for (team of teams(); track team.id) {
+        <option [value]="team.id">{{ team.name }}</option>
+      }
+    </select>
+  </app-field>
+
+  <app-field [controlId]="'project-owner'" label="Owner" [errors]="fieldErrors('ownerId')">
+    <select
+      id="project-owner"
+      [value]="ownerId()"
+      (change)="ownerId.set($any($event.target).value); clearError('ownerId')"
+      [attr.aria-invalid]="hasError('ownerId')"
+      [attr.aria-describedby]="hasError('ownerId') ? 'project-owner-error' : null"
+    >
+      <option value="">Select an owner</option>
+      @for (user of ownerOptions(); track user.id) {
+        <option [value]="user.id">{{ user.name }}</option>
+      }
+    </select>
+  </app-field>
+
+  @if (isEdit()) {
+    <app-field [controlId]="'project-status'" label="Status" [errors]="fieldErrors('status')">
+      <select
+        id="project-status"
+        [value]="status()"
+        (change)="status.set($any($event.target).value); clearError('status')"
+        [attr.aria-invalid]="hasError('status')"
+        [attr.aria-describedby]="hasError('status') ? 'project-status-error' : null"
+      >
+        @for (option of statusOptions(); track option) {
+          <option [value]="option">{{ option }}</option>
+        }
+      </select>
+    </app-field>
+  }
+
+  <div class="form-actions">
+    <button type="submit" class="primary">
+      {{ isEdit() ? 'Save changes' : 'Create project' }}
+    </button>
+    <button type="button" (click)="cancel.emit()">Cancel</button>
+  </div>
+</form>

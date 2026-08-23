@@ -1,0 +1,648 @@
+{
+  "experiment": "baseline-attribution-phase5",
+  "capturedAt": "2026-08-21T13:52:06.428Z",
+  "commits": {
+    "baseline": "abd78e3",
+    "reactMonolith": "60053b1",
+    "angularMonolith": "worktree (Fase 5, sin commit)"
+  },
+  "frameworkVersions": {
+    "react": "react 19.2.8, react-dom 19.2.8, vite 8.2.2 (rolldown 1.2.5)",
+    "angular": "@angular/core 21.2.21, @angular/cli 21.2.21, typescript 5.9.2",
+    "domain": "workspace:* (idéntico entre baseline y monolith, verificado con git diff)"
+  },
+  "environment": {
+    "node": "v25.3.0",
+    "pnpm": "pnpm@10.34.5 (packageManager en package.json raíz)",
+    "platform": "darwin-arm64",
+    "cpuModel": "Apple M1",
+    "cpuCores": 8,
+    "memoryBytes": 17179869184
+  },
+  "tools": {
+    "react": "source map + VLQ decode (vite build --sourcemap), mismo mecanismo que Fase 5.3",
+    "angular": "esbuild metafile (ng build --stats-json), mismo mecanismo que Fase 5.3"
+  },
+  "frameworks": {
+    "react": {
+      "baseline": {
+        "js": {
+          "chunkCount": 1,
+          "totalRawBytes": 208605,
+          "totalGzipBytes": 63534,
+          "totalBrotliBytes": 54606,
+          "files": [
+            "../../../../tmp/lab-baseline-react/apps/react-app/dist/assets/index-BIMreHIZ.js"
+          ]
+        },
+        "css": {
+          "chunkCount": 1,
+          "totalRawBytes": 119,
+          "totalGzipBytes": 125,
+          "totalBrotliBytes": 85,
+          "files": [
+            "../../../../tmp/lab-baseline-react/apps/react-app/dist/assets/index-GvHGzrC5.css"
+          ]
+        },
+        "composition": {
+          "available": true,
+          "method": "source map VLQ decode (vite build --sourcemap): approximate minified bytes per source, with measured correction for the embedded fixture literal",
+          "bundleSize": 208605,
+          "mapFile": "index-BIMreHIZ.js.map",
+          "categories": { "react runtime": 205595, "@operations-hub/domain": 2144, "app code": 0 },
+          "categoriesOriginal": {
+            "react runtime": 574367,
+            "@operations-hub/domain": 34601,
+            "app code": 9761
+          },
+          "categoriesCorrected": {
+            "react runtime": 205595,
+            "@operations-hub/domain": 11480,
+            "app code": 0
+          },
+          "fixtureSpanBytes": 9336,
+          "modules": [
+            {
+              "source": "../../../../../../../Users/plopez7/Dev/frontend-architecture-lab/node_modules/.pnpm/scheduler@0.27.0/node_modules/scheduler/cjs/scheduler.production.js",
+              "category": "react runtime",
+              "approxMinifiedBytes": 173636,
+              "originalBytes": 10181
+            },
+            {
+              "source": "../../../../../../../Users/plopez7/Dev/frontend-architecture-lab/node_modules/.pnpm/scheduler@0.27.0/node_modules/scheduler/index.js",
+              "category": "react runtime",
+              "approxMinifiedBytes": 545,
+              "originalBytes": 194
+            },
+            {
+              "source": "../../../../../../../Users/plopez7/Dev/frontend-architecture-lab/node_modules/.pnpm/react@19.2.8/node_modules/react/cjs/react.production.js",
+              "category": "react runtime",
+              "approxMinifiedBytes": 7608,
+              "originalBytes": 17217
+            },
+            {
+              "source": "../../../../../../../Users/plopez7/Dev/frontend-architecture-lab/node_modules/.pnpm/react@19.2.8/node_modules/react/index.js",
+              "category": "react runtime",
+              "approxMinifiedBytes": 376,
+              "originalBytes": 186
+            },
+            {
+              "source": "../../../../../../../Users/plopez7/Dev/frontend-architecture-lab/node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom.production.js",
+              "category": "react runtime",
+              "approxMinifiedBytes": 6878,
+              "originalBytes": 6655
+            },
+            {
+              "source": "../../../../../../../Users/plopez7/Dev/frontend-architecture-lab/node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/index.js",
+              "category": "react runtime",
+              "approxMinifiedBytes": 1086,
+              "originalBytes": 1359
+            },
+            {
+              "source": "../../../../../../../Users/plopez7/Dev/frontend-architecture-lab/node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom-client.production.js",
+              "category": "react runtime",
+              "approxMinifiedBytes": 4481,
+              "originalBytes": 536016
+            },
+            {
+              "source": "../../../../../../../Users/plopez7/Dev/frontend-architecture-lab/node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/client.js",
+              "category": "react runtime",
+              "approxMinifiedBytes": 10985,
+              "originalBytes": 1373
+            },
+            {
+              "source": "../../../../../../../Users/plopez7/Dev/frontend-architecture-lab/packages/domain/dist/src/transitions.js",
+              "category": "@operations-hub/domain",
+              "approxMinifiedBytes": 191,
+              "originalBytes": 881
+            },
+            {
+              "source": "../../../../../../../Users/plopez7/Dev/frontend-architecture-lab/packages/domain/dist/src/validation.js",
+              "category": "@operations-hub/domain",
+              "approxMinifiedBytes": 1238,
+              "originalBytes": 5496
+            },
+            {
+              "source": "../../../../../../../Users/plopez7/Dev/frontend-architecture-lab/packages/domain/dist/src/rules.js",
+              "category": "@operations-hub/domain",
+              "approxMinifiedBytes": 640,
+              "originalBytes": 8166
+            },
+            {
+              "source": "../../../../../../../Users/plopez7/Dev/frontend-architecture-lab/packages/domain/dist/src/reports.js",
+              "category": "@operations-hub/domain",
+              "approxMinifiedBytes": 75,
+              "originalBytes": 2698
+            },
+            {
+              "source": "../../../../../../../Users/plopez7/Dev/frontend-architecture-lab/packages/domain/dist/fixtures/operations-hub-v1.json",
+              "category": "@operations-hub/domain",
+              "approxMinifiedBytes": 0,
+              "originalBytes": 16249
+            },
+            {
+              "source": "../../../../../../../Users/plopez7/Dev/frontend-architecture-lab/packages/domain/dist/src/fixture.js",
+              "category": "@operations-hub/domain",
+              "approxMinifiedBytes": 0,
+              "originalBytes": 1111
+            },
+            {
+              "source": "../../src/services/domain-store.ts",
+              "category": "app code",
+              "approxMinifiedBytes": 0,
+              "originalBytes": 1340
+            },
+            {
+              "source": "../../src/adapters/domain-adapter.ts",
+              "category": "app code",
+              "approxMinifiedBytes": 0,
+              "originalBytes": 368
+            },
+            {
+              "source": "../../src/hooks/use-domain-store.ts",
+              "category": "app code",
+              "approxMinifiedBytes": 0,
+              "originalBytes": 503
+            },
+            {
+              "source": "../../../../../../../Users/plopez7/Dev/frontend-architecture-lab/node_modules/.pnpm/react@19.2.8/node_modules/react/cjs/react-jsx-runtime.production.js",
+              "category": "react runtime",
+              "approxMinifiedBytes": 0,
+              "originalBytes": 976
+            },
+            {
+              "source": "../../../../../../../Users/plopez7/Dev/frontend-architecture-lab/node_modules/.pnpm/react@19.2.8/node_modules/react/jsx-runtime.js",
+              "category": "react runtime",
+              "approxMinifiedBytes": 0,
+              "originalBytes": 210
+            },
+            {
+              "source": "../../src/components/kpi-card.tsx",
+              "category": "app code",
+              "approxMinifiedBytes": 0,
+              "originalBytes": 303
+            },
+            {
+              "source": "../../src/features/dashboard/dashboard-page.tsx",
+              "category": "app code",
+              "approxMinifiedBytes": 0,
+              "originalBytes": 2539
+            },
+            {
+              "source": "../../src/components/transition-buttons.tsx",
+              "category": "app code",
+              "approxMinifiedBytes": 0,
+              "originalBytes": 524
+            },
+            {
+              "source": "../../src/features/projects/projects-page.tsx",
+              "category": "app code",
+              "approxMinifiedBytes": 0,
+              "originalBytes": 2543
+            },
+            {
+              "source": "../../src/app/App.tsx",
+              "category": "app code",
+              "approxMinifiedBytes": 0,
+              "originalBytes": 1479
+            },
+            {
+              "source": "../../src/main.tsx",
+              "category": "app code",
+              "approxMinifiedBytes": 0,
+              "originalBytes": 162
+            }
+          ],
+          "totalAttributed": 207739,
+          "unAttributedBytes": 866,
+          "limitNote": "Approximation: VLQ segment-span attribution over/under counts around boundaries; generated-only code (e.g. Vite preambles) may be unattributed. Original source sizes (sourcesContent) are exact but unminified. The embedded fixture object literal is under-counted by VLQ and corrected by measuring its span in the bundle."
+        }
+      },
+      "monolith": {
+        "js": {
+          "chunkCount": 1,
+          "totalRawBytes": 233547,
+          "totalGzipBytes": 68572,
+          "totalBrotliBytes": 58972,
+          "files": ["apps/react-app/dist/assets/index-CD8mnuHw.js"]
+        },
+        "css": {
+          "chunkCount": 1,
+          "totalRawBytes": 3666,
+          "totalGzipBytes": 1162,
+          "totalBrotliBytes": 949,
+          "files": ["apps/react-app/dist/assets/index-BXA4VAeP.css"]
+        },
+        "composition": {
+          "available": false,
+          "reason": "no .js.map found; run: vite build --sourcemap (reversible CLI flag)"
+        }
+      }
+    },
+    "angular": {
+      "baseline": {
+        "js": {
+          "chunkCount": 1,
+          "totalRawBytes": 136621,
+          "totalGzipBytes": 43930,
+          "totalBrotliBytes": 39156,
+          "files": [
+            "../../../../tmp/lab-baseline-angular/apps/angular-app/dist/angular-app/browser/main-YGSKDDCZ.js"
+          ]
+        },
+        "css": {
+          "chunkCount": 1,
+          "totalRawBytes": 119,
+          "totalGzipBytes": 125,
+          "totalBrotliBytes": 80,
+          "files": [
+            "../../../../tmp/lab-baseline-angular/apps/angular-app/dist/angular-app/browser/styles-EGHUL3TS.css"
+          ]
+        },
+        "composition": {
+          "available": true,
+          "method": "esbuild metafile (ng build --stats-json): exact bytesInOutput per input module",
+          "categories": {
+            "@angular/core": 94224,
+            "rxjs": 8616,
+            "@angular/common": 298,
+            "@angular/platform-browser": 11319,
+            "@operations-hub/domain": 14116,
+            "app code": 7571,
+            "entry": 34
+          },
+          "modules": [
+            {
+              "path": "node_modules/@angular+core@21.2.21_@angular+compiler@21.2.21_rxjs@7.8.2/node_modules/@angular/core/fesm2022/_effect-chunk.mjs",
+              "bytesInOutput": 4052,
+              "category": "@angular/core"
+            },
+            {
+              "path": "node_modules/rxjs@7.8.2/node_modules/rxjs/dist/esm/internal/util/isFunction.js",
+              "bytesInOutput": 42,
+              "category": "rxjs"
+            },
+            {
+              "path": "node_modules/rxjs@7.8.2/node_modules/rxjs/dist/esm/internal/util/createErrorClass.js",
+              "bytesInOutput": 147,
+              "category": "rxjs"
+            },
+            {
+              "path": "node_modules/rxjs@7.8.2/node_modules/rxjs/dist/esm/internal/util/UnsubscriptionError.js",
+              "bytesInOutput": 207,
+              "category": "rxjs"
+            },
+            {
+              "path": "node_modules/rxjs@7.8.2/node_modules/rxjs/dist/esm/internal/util/arrRemove.js",
+              "bytesInOutput": 63,
+              "category": "rxjs"
+            },
+            {
+              "path": "node_modules/rxjs@7.8.2/node_modules/rxjs/dist/esm/internal/Subscription.js",
+              "bytesInOutput": 1289,
+              "category": "rxjs"
+            },
+            {
+              "path": "node_modules/rxjs@7.8.2/node_modules/rxjs/dist/esm/internal/config.js",
+              "bytesInOutput": 142,
+              "category": "rxjs"
+            },
+            {
+              "path": "node_modules/rxjs@7.8.2/node_modules/rxjs/dist/esm/internal/scheduler/timeoutProvider.js",
+              "bytesInOutput": 208,
+              "category": "rxjs"
+            },
+            {
+              "path": "node_modules/rxjs@7.8.2/node_modules/rxjs/dist/esm/internal/util/reportUnhandledError.js",
+              "bytesInOutput": 86,
+              "category": "rxjs"
+            },
+            {
+              "path": "node_modules/rxjs@7.8.2/node_modules/rxjs/dist/esm/internal/util/noop.js",
+              "bytesInOutput": 15,
+              "category": "rxjs"
+            },
+            {
+              "path": "node_modules/rxjs@7.8.2/node_modules/rxjs/dist/esm/internal/NotificationFactories.js",
+              "bytesInOutput": 157,
+              "category": "rxjs"
+            },
+            {
+              "path": "node_modules/rxjs@7.8.2/node_modules/rxjs/dist/esm/internal/util/errorContext.js",
+              "bytesInOutput": 281,
+              "category": "rxjs"
+            },
+            {
+              "path": "node_modules/rxjs@7.8.2/node_modules/rxjs/dist/esm/internal/Subscriber.js",
+              "bytesInOutput": 1571,
+              "category": "rxjs"
+            },
+            {
+              "path": "node_modules/rxjs@7.8.2/node_modules/rxjs/dist/esm/internal/symbol/observable.js",
+              "bytesInOutput": 68,
+              "category": "rxjs"
+            },
+            {
+              "path": "node_modules/rxjs@7.8.2/node_modules/rxjs/dist/esm/internal/util/identity.js",
+              "bytesInOutput": 24,
+              "category": "rxjs"
+            },
+            {
+              "path": "node_modules/rxjs@7.8.2/node_modules/rxjs/dist/esm/internal/util/pipe.js",
+              "bytesInOutput": 100,
+              "category": "rxjs"
+            },
+            {
+              "path": "node_modules/rxjs@7.8.2/node_modules/rxjs/dist/esm/internal/Observable.js",
+              "bytesInOutput": 936,
+              "category": "rxjs"
+            },
+            {
+              "path": "node_modules/rxjs@7.8.2/node_modules/rxjs/dist/esm/index.js",
+              "bytesInOutput": 0,
+              "category": "rxjs"
+            },
+            {
+              "path": "node_modules/rxjs@7.8.2/node_modules/rxjs/dist/esm/internal/util/lift.js",
+              "bytesInOutput": 204,
+              "category": "rxjs"
+            },
+            {
+              "path": "node_modules/rxjs@7.8.2/node_modules/rxjs/dist/esm/internal/operators/OperatorSubscriber.js",
+              "bytesInOutput": 590,
+              "category": "rxjs"
+            },
+            {
+              "path": "node_modules/rxjs@7.8.2/node_modules/rxjs/dist/esm/internal/util/ObjectUnsubscribedError.js",
+              "bytesInOutput": 105,
+              "category": "rxjs"
+            },
+            {
+              "path": "node_modules/rxjs@7.8.2/node_modules/rxjs/dist/esm/internal/Subject.js",
+              "bytesInOutput": 1978,
+              "category": "rxjs"
+            },
+            {
+              "path": "node_modules/rxjs@7.8.2/node_modules/rxjs/dist/esm/internal/BehaviorSubject.js",
+              "bytesInOutput": 310,
+              "category": "rxjs"
+            },
+            {
+              "path": "node_modules/rxjs@7.8.2/node_modules/rxjs/dist/esm/internal/operators/map.js",
+              "bytesInOutput": 93,
+              "category": "rxjs"
+            },
+            {
+              "path": "node_modules/@angular+core@21.2.21_@angular+compiler@21.2.21_rxjs@7.8.2/node_modules/@angular/core/fesm2022/_not_found-chunk.mjs",
+              "bytesInOutput": 152,
+              "category": "@angular/core"
+            },
+            {
+              "path": "node_modules/@angular+core@21.2.21_@angular+compiler@21.2.21_rxjs@7.8.2/node_modules/@angular/core/fesm2022/primitives-signals.mjs",
+              "bytesInOutput": 0,
+              "category": "@angular/core"
+            },
+            {
+              "path": "node_modules/@angular+core@21.2.21_@angular+compiler@21.2.21_rxjs@7.8.2/node_modules/@angular/core/fesm2022/primitives-di.mjs",
+              "bytesInOutput": 0,
+              "category": "@angular/core"
+            },
+            {
+              "path": "node_modules/@angular+core@21.2.21_@angular+compiler@21.2.21_rxjs@7.8.2/node_modules/@angular/core/fesm2022/_effect-chunk2.mjs",
+              "bytesInOutput": 21291,
+              "category": "@angular/core"
+            },
+            {
+              "path": "node_modules/rxjs@7.8.2/node_modules/rxjs/dist/esm/operators/index.js",
+              "bytesInOutput": 0,
+              "category": "rxjs"
+            },
+            {
+              "path": "node_modules/@angular+core@21.2.21_@angular+compiler@21.2.21_rxjs@7.8.2/node_modules/@angular/core/fesm2022/_debug_node-chunk.mjs",
+              "bytesInOutput": 66430,
+              "category": "@angular/core"
+            },
+            {
+              "path": "node_modules/@angular+core@21.2.21_@angular+compiler@21.2.21_rxjs@7.8.2/node_modules/@angular/core/fesm2022/core.mjs",
+              "bytesInOutput": 2261,
+              "category": "@angular/core"
+            },
+            {
+              "path": "node_modules/@angular+core@21.2.21_@angular+compiler@21.2.21_rxjs@7.8.2/node_modules/@angular/core/fesm2022/_resource-chunk.mjs",
+              "bytesInOutput": 38,
+              "category": "@angular/core"
+            },
+            {
+              "path": "node_modules/@angular+common@21.2.21_@angular+core@21.2.21_@angular+compiler@21.2.21_rxjs@7.8.2__rxjs@7.8.2/node_modules/@angular/common/fesm2022/_platform_location-chunk.mjs",
+              "bytesInOutput": 73,
+              "category": "@angular/common"
+            },
+            {
+              "path": "node_modules/@angular+common@21.2.21_@angular+core@21.2.21_@angular+compiler@21.2.21_rxjs@7.8.2__rxjs@7.8.2/node_modules/@angular/common/fesm2022/common.mjs",
+              "bytesInOutput": 17,
+              "category": "@angular/common"
+            },
+            {
+              "path": "node_modules/@angular+common@21.2.21_@angular+core@21.2.21_@angular+compiler@21.2.21_rxjs@7.8.2__rxjs@7.8.2/node_modules/@angular/common/fesm2022/_xhr-chunk.mjs",
+              "bytesInOutput": 208,
+              "category": "@angular/common"
+            },
+            {
+              "path": "node_modules/@angular+platform-browser@21.2.21_@angular+common@21.2.21_@angular+core@21.2.21_@angula_32e08aae5189ecef436f9dc97708f5e0/node_modules/@angular/platform-browser/fesm2022/_dom_renderer-chunk.mjs",
+              "bytesInOutput": 8104,
+              "category": "@angular/platform-browser"
+            },
+            {
+              "path": "node_modules/@angular+platform-browser@21.2.21_@angular+common@21.2.21_@angular+core@21.2.21_@angula_32e08aae5189ecef436f9dc97708f5e0/node_modules/@angular/platform-browser/fesm2022/_browser-chunk.mjs",
+              "bytesInOutput": 3215,
+              "category": "@angular/platform-browser"
+            },
+            {
+              "path": "node_modules/@angular+platform-browser@21.2.21_@angular+common@21.2.21_@angular+core@21.2.21_@angula_32e08aae5189ecef436f9dc97708f5e0/node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
+              "bytesInOutput": 0,
+              "category": "@angular/platform-browser"
+            },
+            {
+              "path": "../../../../../Users/plopez7/Dev/frontend-architecture-lab/packages/domain/dist/src/transitions.js",
+              "bytesInOutput": 117,
+              "category": "@operations-hub/domain"
+            },
+            {
+              "path": "../../../../../Users/plopez7/Dev/frontend-architecture-lab/packages/domain/dist/src/validation.js",
+              "bytesInOutput": 220,
+              "category": "@operations-hub/domain"
+            },
+            {
+              "path": "../../../../../Users/plopez7/Dev/frontend-architecture-lab/packages/domain/dist/src/rules.js",
+              "bytesInOutput": 3371,
+              "category": "@operations-hub/domain"
+            },
+            {
+              "path": "../../../../../Users/plopez7/Dev/frontend-architecture-lab/packages/domain/dist/src/index.js",
+              "bytesInOutput": 0,
+              "category": "@operations-hub/domain"
+            },
+            {
+              "path": "../../../../../Users/plopez7/Dev/frontend-architecture-lab/packages/domain/dist/src/reports.js",
+              "bytesInOutput": 867,
+              "category": "@operations-hub/domain"
+            },
+            {
+              "path": "../../../../../Users/plopez7/Dev/frontend-architecture-lab/packages/domain/dist/fixtures/operations-hub-v1.json",
+              "bytesInOutput": 9259,
+              "category": "@operations-hub/domain"
+            },
+            {
+              "path": "../../../../../Users/plopez7/Dev/frontend-architecture-lab/packages/domain/dist/src/fixture.js",
+              "bytesInOutput": 282,
+              "category": "@operations-hub/domain"
+            },
+            {
+              "path": "src/app/domain/domain-data.adapter.ts",
+              "bytesInOutput": 151,
+              "category": "app code"
+            },
+            {
+              "path": "src/app/domain/domain.store.ts",
+              "bytesInOutput": 503,
+              "category": "app code"
+            },
+            {
+              "path": "src/app/components/kpi-card.component.ts",
+              "bytesInOutput": 691,
+              "category": "app code"
+            },
+            {
+              "path": "src/app/features/dashboard/dashboard.component.ts",
+              "bytesInOutput": 2247,
+              "category": "app code"
+            },
+            {
+              "path": "src/app/features/projects/projects.component.ts",
+              "bytesInOutput": 2426,
+              "category": "app code"
+            },
+            { "path": "src/app/app.ts", "bytesInOutput": 1553, "category": "app code" },
+            { "path": "src/main.ts", "bytesInOutput": 34, "category": "entry" }
+          ],
+          "totalAttributed": 136178,
+          "headerBytes": 443,
+          "limitNote": "Exact attribution per module. \"generated/compiled\" is not a separate category here: Angular templates compile into the component .ts modules during AOT and appear under app code; the fixture JSON is bundled inside @operations-hub/domain."
+        }
+      },
+      "monolith": {
+        "js": {
+          "chunkCount": 1,
+          "totalRawBytes": 179634,
+          "totalGzipBytes": 53485,
+          "totalBrotliBytes": 47348,
+          "files": ["apps/angular-app/dist/angular-app/browser/main-4QCSDYDC.js"]
+        },
+        "css": {
+          "chunkCount": 1,
+          "totalRawBytes": 3438,
+          "totalGzipBytes": 1135,
+          "totalBrotliBytes": 911,
+          "files": ["apps/angular-app/dist/angular-app/browser/styles-PQCAFTK3.css"]
+        },
+        "composition": {
+          "available": false,
+          "reason": "stats.json not found; run: ng build --stats-json"
+        }
+      }
+    }
+  },
+  "categoryDelta": {
+    "react runtime": {
+      "reactBaseline": 205595,
+      "reactMonolith": 0,
+      "reactDelta": -205595,
+      "angularBaseline": 0,
+      "angularMonolith": 0,
+      "angularDelta": 0,
+      "differenceDelta": 205595
+    },
+    "@operations-hub/domain": {
+      "reactBaseline": 11480,
+      "reactMonolith": 0,
+      "reactDelta": -11480,
+      "angularBaseline": 14116,
+      "angularMonolith": 0,
+      "angularDelta": -14116,
+      "differenceDelta": -2636
+    },
+    "app code": {
+      "reactBaseline": 0,
+      "reactMonolith": 0,
+      "reactDelta": 0,
+      "angularBaseline": 7571,
+      "angularMonolith": 0,
+      "angularDelta": -7571,
+      "differenceDelta": -7571
+    },
+    "@angular/core": {
+      "reactBaseline": 0,
+      "reactMonolith": 0,
+      "reactDelta": 0,
+      "angularBaseline": 94224,
+      "angularMonolith": 0,
+      "angularDelta": -94224,
+      "differenceDelta": -94224
+    },
+    "rxjs": {
+      "reactBaseline": 0,
+      "reactMonolith": 0,
+      "reactDelta": 0,
+      "angularBaseline": 8616,
+      "angularMonolith": 0,
+      "angularDelta": -8616,
+      "differenceDelta": -8616
+    },
+    "@angular/common": {
+      "reactBaseline": 0,
+      "reactMonolith": 0,
+      "reactDelta": 0,
+      "angularBaseline": 298,
+      "angularMonolith": 0,
+      "angularDelta": -298,
+      "differenceDelta": -298
+    },
+    "@angular/platform-browser": {
+      "reactBaseline": 0,
+      "reactMonolith": 0,
+      "reactDelta": 0,
+      "angularBaseline": 11319,
+      "angularMonolith": 0,
+      "angularDelta": -11319,
+      "differenceDelta": -11319
+    },
+    "entry": {
+      "reactBaseline": 0,
+      "reactMonolith": 0,
+      "reactDelta": 0,
+      "angularBaseline": 34,
+      "angularMonolith": 0,
+      "angularDelta": -34,
+      "differenceDelta": -34
+    }
+  },
+  "totals": {
+    "react": { "jsRawBaseline": 208605, "jsRawMonolith": 233547, "deltaRaw": 24942 },
+    "angular": { "jsRawBaseline": 136621, "jsRawMonolith": 179634, "deltaRaw": 43013 }
+  },
+  "method": "Atribución baseline→monolith con el MISMO mecanismo por framework (React: source map VLQ; Angular: metafile esbuild). Baselines reconstruidos en worktrees git desde el commit abd78e3 (Fase 2) con las mismas versiones de toolchain que los monoliths (verificado). gzip/brotli via Node zlib default level, igual que metrics.md.",
+  "notes": [
+    "React app code baseline = 0 B en la atribución VLQ: el source map del baseline NO contiene segmentos para las fuentes de la app (0 de 48 169 segmentos) — limitación del mapa generado por rolldown, no del código. El app code minificado real del baseline NO es medible por esta vía.",
+    "React: runtime y domain VERIFICADOS constantes entre baseline y monolith (sourcesContent byte-idénticos: runtime 574 367 = 574 367 B, domain 34 601 = 34 601 B; fixture literal 9 336 vs 9 335 B). Por tanto el delta React +24 985 B es app code (residual). El \"+8 966 B runtime\" que muestra la VLQ es artefacto de cobertura del mapa del baseline, no crecimiento real.",
+    "Angular: delta +43 013 B descompuesto exacto por metafile: app code +36 571 B (85,0%), retención de runtime @angular/core +4 102 B (core.mjs +465, _debug_node-chunk +2 942, _resource-chunk +570, _effect-chunk +123; platform-browser +2), retención de domain +2 322 B (validation.js 220→2 229, transitions.js 117→294, reports.js 867→1 003), rxjs +18 B. La retención es tree-shaking: el monolith usa más superficie del mismo código (sin dependencias ni versiones nuevas).",
+    "ΔΔ (ΔAngular − ΔReact) = +18 028 B = app code +11 586 + runtime +4 102 + domain +2 322 + rxjs +18 (exacto por construcción)."
+  ],
+  "limitations": [
+    "React: la atribución VLQ es aproximada (±5-10 kB en app code); el baseline se reconstruyó con el toolchain actual (versiones idénticas a las del monolith, verificado en git), no con los bins históricos.",
+    "React: el app code minificado del baseline no es medible (source map sin segmentos de app); se reporta como residual = delta total − (runtime + domain, verificados constantes).",
+    "Angular: atribución exacta por módulo (metafile); templates AOT compilados dentro de los .component.ts (sin desglose template/lógica).",
+    "El fixture JSON (≈9.3 kB) está embebido en ambos bundles (baseline y monolith) y contado dentro de @operations-hub/domain.",
+    "Los nombres de archivo de los assets del baseline difieren de los históricos (outputHashing); los bytes totales coinciden con los oficiales de Fase 2 (React 208 605 B, Angular 136 621 B).",
+    "gzip/brotli solo se miden por asset (compresión global), no por categoría: comprimir módulos por separado no es representativo de la transferencia real."
+  ]
+}

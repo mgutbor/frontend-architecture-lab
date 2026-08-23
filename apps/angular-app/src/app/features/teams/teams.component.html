@@ -1,0 +1,69 @@
+<section aria-label="Teams">
+  <h2>Teams</h2>
+  <app-feedback [message]="feedback()" />
+
+  <ul class="list team-list">
+    @for (team of teams(); track team.id) {
+      <li>
+        <button
+          type="button"
+          class="team-row"
+          [class.selected]="team.id === selectedId()"
+          (click)="selectedId.set(team.id)"
+        >
+          <span class="team-name">{{ team.name }}</span>
+          <span class="team-meta">
+            {{ teamCounts(team.id).members }} members · {{ teamCounts(team.id).projects }} projects
+          </span>
+        </button>
+      </li>
+    }
+  </ul>
+
+  @if (selected(); as team) {
+    <section class="team-detail" [attr.aria-label]="'Team ' + team.name">
+      <h3>{{ team.name }}</h3>
+      <p>{{ team.description ?? 'No description' }}</p>
+
+      <h4>Members ({{ members().length }})</h4>
+      <ul class="list">
+        @for (user of members(); track user.id) {
+          <li class="list-row">
+            <span class="grow">{{ user.name }}</span>
+            <label [for]="'move-' + user.id" class="move-label">Move to</label>
+            <select
+              [id]="'move-' + user.id"
+              [attr.aria-label]="'Move ' + user.name + ' to team'"
+              (change)="handleMoveMember(user.id, $any($event.target).value)"
+            >
+              <option value="" disabled>Select team…</option>
+              @for (target of otherTeams(); track target.id) {
+                <option [value]="target.id">{{ target.name }}</option>
+              }
+            </select>
+          </li>
+        }
+      </ul>
+
+      <h4>Projects ({{ teamProjects().length }})</h4>
+      <ul class="list">
+        @for (project of teamProjects(); track project.id) {
+          <li>{{ project.name }} — {{ project.status }}</li>
+        }
+      </ul>
+
+      <h4>Add member</h4>
+      <div class="field">
+        <label for="add-member">Add member</label>
+        <select id="add-member" (change)="handleAddMember($any($event.target).value)">
+          <option value="" disabled>Select a user…</option>
+          @for (user of addableUsers(); track user.id) {
+            <option [value]="user.id">{{ user.name }}</option>
+          }
+        </select>
+      </div>
+    </section>
+  } @else {
+    <p class="empty-state">Select a team to see its members and projects.</p>
+  }
+</section>

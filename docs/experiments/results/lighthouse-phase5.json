@@ -1,0 +1,343 @@
+{
+  "experiment": "lighthouse-phase5",
+  "capturedAt": "2026-08-23T22:50:10.774Z",
+  "objective": "Evaluar H8 (accesibilidad y rendimiento percibido equivalentes al implementar el mismo contrato) con Lighthouse real sobre los builds de producción de React Monolith y Angular Monolith.",
+  "environment": {
+    "node": "v25.3.0",
+    "platform": "darwin-arm64",
+    "cpuModel": "Apple M1",
+    "cpuCores": 8,
+    "memoryBytes": 17179869184,
+    "lighthouseVersion": "13.4.1",
+    "lighthouseCli": "/Users/plopez7/.npm/_npx/0f94ee7615faf582/node_modules/lighthouse/cli/index.js",
+    "chromePath": "/Users/plopez7/Library/Caches/ms-playwright/chromium_headless_shell-1234/chrome-headless-shell-mac-arm64/chrome-headless-shell",
+    "note": "chrome-headless-shell (Chrome for Testing) es el único navegador headless funcional en este entorno; el binario completo de Chrome se cuelga con URLs http:// (documentado en Fases 4.1/5.1)."
+  },
+  "method": "metrics.md §3.4: Performance/CWV con perfil móvil (throttling simulado por defecto); Accessibility/Best Practices/SEO con perfil desktop. 3 ejecuciones por app y perfil; mediana y rango. Servidores estáticos equivalentes (misma implementación Node http, puertos distintos) sobre los builds de producción oficiales (React 233 547 B / Angular 179 634 B, verificados). Misma máquina, misma sesión, mismo Node, mismo Chrome.",
+  "urls": { "react": "http://127.0.0.1:4173/", "angular": "http://127.0.0.1:4174/" },
+  "apps": {
+    "react": {
+      "dist": "/Users/plopez7/Dev/frontend-architecture-lab/apps/react-app/dist",
+      "mobile": {
+        "runs": [
+          {
+            "finalUrl": "http://127.0.0.1:4173/",
+            "requestedUrl": "http://127.0.0.1:4173/",
+            "lighthouseVersion": "13.4.1",
+            "scores": { "performance": 0.97, "accessibility": 1, "bestPractices": 1, "seo": 0.82 },
+            "cwv": {
+              "first-contentful-paint": 2147.2799999999997,
+              "largest-contentful-paint": 2147.2799999999997,
+              "speed-index": 2147.2799999999997,
+              "total-blocking-time": 0,
+              "cumulative-layout-shift": 0,
+              "interactive": 2147.2799999999997
+            },
+            "failedA11yAudits": [],
+            "runtimeError": null
+          },
+          {
+            "finalUrl": "http://127.0.0.1:4173/",
+            "requestedUrl": "http://127.0.0.1:4173/",
+            "lighthouseVersion": "13.4.1",
+            "scores": { "performance": 0.97, "accessibility": 1, "bestPractices": 1, "seo": 0.82 },
+            "cwv": {
+              "first-contentful-paint": 2100.7200000000003,
+              "largest-contentful-paint": 2100.7200000000003,
+              "speed-index": 2100.7200000000003,
+              "total-blocking-time": 0,
+              "cumulative-layout-shift": 0,
+              "interactive": 2100.7200000000003
+            },
+            "failedA11yAudits": [],
+            "runtimeError": null
+          },
+          {
+            "finalUrl": "http://127.0.0.1:4173/",
+            "requestedUrl": "http://127.0.0.1:4173/",
+            "lighthouseVersion": "13.4.1",
+            "scores": { "performance": 0.97, "accessibility": 1, "bestPractices": 1, "seo": 0.82 },
+            "cwv": {
+              "first-contentful-paint": 2100.73,
+              "largest-contentful-paint": 2100.73,
+              "speed-index": 2100.73,
+              "total-blocking-time": 0,
+              "cumulative-layout-shift": 0,
+              "interactive": 2100.7300000000005
+            },
+            "failedA11yAudits": [],
+            "runtimeError": null
+          }
+        ],
+        "summary": {
+          "scores": {
+            "performance": { "median": 0.97, "min": 0.97, "max": 0.97, "n": 3 },
+            "accessibility": { "median": 1, "min": 1, "max": 1, "n": 3 },
+            "bestPractices": { "median": 1, "min": 1, "max": 1, "n": 3 },
+            "seo": { "median": 0.82, "min": 0.82, "max": 0.82, "n": 3 }
+          },
+          "cwv": {
+            "first-contentful-paint": {
+              "median": 2100.73,
+              "min": 2100.7200000000003,
+              "max": 2147.2799999999997,
+              "n": 3
+            },
+            "largest-contentful-paint": {
+              "median": 2100.73,
+              "min": 2100.7200000000003,
+              "max": 2147.2799999999997,
+              "n": 3
+            },
+            "speed-index": {
+              "median": 2100.73,
+              "min": 2100.7200000000003,
+              "max": 2147.2799999999997,
+              "n": 3
+            },
+            "total-blocking-time": { "median": 0, "min": 0, "max": 0, "n": 3 },
+            "cumulative-layout-shift": { "median": 0, "min": 0, "max": 0, "n": 3 },
+            "interactive": {
+              "median": 2100.7300000000005,
+              "min": 2100.7200000000003,
+              "max": 2147.2799999999997,
+              "n": 3
+            }
+          },
+          "failedA11yAudits": []
+        }
+      },
+      "desktop": {
+        "runs": [
+          {
+            "finalUrl": "http://127.0.0.1:4173/",
+            "requestedUrl": "http://127.0.0.1:4173/",
+            "lighthouseVersion": "13.4.1",
+            "scores": { "performance": 1, "accessibility": 1, "bestPractices": 1, "seo": 0.82 },
+            "cwv": {
+              "first-contentful-paint": 500,
+              "largest-contentful-paint": 500,
+              "speed-index": 500,
+              "total-blocking-time": 0,
+              "cumulative-layout-shift": 0,
+              "interactive": 500
+            },
+            "failedA11yAudits": [],
+            "runtimeError": null
+          },
+          {
+            "finalUrl": "http://127.0.0.1:4173/",
+            "requestedUrl": "http://127.0.0.1:4173/",
+            "lighthouseVersion": "13.4.1",
+            "scores": { "performance": 1, "accessibility": 1, "bestPractices": 1, "seo": 0.82 },
+            "cwv": {
+              "first-contentful-paint": 441.082,
+              "largest-contentful-paint": 441.082,
+              "speed-index": 441.082,
+              "total-blocking-time": 0,
+              "cumulative-layout-shift": 0,
+              "interactive": 441.082
+            },
+            "failedA11yAudits": [],
+            "runtimeError": null
+          },
+          {
+            "finalUrl": "http://127.0.0.1:4173/",
+            "requestedUrl": "http://127.0.0.1:4173/",
+            "lighthouseVersion": "13.4.1",
+            "scores": { "performance": 1, "accessibility": 1, "bestPractices": 1, "seo": 0.82 },
+            "cwv": {
+              "first-contentful-paint": 440.56,
+              "largest-contentful-paint": 440.56,
+              "speed-index": 440.56,
+              "total-blocking-time": 0,
+              "cumulative-layout-shift": 0,
+              "interactive": 440.56000000000006
+            },
+            "failedA11yAudits": [],
+            "runtimeError": null
+          }
+        ],
+        "summary": {
+          "scores": {
+            "performance": { "median": 1, "min": 1, "max": 1, "n": 3 },
+            "accessibility": { "median": 1, "min": 1, "max": 1, "n": 3 },
+            "bestPractices": { "median": 1, "min": 1, "max": 1, "n": 3 },
+            "seo": { "median": 0.82, "min": 0.82, "max": 0.82, "n": 3 }
+          },
+          "cwv": {
+            "first-contentful-paint": { "median": 441.082, "min": 440.56, "max": 500, "n": 3 },
+            "largest-contentful-paint": { "median": 441.082, "min": 440.56, "max": 500, "n": 3 },
+            "speed-index": { "median": 441.082, "min": 440.56, "max": 500, "n": 3 },
+            "total-blocking-time": { "median": 0, "min": 0, "max": 0, "n": 3 },
+            "cumulative-layout-shift": { "median": 0, "min": 0, "max": 0, "n": 3 },
+            "interactive": { "median": 441.082, "min": 440.56000000000006, "max": 500, "n": 3 }
+          },
+          "failedA11yAudits": []
+        }
+      }
+    },
+    "angular": {
+      "dist": "/Users/plopez7/Dev/frontend-architecture-lab/apps/angular-app/dist/angular-app/browser",
+      "mobile": {
+        "runs": [
+          {
+            "finalUrl": "http://127.0.0.1:4174/",
+            "requestedUrl": "http://127.0.0.1:4174/",
+            "lighthouseVersion": "13.4.1",
+            "scores": { "performance": 0.99, "accessibility": 1, "bestPractices": 1, "seo": 0.82 },
+            "cwv": {
+              "first-contentful-paint": 1710,
+              "largest-contentful-paint": 1860,
+              "speed-index": 1710,
+              "total-blocking-time": 1,
+              "cumulative-layout-shift": 0,
+              "interactive": 1888.6000000000001
+            },
+            "failedA11yAudits": [],
+            "runtimeError": null
+          },
+          {
+            "finalUrl": "http://127.0.0.1:4174/",
+            "requestedUrl": "http://127.0.0.1:4174/",
+            "lighthouseVersion": "13.4.1",
+            "scores": { "performance": 0.99, "accessibility": 1, "bestPractices": 1, "seo": 0.82 },
+            "cwv": {
+              "first-contentful-paint": 1710,
+              "largest-contentful-paint": 1860,
+              "speed-index": 1710,
+              "total-blocking-time": 0,
+              "cumulative-layout-shift": 0,
+              "interactive": 1860
+            },
+            "failedA11yAudits": [],
+            "runtimeError": null
+          },
+          {
+            "finalUrl": "http://127.0.0.1:4174/",
+            "requestedUrl": "http://127.0.0.1:4174/",
+            "lighthouseVersion": "13.4.1",
+            "scores": { "performance": 0.99, "accessibility": 1, "bestPractices": 1, "seo": 0.82 },
+            "cwv": {
+              "first-contentful-paint": 1710,
+              "largest-contentful-paint": 1860,
+              "speed-index": 1710,
+              "total-blocking-time": 0,
+              "cumulative-layout-shift": 0,
+              "interactive": 1860
+            },
+            "failedA11yAudits": [],
+            "runtimeError": null
+          }
+        ],
+        "summary": {
+          "scores": {
+            "performance": { "median": 0.99, "min": 0.99, "max": 0.99, "n": 3 },
+            "accessibility": { "median": 1, "min": 1, "max": 1, "n": 3 },
+            "bestPractices": { "median": 1, "min": 1, "max": 1, "n": 3 },
+            "seo": { "median": 0.82, "min": 0.82, "max": 0.82, "n": 3 }
+          },
+          "cwv": {
+            "first-contentful-paint": { "median": 1710, "min": 1710, "max": 1710, "n": 3 },
+            "largest-contentful-paint": { "median": 1860, "min": 1860, "max": 1860, "n": 3 },
+            "speed-index": { "median": 1710, "min": 1710, "max": 1710, "n": 3 },
+            "total-blocking-time": { "median": 0, "min": 0, "max": 1, "n": 3 },
+            "cumulative-layout-shift": { "median": 0, "min": 0, "max": 0, "n": 3 },
+            "interactive": { "median": 1860, "min": 1860, "max": 1888.6000000000001, "n": 3 }
+          },
+          "failedA11yAudits": []
+        }
+      },
+      "desktop": {
+        "runs": [
+          {
+            "finalUrl": "http://127.0.0.1:4174/",
+            "requestedUrl": "http://127.0.0.1:4174/",
+            "lighthouseVersion": "13.4.1",
+            "scores": { "performance": 1, "accessibility": 1, "bestPractices": 1, "seo": 0.82 },
+            "cwv": {
+              "first-contentful-paint": 360.034,
+              "largest-contentful-paint": 400.034,
+              "speed-index": 360.034,
+              "total-blocking-time": 0,
+              "cumulative-layout-shift": 0,
+              "interactive": 400.034
+            },
+            "failedA11yAudits": [],
+            "runtimeError": null
+          },
+          {
+            "finalUrl": "http://127.0.0.1:4174/",
+            "requestedUrl": "http://127.0.0.1:4174/",
+            "lighthouseVersion": "13.4.1",
+            "scores": { "performance": 1, "accessibility": 1, "bestPractices": 1, "seo": 0.82 },
+            "cwv": {
+              "first-contentful-paint": 360.762,
+              "largest-contentful-paint": 400.762,
+              "speed-index": 360.762,
+              "total-blocking-time": 0,
+              "cumulative-layout-shift": 0,
+              "interactive": 400.76200000000006
+            },
+            "failedA11yAudits": [],
+            "runtimeError": null
+          },
+          {
+            "finalUrl": "http://127.0.0.1:4174/",
+            "requestedUrl": "http://127.0.0.1:4174/",
+            "lighthouseVersion": "13.4.1",
+            "scores": { "performance": 1, "accessibility": 1, "bestPractices": 1, "seo": 0.82 },
+            "cwv": {
+              "first-contentful-paint": 420,
+              "largest-contentful-paint": 460,
+              "speed-index": 420,
+              "total-blocking-time": 0,
+              "cumulative-layout-shift": 0,
+              "interactive": 460
+            },
+            "failedA11yAudits": [],
+            "runtimeError": null
+          }
+        ],
+        "summary": {
+          "scores": {
+            "performance": { "median": 1, "min": 1, "max": 1, "n": 3 },
+            "accessibility": { "median": 1, "min": 1, "max": 1, "n": 3 },
+            "bestPractices": { "median": 1, "min": 1, "max": 1, "n": 3 },
+            "seo": { "median": 0.82, "min": 0.82, "max": 0.82, "n": 3 }
+          },
+          "cwv": {
+            "first-contentful-paint": { "median": 360.762, "min": 360.034, "max": 420, "n": 3 },
+            "largest-contentful-paint": { "median": 400.762, "min": 400.034, "max": 460, "n": 3 },
+            "speed-index": { "median": 360.762, "min": 360.034, "max": 420, "n": 3 },
+            "total-blocking-time": { "median": 0, "min": 0, "max": 0, "n": 3 },
+            "cumulative-layout-shift": { "median": 0, "min": 0, "max": 0, "n": 3 },
+            "interactive": { "median": 400.76200000000006, "min": 400.034, "max": 460, "n": 3 }
+          },
+          "failedA11yAudits": []
+        }
+      }
+    }
+  },
+  "comparison": {
+    "mobileScores": {
+      "performance": {
+        "react": { "median": 0.97, "min": 0.97, "max": 0.97, "n": 3 },
+        "angular": { "median": 0.99, "min": 0.99, "max": 0.99, "n": 3 }
+      },
+      "accessibility": {
+        "react": { "median": 1, "min": 1, "max": 1, "n": 3 },
+        "angular": { "median": 1, "min": 1, "max": 1, "n": 3 }
+      },
+      "bestPractices": {
+        "react": { "median": 1, "min": 1, "max": 1, "n": 3 },
+        "angular": { "median": 1, "min": 1, "max": 1, "n": 3 }
+      },
+      "seo": {
+        "react": { "median": 0.82, "min": 0.82, "max": 0.82, "n": 3 },
+        "angular": { "median": 0.82, "min": 0.82, "max": 0.82, "n": 3 }
+      }
+    },
+    "note": "La comparación formal de scores usa: Performance/CWV → perfil móvil; Accessibility/BP/SEO → perfil desktop (metrics.md §3.4)."
+  }
+}

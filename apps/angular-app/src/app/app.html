@@ -1,27 +1,38 @@
 <header class="app-header">
   <h1>Operations Hub</h1>
-  <nav aria-label="Sections">
-    <button
-      type="button"
-      [class.active]="section() === 'dashboard'"
-      (click)="selectSection('dashboard')"
-    >
-      Dashboard
-    </button>
-    <button
-      type="button"
-      [class.active]="section() === 'projects'"
-      (click)="selectSection('projects')"
-    >
-      Projects
-    </button>
+  <nav aria-label="Main">
+    <ul>
+      @for (item of sections; track item.id) {
+      <li>
+        <button
+          type="button"
+          [class.active]="section() === item.id"
+          [attr.aria-current]="section() === item.id ? 'page' : null"
+          (click)="selectSection(item.id)"
+        >
+          {{ item.label }}
+        </button>
+      </li>
+      }
+    </ul>
   </nav>
 </header>
 
 <main>
-  @if (section() === 'dashboard') {
+  @switch (section()) { @case ('dashboard') {
   <app-dashboard />
-  } @else {
-  <app-projects />
-  }
+  } @case ('projects') {
+  <app-projects [showCompletedTasks]="showCompletedTasks()" />
+  } @case ('teams') {
+  <app-teams />
+  } @case ('tasks') {
+  <app-tasks [showCompletedTasks]="showCompletedTasks()" />
+  } @case ('reports') {
+  <app-reports />
+  } @case ('settings') {
+  <app-settings
+    [showCompletedTasks]="showCompletedTasks()"
+    (showCompletedTasksChange)="setShowCompletedTasks($event)"
+  />
+  } }
 </main>

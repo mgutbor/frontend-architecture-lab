@@ -16,6 +16,13 @@
     "test": "turbo run test",
     "build": "turbo run build",
     "measure": "node scripts/measure-baseline.mjs",
+    "bundle:analyze": "node scripts/analyze-bundle.mjs",
+    "bundle:analyze:baseline": "node scripts/analyze-bundle-baseline.mjs",
+    "aot:template-cost": "node scripts/analyze-aot-template-cost.mjs",
+    "jsx:cost": "node scripts/analyze-react-jsx-cost.mjs",
+    "jsx:validate": "node scripts/validate-react-jsx-attribution.mjs",
+    "feature:bundle-cost": "node scripts/analyze-feature-bundle-cost.mjs",
+    "lighthouse:phase5": "node scripts/run-lighthouse-phase5.mjs",
     "check": "pnpm lint && pnpm format:check && pnpm typecheck && pnpm test && pnpm build"
   },
   "devDependencies": {

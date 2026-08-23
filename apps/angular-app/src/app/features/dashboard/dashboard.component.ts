@@ -1,15 +1,9 @@
 import { Component, computed, inject } from '@angular/core'
-import { buildGlobalReport, buildTeamReport } from '@operations-hub/domain'
+import { buildGlobalReport, type ProjectStatus } from '@operations-hub/domain'
 import { DomainStore } from '../../domain/domain.store'
 import { KpiCardComponent } from '../../components/kpi-card.component'
 
-export interface TeamRow {
-  id: string
-  name: string
-  completionRate: string
-  projects: number
-  members: number
-}
+const PROJECT_STATUSES: readonly ProjectStatus[] = ['planned', 'active', 'completed']
 
 @Component({
   selector: 'app-dashboard',
@@ -20,31 +14,21 @@ export interface TeamRow {
 export class DashboardComponent {
   private readonly store = inject(DomainStore)
 
-  // Derived state: reports are computed by the domain package, never here.
+  // Derived state: the global report is computed by the domain package,
+  // never reimplemented here (TR-7: deterministic values).
   readonly globalReport = computed(() => {
     const dataset = this.store.dataset()
     return dataset === null ? null : buildGlobalReport(dataset)
   })
 
-  readonly projects = computed(() => this.store.dataset()?.projects ?? [])
-
-  readonly tasks = computed(() => this.store.dataset()?.tasks ?? [])
-
-  readonly teamRows = computed<TeamRow[]>(() => {
-    const dataset = this.store.dataset()
-    if (dataset === null) {
-      return []
+  // DSH-1: projects by status (simple derived counts for display).
+  readonly projectsByStatus = computed<Record<ProjectStatus, number>>(() => {
+    const counts: Record<ProjectStatus, number> = { planned: 0, active: 0, completed: 0 }
+    for (const project of this.store.dataset()?.projects ?? []) {
+      counts[project.status] += 1
     }
-    return dataset.teams.map((team) => {
-      const report = buildTeamReport(dataset, team.id)
-      const rate = report?.metrics.completionRate
-      return {
-        id: team.id,
-        name: team.name,
-        completionRate: rate === null || rate === undefined ? 'n/a' : `${rate}%`,
-        projects: report?.metrics.projectsCount ?? 0,
-        members: report?.metrics.membersCount ?? 0,
-      }
-    })
+    return counts
   })
+
+  readonly statuses = PROJECT_STATUSES
 }

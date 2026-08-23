@@ -1,0 +1,263 @@
+{
+  "baseline": "phase2",
+  "capturedAt": "2026-08-20T22:16:56.773Z",
+  "environment": {
+    "node": "v25.3.0",
+    "pnpm": "10.34.5",
+    "platform": "darwin-arm64",
+    "os": "darwin arm64",
+    "cpuModel": "Apple M1",
+    "cpuCores": 8,
+    "memoryBytes": 17179869184
+  },
+  "code": {
+    "react": {
+      "sourceFiles": 25,
+      "testFiles": 10,
+      "linesOfCode": 2198,
+      "testLines": 1112,
+      "testToCodeRatio": 0.51,
+      "roles": {
+        "components": 7,
+        "hooks": 1,
+        "services": 3,
+        "adapters": 1,
+        "features": 9
+      }
+    },
+    "angular": {
+      "sourceFiles": 35,
+      "testFiles": 8,
+      "linesOfCode": 2331,
+      "testLines": 1043,
+      "testToCodeRatio": 0.45,
+      "roles": {
+        "components": 16,
+        "templates": 10,
+        "adapters": 1,
+        "stores": 1,
+        "features": 18
+      }
+    },
+    "domain": {
+      "sourceFiles": 7,
+      "testFiles": 6,
+      "linesOfCode": 760,
+      "testLines": 840,
+      "testToCodeRatio": 1.11,
+      "publicExports": 48
+    }
+  },
+  "dependencies": {
+    "react": {
+      "runtime": 3,
+      "dev": 10,
+      "transitive": 249
+    },
+    "angular": {
+      "runtime": 7,
+      "dev": 6,
+      "transitive": 1074
+    },
+    "domain": {
+      "runtime": 0,
+      "dev": 2,
+      "transitive": 197
+    }
+  },
+  "build": {
+    "domain": {
+      "runsMs": [549.3],
+      "pass": true
+    },
+    "react": {
+      "runsMs": [620.9, 490.6, 492.1],
+      "medianMs": 492.1,
+      "minMs": 490.6,
+      "maxMs": 620.9,
+      "assets": {
+        "assets": [
+          {
+            "file": "react-app/dist/assets/index-BXA4VAeP.css",
+            "rawBytes": 3666,
+            "gzipBytes": 1162,
+            "brotliBytes": 949
+          },
+          {
+            "file": "react-app/dist/assets/index-CD8mnuHw.js",
+            "rawBytes": 233547,
+            "gzipBytes": 68572,
+            "brotliBytes": 58972
+          }
+        ],
+        "js": {
+          "chunkCount": 1,
+          "totalRawBytes": 233547,
+          "totalGzipBytes": 68572,
+          "totalBrotliBytes": 58972
+        },
+        "css": {
+          "chunkCount": 1,
+          "totalRawBytes": 3666,
+          "totalGzipBytes": 1162,
+          "totalBrotliBytes": 949
+        }
+      }
+    },
+    "angular": {
+      "runsMs": [3372.2, 2924.6, 2823.6],
+      "medianMs": 2924.6,
+      "minMs": 2823.6,
+      "maxMs": 3372.2,
+      "assets": {
+        "assets": [
+          {
+            "file": "angular-app/dist/angular-app/browser/main-4QCSDYDC.js",
+            "rawBytes": 179634,
+            "gzipBytes": 53485,
+            "brotliBytes": 47348
+          },
+          {
+            "file": "angular-app/dist/angular-app/browser/styles-PQCAFTK3.css",
+            "rawBytes": 3438,
+            "gzipBytes": 1135,
+            "brotliBytes": 911
+          }
+        ],
+        "js": {
+          "chunkCount": 1,
+          "totalRawBytes": 179634,
+          "totalGzipBytes": 53485,
+          "totalBrotliBytes": 47348
+        },
+        "css": {
+          "chunkCount": 1,
+          "totalRawBytes": 3438,
+          "totalGzipBytes": 1135,
+          "totalBrotliBytes": 911
+        }
+      }
+    }
+  },
+  "quality": {
+    "react": {
+      "tests": {
+        "runsMs": [3122.3, 3041.5, 2994.8],
+        "medianMs": 3041.5,
+        "minMs": 2994.8,
+        "maxMs": 3122.3,
+        "testCount": 84
+      },
+      "lint": {
+        "pass": true,
+        "ms": 977.5
+      },
+      "typecheck": {
+        "pass": true,
+        "ms": 1204.2
+      }
+    },
+    "angular": {
+      "tests": {
+        "runsMs": [3768.2, 3492.9, 3534.5],
+        "medianMs": 3534.5,
+        "minMs": 3492.9,
+        "maxMs": 3768.2,
+        "testCount": 61
+      },
+      "lint": {
+        "pass": true,
+        "ms": 1039.8
+      },
+      "typecheck": {
+        "pass": true,
+        "ms": 706.2
+      }
+    },
+    "domain": {
+      "tests": {
+        "runsMs": [735.9, 705, 734.5],
+        "medianMs": 734.5,
+        "minMs": 705,
+        "maxMs": 735.9,
+        "testCount": 103
+      },
+      "lint": {
+        "pass": true,
+        "ms": 792.9
+      },
+      "typecheck": {
+        "pass": true,
+        "ms": 735.7
+      }
+    }
+  },
+  "architecture": {
+    "react": {
+      "filesImportingDomain": 13,
+      "domainImportsByLayer": {
+        "adapters": 1,
+        "components": 1,
+        "features": 8,
+        "hooks": 1,
+        "services": 2
+      },
+      "adapterImporters": 1,
+      "featureImports": {
+        "interFeature": 0,
+        "outboundRelative": 23
+      },
+      "sharedDirectories": 0
+    },
+    "angular": {
+      "filesImportingDomain": 12,
+      "domainImportsByLayer": {
+        "components": 1,
+        "domain": 2,
+        "features": 8,
+        "services": 1
+      },
+      "adapterImporters": 1,
+      "featureImports": {
+        "interFeature": 0,
+        "outboundRelative": 22
+      },
+      "sharedDirectories": 0
+    },
+    "deliberateDuplication": {
+      "conceptPairs": [
+        {
+          "concept": "data adapter",
+          "reactFile": "apps/react-app/src/adapters/domain-adapter.ts",
+          "angularFile": "apps/angular-app/src/app/domain/domain-data.adapter.ts"
+        },
+        {
+          "concept": "domain store",
+          "reactFile": "apps/react-app/src/services/domain-store.ts",
+          "angularFile": "apps/angular-app/src/app/domain/domain.store.ts"
+        },
+        {
+          "concept": "kpi card",
+          "reactFile": "apps/react-app/src/components/kpi-card.tsx",
+          "angularFile": "apps/angular-app/src/app/components/kpi-card.component.ts"
+        },
+        {
+          "concept": "dashboard",
+          "reactFile": "apps/react-app/src/features/dashboard/dashboard-page.tsx",
+          "angularFile": "apps/angular-app/src/app/features/dashboard/dashboard.component.ts"
+        },
+        {
+          "concept": "projects",
+          "reactFile": "apps/react-app/src/features/projects/projects-page.tsx",
+          "angularFile": "apps/angular-app/src/app/features/projects/projects.component.ts"
+        },
+        {
+          "concept": "app shell",
+          "reactFile": "apps/react-app/src/app/App.tsx",
+          "angularFile": "apps/angular-app/src/app/app.ts"
+        }
+      ],
+      "pairCount": 6
+    }
+  }
+}
