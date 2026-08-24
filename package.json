@@ -24,6 +24,7 @@
     "feature:bundle-cost": "node scripts/analyze-feature-bundle-cost.mjs",
     "lighthouse:phase5": "node scripts/run-lighthouse-phase5.mjs",
     "evolution:measure": "node scripts/measure-evolution-phase6.mjs",
+    "interaction:measure": "node scripts/measure-interaction-performance-phase7.mjs",
     "check": "pnpm lint && pnpm format:check && pnpm typecheck && pnpm test && pnpm build"
   },
   "devDependencies": {

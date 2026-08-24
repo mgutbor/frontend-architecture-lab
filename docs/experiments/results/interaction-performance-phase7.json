@@ -1,0 +1,2195 @@
+{
+  "experiment": "interaction-performance-phase7",
+  "capturedAt": "2026-08-24T07:08:32.479Z",
+  "objective": "Medir el rendimiento bajo interacción real de React Monolith vs Angular Monolith (mismo contrato, mismo dataset, mismos builds de producción): coste de actualización de estado, trabajo por interacción, latencia percibida y estabilidad bajo interacción repetitiva. Evaluar H14–H18.",
+  "environment": {
+    "node": "v25.3.0",
+    "platform": "darwin-arm64",
+    "cpuModel": "Apple M1",
+    "cpuCores": 8,
+    "memoryBytes": 17179869184,
+    "chromeVersion": "HeadlessChrome/151.0.7922.34",
+    "chromeShell": "/Users/plopez7/Library/Caches/ms-playwright/chromium_headless_shell-1234/chrome-headless-shell-mac-arm64/chrome-headless-shell",
+    "note": "chrome-headless-shell (Chrome for Testing) es el único navegador headless funcional en este entorno (documentado en Fases 4.1/5.1)."
+  },
+  "method": {
+    "summary": "CDP directo (WebSocket de Node) sobre chrome-headless-shell. Una sesión por (escenario, app), nunca con tabs en background. Servidores estáticos equivalentes (misma implementación Node http) sobre los builds de producción oficiales. Driver de interacción idéntico para ambos frameworks (mismos ids/classes/labels del contrato).",
+    "viewport": { "width": 1280, "height": 800, "deviceScaleFactor": 1, "mobile": false },
+    "iterations": 10,
+    "warmup": 2,
+    "settle": "evento -> 2 requestAnimationFrame + macrotask (framework-agnostic; cubre handlers síncronos y renders diferidos), +80 ms flush para PerformanceEventTiming. duration = tiempo entre dispatch y settle.",
+    "metrics": [
+      "duration (settle, ms; performance.now() en página: dispatch -> 2 rAF + macrotask; incluye latencia percibida hasta la siguiente pintura, cuantizada por frame)",
+      "sync (ms; duración del dispatch síncrono). Verificado experimentalmente: ambos frameworks difieren el commit del DOM fuera del click() (tasksSync=false en React y Angular), así que sync mide handler + scheduling en ambos (semántica comparable, no el render)",
+      "mutations (MutationObserver sobre document.documentElement: registros, nodos añadidos/eliminados, cambios de atributo) — proxy simétrico del trabajo de render/commit",
+      "eventTimingDuration (PerformanceEventTiming, si existe; umbral ~16 ms del navegador)",
+      "longTaskCount / longTaskMs (PerformanceObserver longtask)",
+      "heapDeltaKb (CDP JSHeapUsedSize, informativo)",
+      "nodesDelta (CDP Nodes, informativo)"
+    ],
+    "checks": "cada iteración verifica el estado DOM esperado tras la interacción (checkOk) para descartar selectores rotos o interacciones sin efecto.",
+    "runOrder": "react -> angular",
+    "scenarios": {
+      "S1-nav": "Navigation switch Projects → Tasks (state-based SPA navigation, NAV-1)",
+      "S2-search": "Live search on tasks list (TSK-LIST search; input event)",
+      "S3-status": "Status filter on tasks list (change event on #task-status-filter)",
+      "S4-combined": "Combined search + status + priority filters in one batch",
+      "S5-settings": "Toggle \"Show completed tasks\" (SET-1..4; App-level UI state)",
+      "S6-assign": "Reassign task assignee via select (TSK-ASSIGN; domain store mutation)",
+      "S7a-form-input": "Typing in the new-project form name field (PRJ-CREATE)",
+      "S7b-form-submit": "Submitting the new-project form with invalid input (validation errors, PRJ-CREATE-2)"
+    }
+  },
+  "scenarios": {
+    "S1-nav": {
+      "label": "Navigation switch Projects → Tasks (state-based SPA navigation, NAV-1)",
+      "react": {
+        "n": 10,
+        "iterations": [
+          {
+            "duration": 14.1,
+            "sync": 0.1,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 6, "added": 1, "removed": 1, "attrs": 4 },
+            "heapDeltaKb": 23.01,
+            "nodesDelta": 2749,
+            "checkOk": true
+          },
+          {
+            "duration": 14.2,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 6, "added": 1, "removed": 1, "attrs": 4 },
+            "heapDeltaKb": 262.58,
+            "nodesDelta": 2749,
+            "checkOk": true
+          },
+          {
+            "duration": 17.8,
+            "sync": 0.4,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 6, "added": 1, "removed": 1, "attrs": 4 },
+            "heapDeltaKb": 236.82,
+            "nodesDelta": 2749,
+            "checkOk": true
+          },
+          {
+            "duration": 17.7,
+            "sync": 0.3,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 6, "added": 1, "removed": 1, "attrs": 4 },
+            "heapDeltaKb": 227.78,
+            "nodesDelta": 2749,
+            "checkOk": true
+          },
+          {
+            "duration": 13.2,
+            "sync": 0.1,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 6, "added": 1, "removed": 1, "attrs": 4 },
+            "heapDeltaKb": -579.57,
+            "nodesDelta": 2749,
+            "checkOk": true
+          },
+          {
+            "duration": 16.9,
+            "sync": 0.4,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 6, "added": 1, "removed": 1, "attrs": 4 },
+            "heapDeltaKb": 227.13,
+            "nodesDelta": 2749,
+            "checkOk": true
+          },
+          {
+            "duration": 14.8,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 6, "added": 1, "removed": 1, "attrs": 4 },
+            "heapDeltaKb": 244.94,
+            "nodesDelta": 2749,
+            "checkOk": true
+          },
+          {
+            "duration": 13.5,
+            "sync": 0.1,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 6, "added": 1, "removed": 1, "attrs": 4 },
+            "heapDeltaKb": -332.59,
+            "nodesDelta": 2749,
+            "checkOk": true
+          },
+          {
+            "duration": 17.2,
+            "sync": 0.3,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 6, "added": 1, "removed": 1, "attrs": 4 },
+            "heapDeltaKb": 236.37,
+            "nodesDelta": 2749,
+            "checkOk": true
+          },
+          {
+            "duration": 16,
+            "sync": 0.1,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 6, "added": 1, "removed": 1, "attrs": 4 },
+            "heapDeltaKb": 222.35,
+            "nodesDelta": 2749,
+            "checkOk": true
+          }
+        ],
+        "checksPassed": 10,
+        "duration": { "n": 10, "median": 15.4, "min": 13.2, "max": 17.8, "p90": 17.8 },
+        "sync": { "n": 10, "median": 0.2, "min": 0.1, "max": 0.4, "p90": 0.4 },
+        "eventTimingDuration": { "n": 0, "median": null, "min": null, "max": null, "p90": null },
+        "eventTimingEntriesWithData": 0,
+        "longTaskCount": { "sum": 0, "iterationsWithLongTasks": 0 },
+        "longTaskMs": { "n": 0, "median": null, "min": null, "max": null, "p90": null },
+        "mutations": {
+          "records": { "n": 10, "median": 6, "min": 6, "max": 6, "p90": 6 },
+          "addedNodes": { "n": 10, "median": 1, "min": 1, "max": 1, "p90": 1 },
+          "removedNodes": { "n": 10, "median": 1, "min": 1, "max": 1, "p90": 1 },
+          "attrChanges": { "n": 10, "median": 4, "min": 4, "max": 4, "p90": 4 }
+        },
+        "heapDeltaKb": { "n": 10, "median": 227.5, "min": -579.6, "max": 262.6, "p90": 262.6 },
+        "nodesDelta": { "n": 10, "median": 2749, "min": 2749, "max": 2749, "p90": 2749 },
+        "firstHalfMedian": 14.2,
+        "secondHalfMedian": 16
+      },
+      "angular": {
+        "n": 10,
+        "iterations": [
+          {
+            "duration": 19.2,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 1170, "added": 330, "removed": 1, "attrs": 394 },
+            "heapDeltaKb": 468.96,
+            "nodesDelta": 2798,
+            "checkOk": true
+          },
+          {
+            "duration": 15.1,
+            "sync": 0.1,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 1170, "added": 330, "removed": 1, "attrs": 394 },
+            "heapDeltaKb": 487.57,
+            "nodesDelta": 2798,
+            "checkOk": true
+          },
+          {
+            "duration": 14.2,
+            "sync": 0,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 1170, "added": 330, "removed": 1, "attrs": 394 },
+            "heapDeltaKb": -394.87,
+            "nodesDelta": 2798,
+            "checkOk": true
+          },
+          {
+            "duration": 19.9,
+            "sync": 0.3,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 1170, "added": 330, "removed": 1, "attrs": 394 },
+            "heapDeltaKb": 454.69,
+            "nodesDelta": 2798,
+            "checkOk": true
+          },
+          {
+            "duration": 18.2,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 1170, "added": 330, "removed": 1, "attrs": 394 },
+            "heapDeltaKb": 444.17,
+            "nodesDelta": 2798,
+            "checkOk": true
+          },
+          {
+            "duration": 20.4,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 1170, "added": 330, "removed": 1, "attrs": 394 },
+            "heapDeltaKb": -328.43,
+            "nodesDelta": 2798,
+            "checkOk": true
+          },
+          {
+            "duration": 19.9,
+            "sync": 0.3,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 1170, "added": 330, "removed": 1, "attrs": 394 },
+            "heapDeltaKb": 461.27,
+            "nodesDelta": 2798,
+            "checkOk": true
+          },
+          {
+            "duration": 18.9,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 1170, "added": 330, "removed": 1, "attrs": 394 },
+            "heapDeltaKb": 426.96,
+            "nodesDelta": 2798,
+            "checkOk": true
+          },
+          {
+            "duration": 16.8,
+            "sync": 0.1,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 1170, "added": 330, "removed": 1, "attrs": 394 },
+            "heapDeltaKb": 419.08,
+            "nodesDelta": 2798,
+            "checkOk": true
+          },
+          {
+            "duration": 17.8,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 1170, "added": 330, "removed": 1, "attrs": 394 },
+            "heapDeltaKb": 422.41,
+            "nodesDelta": 2798,
+            "checkOk": true
+          }
+        ],
+        "checksPassed": 10,
+        "duration": { "n": 10, "median": 18.5, "min": 14.2, "max": 20.4, "p90": 20.4 },
+        "sync": { "n": 10, "median": 0.2, "min": 0, "max": 0.3, "p90": 0.3 },
+        "eventTimingDuration": { "n": 0, "median": null, "min": null, "max": null, "p90": null },
+        "eventTimingEntriesWithData": 0,
+        "longTaskCount": { "sum": 0, "iterationsWithLongTasks": 0 },
+        "longTaskMs": { "n": 0, "median": null, "min": null, "max": null, "p90": null },
+        "mutations": {
+          "records": { "n": 10, "median": 1170, "min": 1170, "max": 1170, "p90": 1170 },
+          "addedNodes": { "n": 10, "median": 330, "min": 330, "max": 330, "p90": 330 },
+          "removedNodes": { "n": 10, "median": 1, "min": 1, "max": 1, "p90": 1 },
+          "attrChanges": { "n": 10, "median": 394, "min": 394, "max": 394, "p90": 394 }
+        },
+        "heapDeltaKb": { "n": 10, "median": 435.6, "min": -394.9, "max": 487.6, "p90": 487.6 },
+        "nodesDelta": { "n": 10, "median": 2798, "min": 2798, "max": 2798, "p90": 2798 },
+        "firstHalfMedian": 18.2,
+        "secondHalfMedian": 18.9
+      }
+    },
+    "S2-search": {
+      "label": "Live search on tasks list (TSK-LIST search; input event)",
+      "react": {
+        "n": 10,
+        "iterations": [
+          {
+            "duration": 13,
+            "sync": 1.8,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 34, "added": 0, "removed": 26, "attrs": 7 },
+            "heapDeltaKb": -148.32,
+            "nodesDelta": 1,
+            "checkOk": true
+          },
+          {
+            "duration": 11.2,
+            "sync": 1.7,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 34, "added": 0, "removed": 26, "attrs": 7 },
+            "heapDeltaKb": 122.72,
+            "nodesDelta": 1,
+            "checkOk": true
+          },
+          {
+            "duration": 13.7,
+            "sync": 1.4,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 34, "added": 0, "removed": 26, "attrs": 7 },
+            "heapDeltaKb": 105.2,
+            "nodesDelta": 1,
+            "checkOk": true
+          },
+          {
+            "duration": 13.5,
+            "sync": 1.7,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 34, "added": 0, "removed": 26, "attrs": 7 },
+            "heapDeltaKb": 103.31,
+            "nodesDelta": 1,
+            "checkOk": true
+          },
+          {
+            "duration": 13.4,
+            "sync": 1.6,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 34, "added": 0, "removed": 26, "attrs": 7 },
+            "heapDeltaKb": 93.62,
+            "nodesDelta": 1,
+            "checkOk": true
+          },
+          {
+            "duration": 12.6,
+            "sync": 2.4,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 34, "added": 0, "removed": 26, "attrs": 7 },
+            "heapDeltaKb": -840.12,
+            "nodesDelta": 1,
+            "checkOk": true
+          },
+          {
+            "duration": 12.2,
+            "sync": 2.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 34, "added": 0, "removed": 26, "attrs": 7 },
+            "heapDeltaKb": 95.05,
+            "nodesDelta": 1,
+            "checkOk": true
+          },
+          {
+            "duration": 12.9,
+            "sync": 1.6,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 34, "added": 0, "removed": 26, "attrs": 7 },
+            "heapDeltaKb": 93.42,
+            "nodesDelta": 1,
+            "checkOk": true
+          },
+          {
+            "duration": 11.3,
+            "sync": 2.8,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 34, "added": 0, "removed": 26, "attrs": 7 },
+            "heapDeltaKb": 97.04,
+            "nodesDelta": 1,
+            "checkOk": true
+          },
+          {
+            "duration": 13.1,
+            "sync": 1.6,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 34, "added": 0, "removed": 26, "attrs": 7 },
+            "heapDeltaKb": 100.48,
+            "nodesDelta": 1,
+            "checkOk": true
+          }
+        ],
+        "checksPassed": 10,
+        "duration": { "n": 10, "median": 13, "min": 11.2, "max": 13.7, "p90": 13.7 },
+        "sync": { "n": 10, "median": 1.7, "min": 1.4, "max": 2.8, "p90": 2.8 },
+        "eventTimingDuration": { "n": 0, "median": null, "min": null, "max": null, "p90": null },
+        "eventTimingEntriesWithData": 0,
+        "longTaskCount": { "sum": 0, "iterationsWithLongTasks": 0 },
+        "longTaskMs": { "n": 0, "median": null, "min": null, "max": null, "p90": null },
+        "mutations": {
+          "records": { "n": 10, "median": 34, "min": 34, "max": 34, "p90": 34 },
+          "addedNodes": { "n": 10, "median": 0, "min": 0, "max": 0, "p90": 0 },
+          "removedNodes": { "n": 10, "median": 26, "min": 26, "max": 26, "p90": 26 },
+          "attrChanges": { "n": 10, "median": 7, "min": 7, "max": 7, "p90": 7 }
+        },
+        "heapDeltaKb": { "n": 10, "median": 96, "min": -840.1, "max": 122.7, "p90": 122.7 },
+        "nodesDelta": { "n": 10, "median": 1, "min": 1, "max": 1, "p90": 1 },
+        "firstHalfMedian": 13.4,
+        "secondHalfMedian": 12.6
+      },
+      "angular": {
+        "n": 10,
+        "iterations": [
+          {
+            "duration": 11.8,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 27, "added": 0, "removed": 26, "attrs": 0 },
+            "heapDeltaKb": 30.43,
+            "nodesDelta": 1,
+            "checkOk": true
+          },
+          {
+            "duration": 12.8,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 27, "added": 0, "removed": 26, "attrs": 0 },
+            "heapDeltaKb": 46.21,
+            "nodesDelta": 1,
+            "checkOk": true
+          },
+          {
+            "duration": 13.3,
+            "sync": 0.1,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 27, "added": 0, "removed": 26, "attrs": 0 },
+            "heapDeltaKb": 40.84,
+            "nodesDelta": 1,
+            "checkOk": true
+          },
+          {
+            "duration": 13.2,
+            "sync": 0.1,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 27, "added": 0, "removed": 26, "attrs": 0 },
+            "heapDeltaKb": 26.93,
+            "nodesDelta": 1,
+            "checkOk": true
+          },
+          {
+            "duration": 13.1,
+            "sync": 0.1,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 27, "added": 0, "removed": 26, "attrs": 0 },
+            "heapDeltaKb": 25.22,
+            "nodesDelta": 1,
+            "checkOk": true
+          },
+          {
+            "duration": 14.3,
+            "sync": 0,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 27, "added": 0, "removed": 26, "attrs": 0 },
+            "heapDeltaKb": 21.95,
+            "nodesDelta": 1,
+            "checkOk": true
+          },
+          {
+            "duration": 13.2,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 27, "added": 0, "removed": 26, "attrs": 0 },
+            "heapDeltaKb": 26.36,
+            "nodesDelta": 1,
+            "checkOk": true
+          },
+          {
+            "duration": 13.8,
+            "sync": 0.1,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 27, "added": 0, "removed": 26, "attrs": 0 },
+            "heapDeltaKb": 21.94,
+            "nodesDelta": 1,
+            "checkOk": true
+          },
+          {
+            "duration": 12.7,
+            "sync": 0.1,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 27, "added": 0, "removed": 26, "attrs": 0 },
+            "heapDeltaKb": 22.46,
+            "nodesDelta": 1,
+            "checkOk": true
+          },
+          {
+            "duration": 13.6,
+            "sync": 0.1,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 27, "added": 0, "removed": 26, "attrs": 0 },
+            "heapDeltaKb": 21.95,
+            "nodesDelta": 1,
+            "checkOk": true
+          }
+        ],
+        "checksPassed": 10,
+        "duration": { "n": 10, "median": 13.2, "min": 11.8, "max": 14.3, "p90": 14.3 },
+        "sync": { "n": 10, "median": 0.1, "min": 0, "max": 0.2, "p90": 0.2 },
+        "eventTimingDuration": { "n": 0, "median": null, "min": null, "max": null, "p90": null },
+        "eventTimingEntriesWithData": 0,
+        "longTaskCount": { "sum": 0, "iterationsWithLongTasks": 0 },
+        "longTaskMs": { "n": 0, "median": null, "min": null, "max": null, "p90": null },
+        "mutations": {
+          "records": { "n": 10, "median": 27, "min": 27, "max": 27, "p90": 27 },
+          "addedNodes": { "n": 10, "median": 0, "min": 0, "max": 0, "p90": 0 },
+          "removedNodes": { "n": 10, "median": 26, "min": 26, "max": 26, "p90": 26 },
+          "attrChanges": { "n": 10, "median": 0, "min": 0, "max": 0, "p90": 0 }
+        },
+        "heapDeltaKb": { "n": 10, "median": 25.8, "min": 21.9, "max": 46.2, "p90": 46.2 },
+        "nodesDelta": { "n": 10, "median": 1, "min": 1, "max": 1, "p90": 1 },
+        "firstHalfMedian": 13.1,
+        "secondHalfMedian": 13.6
+      }
+    },
+    "S3-status": {
+      "label": "Status filter on tasks list (change event on #task-status-filter)",
+      "react": {
+        "n": 10,
+        "iterations": [
+          {
+            "duration": 13.2,
+            "sync": 1.6,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 27, "added": 0, "removed": 23, "attrs": 3 },
+            "heapDeltaKb": -199.76,
+            "nodesDelta": 1,
+            "checkOk": true
+          },
+          {
+            "duration": 13.3,
+            "sync": 2.1,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 27, "added": 0, "removed": 23, "attrs": 3 },
+            "heapDeltaKb": 127.77,
+            "nodesDelta": 1,
+            "checkOk": true
+          },
+          {
+            "duration": 13.3,
+            "sync": 1.4,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 27, "added": 0, "removed": 23, "attrs": 3 },
+            "heapDeltaKb": 109.39,
+            "nodesDelta": 1,
+            "checkOk": true
+          },
+          {
+            "duration": 13.5,
+            "sync": 1.6,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 27, "added": 0, "removed": 23, "attrs": 3 },
+            "heapDeltaKb": 103.68,
+            "nodesDelta": 1,
+            "checkOk": true
+          },
+          {
+            "duration": 13.7,
+            "sync": 1.3,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 27, "added": 0, "removed": 23, "attrs": 3 },
+            "heapDeltaKb": 96.04,
+            "nodesDelta": 1,
+            "checkOk": true
+          },
+          {
+            "duration": 12.2,
+            "sync": 2.7,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 27, "added": 0, "removed": 23, "attrs": 3 },
+            "heapDeltaKb": 93.75,
+            "nodesDelta": 1,
+            "checkOk": true
+          },
+          {
+            "duration": 11.4,
+            "sync": 2.6,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 27, "added": 0, "removed": 23, "attrs": 3 },
+            "heapDeltaKb": 98.8,
+            "nodesDelta": 1,
+            "checkOk": true
+          },
+          {
+            "duration": 13.4,
+            "sync": 1.4,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 27, "added": 0, "removed": 23, "attrs": 3 },
+            "heapDeltaKb": 93.55,
+            "nodesDelta": 1,
+            "checkOk": true
+          },
+          {
+            "duration": 12.6,
+            "sync": 2.1,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 27, "added": 0, "removed": 23, "attrs": 3 },
+            "heapDeltaKb": 93.55,
+            "nodesDelta": 1,
+            "checkOk": true
+          },
+          {
+            "duration": 12.5,
+            "sync": 1.6,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 27, "added": 0, "removed": 23, "attrs": 3 },
+            "heapDeltaKb": 93.54,
+            "nodesDelta": 1,
+            "checkOk": true
+          }
+        ],
+        "checksPassed": 10,
+        "duration": { "n": 10, "median": 13.3, "min": 11.4, "max": 13.7, "p90": 13.7 },
+        "sync": { "n": 10, "median": 1.6, "min": 1.3, "max": 2.7, "p90": 2.7 },
+        "eventTimingDuration": { "n": 0, "median": null, "min": null, "max": null, "p90": null },
+        "eventTimingEntriesWithData": 0,
+        "longTaskCount": { "sum": 0, "iterationsWithLongTasks": 0 },
+        "longTaskMs": { "n": 0, "median": null, "min": null, "max": null, "p90": null },
+        "mutations": {
+          "records": { "n": 10, "median": 27, "min": 27, "max": 27, "p90": 27 },
+          "addedNodes": { "n": 10, "median": 0, "min": 0, "max": 0, "p90": 0 },
+          "removedNodes": { "n": 10, "median": 23, "min": 23, "max": 23, "p90": 23 },
+          "attrChanges": { "n": 10, "median": 3, "min": 3, "max": 3, "p90": 3 }
+        },
+        "heapDeltaKb": { "n": 10, "median": 94.9, "min": -199.8, "max": 127.8, "p90": 127.8 },
+        "nodesDelta": { "n": 10, "median": 1, "min": 1, "max": 1, "p90": 1 },
+        "firstHalfMedian": 13.3,
+        "secondHalfMedian": 12.5
+      },
+      "angular": {
+        "n": 10,
+        "iterations": [
+          {
+            "duration": 13.3,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 24, "added": 0, "removed": 23, "attrs": 0 },
+            "heapDeltaKb": 31.29,
+            "nodesDelta": 1,
+            "checkOk": true
+          },
+          {
+            "duration": 13.1,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 24, "added": 0, "removed": 23, "attrs": 0 },
+            "heapDeltaKb": 57.09,
+            "nodesDelta": 1,
+            "checkOk": true
+          },
+          {
+            "duration": 13.4,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 24, "added": 0, "removed": 23, "attrs": 0 },
+            "heapDeltaKb": 26.18,
+            "nodesDelta": 1,
+            "checkOk": true
+          },
+          {
+            "duration": 12.9,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 24, "added": 0, "removed": 23, "attrs": 0 },
+            "heapDeltaKb": 29.37,
+            "nodesDelta": 1,
+            "checkOk": true
+          },
+          {
+            "duration": 13.4,
+            "sync": 0.1,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 24, "added": 0, "removed": 23, "attrs": 0 },
+            "heapDeltaKb": 29.93,
+            "nodesDelta": 1,
+            "checkOk": true
+          },
+          {
+            "duration": 13.7,
+            "sync": 0,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 24, "added": 0, "removed": 23, "attrs": 0 },
+            "heapDeltaKb": 26.97,
+            "nodesDelta": 1,
+            "checkOk": true
+          },
+          {
+            "duration": 13.6,
+            "sync": 0.1,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 24, "added": 0, "removed": 23, "attrs": 0 },
+            "heapDeltaKb": 26.02,
+            "nodesDelta": 1,
+            "checkOk": true
+          },
+          {
+            "duration": 13,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 24, "added": 0, "removed": 23, "attrs": 0 },
+            "heapDeltaKb": 23.73,
+            "nodesDelta": 1,
+            "checkOk": true
+          },
+          {
+            "duration": 12.6,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 24, "added": 0, "removed": 23, "attrs": 0 },
+            "heapDeltaKb": 24.22,
+            "nodesDelta": 1,
+            "checkOk": true
+          },
+          {
+            "duration": 13.1,
+            "sync": 0.1,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 24, "added": 0, "removed": 23, "attrs": 0 },
+            "heapDeltaKb": 24.48,
+            "nodesDelta": 1,
+            "checkOk": true
+          }
+        ],
+        "checksPassed": 10,
+        "duration": { "n": 10, "median": 13.2, "min": 12.6, "max": 13.7, "p90": 13.7 },
+        "sync": { "n": 10, "median": 0.2, "min": 0, "max": 0.2, "p90": 0.2 },
+        "eventTimingDuration": { "n": 0, "median": null, "min": null, "max": null, "p90": null },
+        "eventTimingEntriesWithData": 0,
+        "longTaskCount": { "sum": 0, "iterationsWithLongTasks": 0 },
+        "longTaskMs": { "n": 0, "median": null, "min": null, "max": null, "p90": null },
+        "mutations": {
+          "records": { "n": 10, "median": 24, "min": 24, "max": 24, "p90": 24 },
+          "addedNodes": { "n": 10, "median": 0, "min": 0, "max": 0, "p90": 0 },
+          "removedNodes": { "n": 10, "median": 23, "min": 23, "max": 23, "p90": 23 },
+          "attrChanges": { "n": 10, "median": 0, "min": 0, "max": 0, "p90": 0 }
+        },
+        "heapDeltaKb": { "n": 10, "median": 26.6, "min": 23.7, "max": 57.1, "p90": 57.1 },
+        "nodesDelta": { "n": 10, "median": 1, "min": 1, "max": 1, "p90": 1 },
+        "firstHalfMedian": 13.3,
+        "secondHalfMedian": 13.1
+      }
+    },
+    "S4-combined": {
+      "label": "Combined search + status + priority filters in one batch",
+      "react": {
+        "n": 10,
+        "iterations": [
+          {
+            "duration": 11.4,
+            "sync": 2.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 43, "added": 1, "removed": 27, "attrs": 13 },
+            "heapDeltaKb": 138.64,
+            "nodesDelta": 5,
+            "checkOk": true
+          },
+          {
+            "duration": 12,
+            "sync": 2.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 43, "added": 1, "removed": 27, "attrs": 13 },
+            "heapDeltaKb": 132.51,
+            "nodesDelta": 5,
+            "checkOk": true
+          },
+          {
+            "duration": 13,
+            "sync": 2.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 43, "added": 1, "removed": 27, "attrs": 13 },
+            "heapDeltaKb": 137.74,
+            "nodesDelta": 5,
+            "checkOk": true
+          },
+          {
+            "duration": 13.5,
+            "sync": 1.9,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 43, "added": 1, "removed": 27, "attrs": 13 },
+            "heapDeltaKb": -969.02,
+            "nodesDelta": 5,
+            "checkOk": true
+          },
+          {
+            "duration": 13.3,
+            "sync": 2.1,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 43, "added": 1, "removed": 27, "attrs": 13 },
+            "heapDeltaKb": 130.2,
+            "nodesDelta": 5,
+            "checkOk": true
+          },
+          {
+            "duration": 13.5,
+            "sync": 1.8,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 43, "added": 1, "removed": 27, "attrs": 13 },
+            "heapDeltaKb": 134.81,
+            "nodesDelta": 5,
+            "checkOk": true
+          },
+          {
+            "duration": 13.6,
+            "sync": 2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 43, "added": 1, "removed": 27, "attrs": 13 },
+            "heapDeltaKb": -707.41,
+            "nodesDelta": 5,
+            "checkOk": true
+          },
+          {
+            "duration": 13.1,
+            "sync": 2.1,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 43, "added": 1, "removed": 27, "attrs": 13 },
+            "heapDeltaKb": 131.75,
+            "nodesDelta": 5,
+            "checkOk": true
+          },
+          {
+            "duration": 13.3,
+            "sync": 3.5,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 43, "added": 1, "removed": 27, "attrs": 13 },
+            "heapDeltaKb": 133.36,
+            "nodesDelta": 5,
+            "checkOk": true
+          },
+          {
+            "duration": 12.9,
+            "sync": 2.5,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 43, "added": 1, "removed": 27, "attrs": 13 },
+            "heapDeltaKb": -739.43,
+            "nodesDelta": 5,
+            "checkOk": true
+          }
+        ],
+        "checksPassed": 10,
+        "duration": { "n": 10, "median": 13.2, "min": 11.4, "max": 13.6, "p90": 13.6 },
+        "sync": { "n": 10, "median": 2.2, "min": 1.8, "max": 3.5, "p90": 3.5 },
+        "eventTimingDuration": { "n": 0, "median": null, "min": null, "max": null, "p90": null },
+        "eventTimingEntriesWithData": 0,
+        "longTaskCount": { "sum": 0, "iterationsWithLongTasks": 0 },
+        "longTaskMs": { "n": 0, "median": null, "min": null, "max": null, "p90": null },
+        "mutations": {
+          "records": { "n": 10, "median": 43, "min": 43, "max": 43, "p90": 43 },
+          "addedNodes": { "n": 10, "median": 1, "min": 1, "max": 1, "p90": 1 },
+          "removedNodes": { "n": 10, "median": 27, "min": 27, "max": 27, "p90": 27 },
+          "attrChanges": { "n": 10, "median": 13, "min": 13, "max": 13, "p90": 13 }
+        },
+        "heapDeltaKb": { "n": 10, "median": 132.1, "min": -969, "max": 138.6, "p90": 138.6 },
+        "nodesDelta": { "n": 10, "median": 5, "min": 5, "max": 5, "p90": 5 },
+        "firstHalfMedian": 13,
+        "secondHalfMedian": 13.3
+      },
+      "angular": {
+        "n": 10,
+        "iterations": [
+          {
+            "duration": 13.4,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 4, "added": 1, "removed": 1, "attrs": 0 },
+            "heapDeltaKb": 22.87,
+            "nodesDelta": 6,
+            "checkOk": true
+          },
+          {
+            "duration": 12.7,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 4, "added": 1, "removed": 1, "attrs": 0 },
+            "heapDeltaKb": 40.9,
+            "nodesDelta": 6,
+            "checkOk": true
+          },
+          {
+            "duration": 12.9,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 4, "added": 1, "removed": 1, "attrs": 0 },
+            "heapDeltaKb": 32.46,
+            "nodesDelta": 6,
+            "checkOk": true
+          },
+          {
+            "duration": 13,
+            "sync": 0.1,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 4, "added": 1, "removed": 1, "attrs": 0 },
+            "heapDeltaKb": 24.7,
+            "nodesDelta": 6,
+            "checkOk": true
+          },
+          {
+            "duration": 12.9,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 4, "added": 1, "removed": 1, "attrs": 0 },
+            "heapDeltaKb": 21.38,
+            "nodesDelta": 6,
+            "checkOk": true
+          },
+          {
+            "duration": 13.4,
+            "sync": 0.1,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 4, "added": 1, "removed": 1, "attrs": 0 },
+            "heapDeltaKb": -508.25,
+            "nodesDelta": 6,
+            "checkOk": true
+          },
+          {
+            "duration": 12.5,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 4, "added": 1, "removed": 1, "attrs": 0 },
+            "heapDeltaKb": 24.53,
+            "nodesDelta": 6,
+            "checkOk": true
+          },
+          {
+            "duration": 13.6,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 4, "added": 1, "removed": 1, "attrs": 0 },
+            "heapDeltaKb": 21.32,
+            "nodesDelta": 6,
+            "checkOk": true
+          },
+          {
+            "duration": 13.7,
+            "sync": 0.1,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 4, "added": 1, "removed": 1, "attrs": 0 },
+            "heapDeltaKb": 21.3,
+            "nodesDelta": 6,
+            "checkOk": true
+          },
+          {
+            "duration": 12.5,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 4, "added": 1, "removed": 1, "attrs": 0 },
+            "heapDeltaKb": 21.3,
+            "nodesDelta": 6,
+            "checkOk": true
+          }
+        ],
+        "checksPassed": 10,
+        "duration": { "n": 10, "median": 13, "min": 12.5, "max": 13.7, "p90": 13.7 },
+        "sync": { "n": 10, "median": 0.2, "min": 0.1, "max": 0.2, "p90": 0.2 },
+        "eventTimingDuration": { "n": 0, "median": null, "min": null, "max": null, "p90": null },
+        "eventTimingEntriesWithData": 0,
+        "longTaskCount": { "sum": 0, "iterationsWithLongTasks": 0 },
+        "longTaskMs": { "n": 0, "median": null, "min": null, "max": null, "p90": null },
+        "mutations": {
+          "records": { "n": 10, "median": 4, "min": 4, "max": 4, "p90": 4 },
+          "addedNodes": { "n": 10, "median": 1, "min": 1, "max": 1, "p90": 1 },
+          "removedNodes": { "n": 10, "median": 1, "min": 1, "max": 1, "p90": 1 },
+          "attrChanges": { "n": 10, "median": 0, "min": 0, "max": 0, "p90": 0 }
+        },
+        "heapDeltaKb": { "n": 10, "median": 22.1, "min": -508.2, "max": 40.9, "p90": 40.9 },
+        "nodesDelta": { "n": 10, "median": 6, "min": 6, "max": 6, "p90": 6 },
+        "firstHalfMedian": 12.9,
+        "secondHalfMedian": 13.4
+      }
+    },
+    "S5-settings": {
+      "label": "Toggle \"Show completed tasks\" (SET-1..4; App-level UI state)",
+      "react": {
+        "n": 10,
+        "iterations": [
+          {
+            "duration": 13,
+            "sync": 0.4,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 6, "added": 0, "removed": 0, "attrs": 6 },
+            "heapDeltaKb": 15.21,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 12.4,
+            "sync": 0.9,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 6, "added": 0, "removed": 0, "attrs": 6 },
+            "heapDeltaKb": 44.27,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 12.8,
+            "sync": 1,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 6, "added": 0, "removed": 0, "attrs": 6 },
+            "heapDeltaKb": 15.41,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 12.9,
+            "sync": 0.6,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 6, "added": 0, "removed": 0, "attrs": 6 },
+            "heapDeltaKb": 11.88,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 12,
+            "sync": 0.8,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 6, "added": 0, "removed": 0, "attrs": 6 },
+            "heapDeltaKb": 13.64,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 13.3,
+            "sync": 0.6,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 6, "added": 0, "removed": 0, "attrs": 6 },
+            "heapDeltaKb": 9.55,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 12.2,
+            "sync": 0.8,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 6, "added": 0, "removed": 0, "attrs": 6 },
+            "heapDeltaKb": 10.84,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 13.6,
+            "sync": 0.5,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 6, "added": 0, "removed": 0, "attrs": 6 },
+            "heapDeltaKb": 31.32,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 12.2,
+            "sync": 0.7,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 6, "added": 0, "removed": 0, "attrs": 6 },
+            "heapDeltaKb": 9.41,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 13,
+            "sync": 0.8,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 6, "added": 0, "removed": 0, "attrs": 6 },
+            "heapDeltaKb": 15.97,
+            "nodesDelta": 0,
+            "checkOk": true
+          }
+        ],
+        "checksPassed": 10,
+        "duration": { "n": 10, "median": 12.9, "min": 12, "max": 13.6, "p90": 13.6 },
+        "sync": { "n": 10, "median": 0.8, "min": 0.4, "max": 1, "p90": 1 },
+        "eventTimingDuration": { "n": 0, "median": null, "min": null, "max": null, "p90": null },
+        "eventTimingEntriesWithData": 0,
+        "longTaskCount": { "sum": 0, "iterationsWithLongTasks": 0 },
+        "longTaskMs": { "n": 0, "median": null, "min": null, "max": null, "p90": null },
+        "mutations": {
+          "records": { "n": 10, "median": 6, "min": 6, "max": 6, "p90": 6 },
+          "addedNodes": { "n": 10, "median": 0, "min": 0, "max": 0, "p90": 0 },
+          "removedNodes": { "n": 10, "median": 0, "min": 0, "max": 0, "p90": 0 },
+          "attrChanges": { "n": 10, "median": 6, "min": 6, "max": 6, "p90": 6 }
+        },
+        "heapDeltaKb": { "n": 10, "median": 14.4, "min": 9.4, "max": 44.3, "p90": 44.3 },
+        "nodesDelta": { "n": 10, "median": 0, "min": 0, "max": 0, "p90": 0 },
+        "firstHalfMedian": 12.8,
+        "secondHalfMedian": 13
+      },
+      "angular": {
+        "n": 10,
+        "iterations": [
+          {
+            "duration": 12.9,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 0, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 5.25,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 14.4,
+            "sync": 0.1,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 0, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 19.41,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 12,
+            "sync": 0.3,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 0, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 5.08,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 13.6,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 0, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 6.59,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 12,
+            "sync": 0.3,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 0, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 5.5,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 13.7,
+            "sync": 0.1,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 0, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 5.82,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 13.1,
+            "sync": 0.1,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 0, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 4.62,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 13.2,
+            "sync": 0.1,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 0, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 4.61,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 13.4,
+            "sync": 0.1,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 0, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 5.13,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 12.1,
+            "sync": 0.3,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 0, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 9.35,
+            "nodesDelta": 0,
+            "checkOk": true
+          }
+        ],
+        "checksPassed": 10,
+        "duration": { "n": 10, "median": 13.2, "min": 12, "max": 14.4, "p90": 14.4 },
+        "sync": { "n": 10, "median": 0.2, "min": 0.1, "max": 0.3, "p90": 0.3 },
+        "eventTimingDuration": { "n": 0, "median": null, "min": null, "max": null, "p90": null },
+        "eventTimingEntriesWithData": 0,
+        "longTaskCount": { "sum": 0, "iterationsWithLongTasks": 0 },
+        "longTaskMs": { "n": 0, "median": null, "min": null, "max": null, "p90": null },
+        "mutations": {
+          "records": { "n": 10, "median": 0, "min": 0, "max": 0, "p90": 0 },
+          "addedNodes": { "n": 10, "median": 0, "min": 0, "max": 0, "p90": 0 },
+          "removedNodes": { "n": 10, "median": 0, "min": 0, "max": 0, "p90": 0 },
+          "attrChanges": { "n": 10, "median": 0, "min": 0, "max": 0, "p90": 0 }
+        },
+        "heapDeltaKb": { "n": 10, "median": 5.4, "min": 4.6, "max": 19.4, "p90": 19.4 },
+        "nodesDelta": { "n": 10, "median": 0, "min": 0, "max": 0, "p90": 0 },
+        "firstHalfMedian": 12.9,
+        "secondHalfMedian": 13.2
+      }
+    },
+    "S6-assign": {
+      "label": "Reassign task assignee via select (TSK-ASSIGN; domain store mutation)",
+      "react": {
+        "n": 10,
+        "iterations": [
+          {
+            "duration": 13.1,
+            "sync": 1.6,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 4, "added": 0, "removed": 0, "attrs": 3 },
+            "heapDeltaKb": 95.17,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 13,
+            "sync": 1.5,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 4, "added": 0, "removed": 0, "attrs": 3 },
+            "heapDeltaKb": 126.24,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 13.6,
+            "sync": 1.5,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 4, "added": 0, "removed": 0, "attrs": 3 },
+            "heapDeltaKb": 108,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 13.9,
+            "sync": 1.4,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 4, "added": 0, "removed": 0, "attrs": 3 },
+            "heapDeltaKb": 84.6,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 12,
+            "sync": 2.5,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 4, "added": 0, "removed": 0, "attrs": 3 },
+            "heapDeltaKb": 86.98,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 13.3,
+            "sync": 1.4,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 4, "added": 0, "removed": 0, "attrs": 3 },
+            "heapDeltaKb": 85.78,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 13.5,
+            "sync": 0.7,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 4, "added": 0, "removed": 0, "attrs": 3 },
+            "heapDeltaKb": 107.44,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 12.1,
+            "sync": 2.4,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 4, "added": 0, "removed": 0, "attrs": 3 },
+            "heapDeltaKb": 79.98,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 13.2,
+            "sync": 1.4,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 4, "added": 0, "removed": 0, "attrs": 3 },
+            "heapDeltaKb": 95.66,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 13.9,
+            "sync": 1.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 4, "added": 0, "removed": 0, "attrs": 3 },
+            "heapDeltaKb": 83.34,
+            "nodesDelta": 0,
+            "checkOk": true
+          }
+        ],
+        "checksPassed": 10,
+        "duration": { "n": 10, "median": 13.3, "min": 12, "max": 13.9, "p90": 13.9 },
+        "sync": { "n": 10, "median": 1.5, "min": 0.7, "max": 2.5, "p90": 2.5 },
+        "eventTimingDuration": { "n": 0, "median": null, "min": null, "max": null, "p90": null },
+        "eventTimingEntriesWithData": 0,
+        "longTaskCount": { "sum": 0, "iterationsWithLongTasks": 0 },
+        "longTaskMs": { "n": 0, "median": null, "min": null, "max": null, "p90": null },
+        "mutations": {
+          "records": { "n": 10, "median": 4, "min": 4, "max": 4, "p90": 4 },
+          "addedNodes": { "n": 10, "median": 0, "min": 0, "max": 0, "p90": 0 },
+          "removedNodes": { "n": 10, "median": 0, "min": 0, "max": 0, "p90": 0 },
+          "attrChanges": { "n": 10, "median": 3, "min": 3, "max": 3, "p90": 3 }
+        },
+        "heapDeltaKb": { "n": 10, "median": 91.1, "min": 80, "max": 126.2, "p90": 126.2 },
+        "nodesDelta": { "n": 10, "median": 0, "min": 0, "max": 0, "p90": 0 },
+        "firstHalfMedian": 13.1,
+        "secondHalfMedian": 13.3
+      },
+      "angular": {
+        "n": 10,
+        "iterations": [
+          {
+            "duration": 11.4,
+            "sync": 0.3,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 1, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 30.49,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 13.2,
+            "sync": 0.3,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 1, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 42.48,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 12.4,
+            "sync": 0.3,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 1, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 25.54,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 13.4,
+            "sync": 0.1,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 1, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 15.21,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 12.1,
+            "sync": 0.4,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 1, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 12.87,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 13.6,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 1, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 14.07,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 11.9,
+            "sync": 0.4,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 1, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 32.41,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 12.2,
+            "sync": 0.5,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 1, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 12.81,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 12.2,
+            "sync": 0.5,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 1, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 13.32,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 13,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 1, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 12.81,
+            "nodesDelta": 0,
+            "checkOk": true
+          }
+        ],
+        "checksPassed": 10,
+        "duration": { "n": 10, "median": 12.3, "min": 11.4, "max": 13.6, "p90": 13.6 },
+        "sync": { "n": 10, "median": 0.3, "min": 0.1, "max": 0.5, "p90": 0.5 },
+        "eventTimingDuration": { "n": 0, "median": null, "min": null, "max": null, "p90": null },
+        "eventTimingEntriesWithData": 0,
+        "longTaskCount": { "sum": 0, "iterationsWithLongTasks": 0 },
+        "longTaskMs": { "n": 0, "median": null, "min": null, "max": null, "p90": null },
+        "mutations": {
+          "records": { "n": 10, "median": 1, "min": 1, "max": 1, "p90": 1 },
+          "addedNodes": { "n": 10, "median": 0, "min": 0, "max": 0, "p90": 0 },
+          "removedNodes": { "n": 10, "median": 0, "min": 0, "max": 0, "p90": 0 },
+          "attrChanges": { "n": 10, "median": 0, "min": 0, "max": 0, "p90": 0 }
+        },
+        "heapDeltaKb": { "n": 10, "median": 14.6, "min": 12.8, "max": 42.5, "p90": 42.5 },
+        "nodesDelta": { "n": 10, "median": 0, "min": 0, "max": 0, "p90": 0 },
+        "firstHalfMedian": 12.4,
+        "secondHalfMedian": 12.2
+      }
+    },
+    "S7a-form-input": {
+      "label": "Typing in the new-project form name field (PRJ-CREATE)",
+      "react": {
+        "n": 10,
+        "iterations": [
+          {
+            "duration": 16,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 0, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 3.54,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 8.6,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 0, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 3.51,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 9.6,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 0, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 3.46,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 9.5,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 0, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 3.52,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 9,
+            "sync": 0.1,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 0, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 9.68,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 10.3,
+            "sync": 0.1,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 0, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 3.52,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 8.8,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 0, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 3.66,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 8,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 0, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 3.45,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 9.4,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 0, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 3.46,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 8.4,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 0, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 3.46,
+            "nodesDelta": 0,
+            "checkOk": true
+          }
+        ],
+        "checksPassed": 10,
+        "duration": { "n": 10, "median": 9.2, "min": 8, "max": 16, "p90": 16 },
+        "sync": { "n": 10, "median": 0.2, "min": 0.1, "max": 0.2, "p90": 0.2 },
+        "eventTimingDuration": { "n": 0, "median": null, "min": null, "max": null, "p90": null },
+        "eventTimingEntriesWithData": 0,
+        "longTaskCount": { "sum": 0, "iterationsWithLongTasks": 0 },
+        "longTaskMs": { "n": 0, "median": null, "min": null, "max": null, "p90": null },
+        "mutations": {
+          "records": { "n": 10, "median": 0, "min": 0, "max": 0, "p90": 0 },
+          "addedNodes": { "n": 10, "median": 0, "min": 0, "max": 0, "p90": 0 },
+          "removedNodes": { "n": 10, "median": 0, "min": 0, "max": 0, "p90": 0 },
+          "attrChanges": { "n": 10, "median": 0, "min": 0, "max": 0, "p90": 0 }
+        },
+        "heapDeltaKb": { "n": 10, "median": 3.5, "min": 3.5, "max": 9.7, "p90": 9.7 },
+        "nodesDelta": { "n": 10, "median": 0, "min": 0, "max": 0, "p90": 0 },
+        "firstHalfMedian": 9.5,
+        "secondHalfMedian": 8.8
+      },
+      "angular": {
+        "n": 10,
+        "iterations": [
+          {
+            "duration": 14.6,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 0, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 7.16,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 10.1,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 0, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 12.9,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 9.3,
+            "sync": 0.1,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 0, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 10.3,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 8.2,
+            "sync": 0.1,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 0, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 14.62,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 9.1,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 0, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 32.63,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 10,
+            "sync": 0.1,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 0, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 6.02,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 8.5,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 0, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 5.06,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 9.3,
+            "sync": 0.3,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 0, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 10.4,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 10.2,
+            "sync": 0,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 0, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 5.61,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 10.1,
+            "sync": 0.1,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 0, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 4.79,
+            "nodesDelta": 0,
+            "checkOk": true
+          }
+        ],
+        "checksPassed": 10,
+        "duration": { "n": 10, "median": 9.7, "min": 8.2, "max": 14.6, "p90": 14.6 },
+        "sync": { "n": 10, "median": 0.2, "min": 0, "max": 0.3, "p90": 0.3 },
+        "eventTimingDuration": { "n": 0, "median": null, "min": null, "max": null, "p90": null },
+        "eventTimingEntriesWithData": 0,
+        "longTaskCount": { "sum": 0, "iterationsWithLongTasks": 0 },
+        "longTaskMs": { "n": 0, "median": null, "min": null, "max": null, "p90": null },
+        "mutations": {
+          "records": { "n": 10, "median": 0, "min": 0, "max": 0, "p90": 0 },
+          "addedNodes": { "n": 10, "median": 0, "min": 0, "max": 0, "p90": 0 },
+          "removedNodes": { "n": 10, "median": 0, "min": 0, "max": 0, "p90": 0 },
+          "attrChanges": { "n": 10, "median": 0, "min": 0, "max": 0, "p90": 0 }
+        },
+        "heapDeltaKb": { "n": 10, "median": 8.7, "min": 4.8, "max": 32.6, "p90": 32.6 },
+        "nodesDelta": { "n": 10, "median": 0, "min": 0, "max": 0, "p90": 0 },
+        "firstHalfMedian": 9.3,
+        "secondHalfMedian": 10
+      }
+    },
+    "S7b-form-submit": {
+      "label": "Submitting the new-project form with invalid input (validation errors, PRJ-CREATE-2)",
+      "react": {
+        "n": 10,
+        "iterations": [
+          {
+            "duration": 14.8,
+            "sync": 0.4,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 0, "removed": 0, "attrs": 2 },
+            "heapDeltaKb": 22.54,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 10.3,
+            "sync": 0.3,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 0, "removed": 0, "attrs": 2 },
+            "heapDeltaKb": 15.89,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 9.4,
+            "sync": 0.4,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 0, "removed": 0, "attrs": 2 },
+            "heapDeltaKb": 16.26,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 9.2,
+            "sync": 0.1,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 0, "removed": 0, "attrs": 2 },
+            "heapDeltaKb": 40.14,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 10.7,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 0, "removed": 0, "attrs": 2 },
+            "heapDeltaKb": 12.41,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 8.7,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 0, "removed": 0, "attrs": 2 },
+            "heapDeltaKb": 31.82,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 7.7,
+            "sync": 0.4,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 0, "removed": 0, "attrs": 2 },
+            "heapDeltaKb": 21.68,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 9.7,
+            "sync": 0.1,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 0, "removed": 0, "attrs": 2 },
+            "heapDeltaKb": 10.47,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 9.2,
+            "sync": 0.3,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 0, "removed": 0, "attrs": 2 },
+            "heapDeltaKb": 9.9,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 9.1,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 0, "removed": 0, "attrs": 2 },
+            "heapDeltaKb": 19.9,
+            "nodesDelta": 0,
+            "checkOk": true
+          }
+        ],
+        "checksPassed": 10,
+        "duration": { "n": 10, "median": 9.3, "min": 7.7, "max": 14.8, "p90": 14.8 },
+        "sync": { "n": 10, "median": 0.3, "min": 0.1, "max": 0.4, "p90": 0.4 },
+        "eventTimingDuration": { "n": 0, "median": null, "min": null, "max": null, "p90": null },
+        "eventTimingEntriesWithData": 0,
+        "longTaskCount": { "sum": 0, "iterationsWithLongTasks": 0 },
+        "longTaskMs": { "n": 0, "median": null, "min": null, "max": null, "p90": null },
+        "mutations": {
+          "records": { "n": 10, "median": 2, "min": 2, "max": 2, "p90": 2 },
+          "addedNodes": { "n": 10, "median": 0, "min": 0, "max": 0, "p90": 0 },
+          "removedNodes": { "n": 10, "median": 0, "min": 0, "max": 0, "p90": 0 },
+          "attrChanges": { "n": 10, "median": 2, "min": 2, "max": 2, "p90": 2 }
+        },
+        "heapDeltaKb": { "n": 10, "median": 18.1, "min": 9.9, "max": 40.1, "p90": 40.1 },
+        "nodesDelta": { "n": 10, "median": 0, "min": 0, "max": 0, "p90": 0 },
+        "firstHalfMedian": 10.3,
+        "secondHalfMedian": 9.1
+      },
+      "angular": {
+        "n": 10,
+        "iterations": [
+          {
+            "duration": 16.7,
+            "sync": 0.3,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 0, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 13.5,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 8.8,
+            "sync": 0.3,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 0, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 14.68,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 9,
+            "sync": 0.4,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 0, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 25.05,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 9.7,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 0, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 28.47,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 8.8,
+            "sync": 0.3,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 0, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 7.49,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 10.1,
+            "sync": 0.3,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 0, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 8.89,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 9,
+            "sync": 0.2,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 0, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 14.27,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 9.4,
+            "sync": 0.3,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 0, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 6.43,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 8.6,
+            "sync": 0.3,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 0, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 13.28,
+            "nodesDelta": 0,
+            "checkOk": true
+          },
+          {
+            "duration": 9.3,
+            "sync": 0.1,
+            "eventTimings": [],
+            "longTasks": [],
+            "mutations": { "n": 0, "added": 0, "removed": 0, "attrs": 0 },
+            "heapDeltaKb": 6.39,
+            "nodesDelta": 0,
+            "checkOk": true
+          }
+        ],
+        "checksPassed": 10,
+        "duration": { "n": 10, "median": 9.2, "min": 8.6, "max": 16.7, "p90": 16.7 },
+        "sync": { "n": 10, "median": 0.3, "min": 0.1, "max": 0.4, "p90": 0.4 },
+        "eventTimingDuration": { "n": 0, "median": null, "min": null, "max": null, "p90": null },
+        "eventTimingEntriesWithData": 0,
+        "longTaskCount": { "sum": 0, "iterationsWithLongTasks": 0 },
+        "longTaskMs": { "n": 0, "median": null, "min": null, "max": null, "p90": null },
+        "mutations": {
+          "records": { "n": 10, "median": 0, "min": 0, "max": 0, "p90": 0 },
+          "addedNodes": { "n": 10, "median": 0, "min": 0, "max": 0, "p90": 0 },
+          "removedNodes": { "n": 10, "median": 0, "min": 0, "max": 0, "p90": 0 },
+          "attrChanges": { "n": 10, "median": 0, "min": 0, "max": 0, "p90": 0 }
+        },
+        "heapDeltaKb": { "n": 10, "median": 13.4, "min": 6.4, "max": 28.5, "p90": 28.5 },
+        "nodesDelta": { "n": 10, "median": 0, "min": 0, "max": 0, "p90": 0 },
+        "firstHalfMedian": 9,
+        "secondHalfMedian": 9.3
+      }
+    }
+  },
+  "comparison": {
+    "S1-nav": {
+      "duration": {
+        "react": 15.4,
+        "angular": 18.5,
+        "deltaAngularMinusReact": 3.1,
+        "ratioAngularOverReact": 1.2
+      },
+      "sync": {
+        "react": 0.2,
+        "angular": 0.2,
+        "deltaAngularMinusReact": 0,
+        "ratioAngularOverReact": 1
+      },
+      "mutations": {
+        "react": null,
+        "angular": null,
+        "deltaAngularMinusReact": null,
+        "ratioAngularOverReact": null
+      }
+    },
+    "S2-search": {
+      "duration": {
+        "react": 13,
+        "angular": 13.2,
+        "deltaAngularMinusReact": 0.2,
+        "ratioAngularOverReact": 1.02
+      },
+      "sync": {
+        "react": 1.7,
+        "angular": 0.1,
+        "deltaAngularMinusReact": -1.6,
+        "ratioAngularOverReact": 0.06
+      },
+      "mutations": {
+        "react": null,
+        "angular": null,
+        "deltaAngularMinusReact": null,
+        "ratioAngularOverReact": null
+      }
+    },
+    "S3-status": {
+      "duration": {
+        "react": 13.3,
+        "angular": 13.2,
+        "deltaAngularMinusReact": -0.1,
+        "ratioAngularOverReact": 0.99
+      },
+      "sync": {
+        "react": 1.6,
+        "angular": 0.2,
+        "deltaAngularMinusReact": -1.4,
+        "ratioAngularOverReact": 0.13
+      },
+      "mutations": {
+        "react": null,
+        "angular": null,
+        "deltaAngularMinusReact": null,
+        "ratioAngularOverReact": null
+      }
+    },
+    "S4-combined": {
+      "duration": {
+        "react": 13.2,
+        "angular": 13,
+        "deltaAngularMinusReact": -0.2,
+        "ratioAngularOverReact": 0.98
+      },
+      "sync": {
+        "react": 2.2,
+        "angular": 0.2,
+        "deltaAngularMinusReact": -2,
+        "ratioAngularOverReact": 0.09
+      },
+      "mutations": {
+        "react": null,
+        "angular": null,
+        "deltaAngularMinusReact": null,
+        "ratioAngularOverReact": null
+      }
+    },
+    "S5-settings": {
+      "duration": {
+        "react": 12.9,
+        "angular": 13.2,
+        "deltaAngularMinusReact": 0.3,
+        "ratioAngularOverReact": 1.02
+      },
+      "sync": {
+        "react": 0.8,
+        "angular": 0.2,
+        "deltaAngularMinusReact": -0.6,
+        "ratioAngularOverReact": 0.25
+      },
+      "mutations": {
+        "react": null,
+        "angular": null,
+        "deltaAngularMinusReact": null,
+        "ratioAngularOverReact": null
+      }
+    },
+    "S6-assign": {
+      "duration": {
+        "react": 13.3,
+        "angular": 12.3,
+        "deltaAngularMinusReact": -1,
+        "ratioAngularOverReact": 0.92
+      },
+      "sync": {
+        "react": 1.5,
+        "angular": 0.3,
+        "deltaAngularMinusReact": -1.2,
+        "ratioAngularOverReact": 0.2
+      },
+      "mutations": {
+        "react": null,
+        "angular": null,
+        "deltaAngularMinusReact": null,
+        "ratioAngularOverReact": null
+      }
+    },
+    "S7a-form-input": {
+      "duration": {
+        "react": 9.2,
+        "angular": 9.7,
+        "deltaAngularMinusReact": 0.5,
+        "ratioAngularOverReact": 1.05
+      },
+      "sync": {
+        "react": 0.2,
+        "angular": 0.2,
+        "deltaAngularMinusReact": 0,
+        "ratioAngularOverReact": 1
+      },
+      "mutations": {
+        "react": null,
+        "angular": null,
+        "deltaAngularMinusReact": null,
+        "ratioAngularOverReact": null
+      }
+    },
+    "S7b-form-submit": {
+      "duration": {
+        "react": 9.3,
+        "angular": 9.2,
+        "deltaAngularMinusReact": -0.1,
+        "ratioAngularOverReact": 0.99
+      },
+      "sync": {
+        "react": 0.3,
+        "angular": 0.3,
+        "deltaAngularMinusReact": 0,
+        "ratioAngularOverReact": 1
+      },
+      "mutations": {
+        "react": null,
+        "angular": null,
+        "deltaAngularMinusReact": null,
+        "ratioAngularOverReact": null
+      }
+    }
+  },
+  "aggregateMeanOfMedians": { "react": 12.45, "angular": 12.788 },
+  "limitations": [
+    "Mediciones en localhost sin red ni throttling; no representan condiciones de campo.",
+    "Solo interacción sintética (eventos no confiables) — mismos eventos para ambos frameworks.",
+    "duration incluye el overhead del harness de medición (simétrico entre frameworks) y está cuantizado por el intervalo de frame del headless-shell.",
+    "CDP Performance.getMetrics es poco fiable en este headless-shell: ScriptDuration permanece en 0 incluso con un busy-loop de 50 ms y TaskDuration subcuenta (verificado experimentalmente); por eso NO se usan como métricas. Solo JSHeapUsedSize y Nodes se conservan como informativas.",
+    "sync mide solo el trabajo síncrono del handler + scheduling: se verificó experimentalmente que ambos frameworks difieren el commit del DOM (no está presente inmediatamente tras el click), por lo que el render real queda capturado por duration + mutations, no por sync.",
+    "MutationObserver añade overhead al documento (simétrico entre frameworks) y cuenta atributos/caracteres, no solo nodos.",
+    "PerformanceEventTiming puede no reportar eventos rápidos (umbral del navegador ~16 ms).",
+    "Render/commit/paint no se distinguen individualmente; settle cubre hasta la pintura siguiente (2 rAF).",
+    "Una máquina local; resultados indicativos, no benchmark científico (metrics.md §1)."
+  ]
+}
