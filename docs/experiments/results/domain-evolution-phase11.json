@@ -106,14 +106,8 @@
       "testsChanged": 3,
       "testsAdded": 0,
       "testsModified": 3,
-      "featuresReactTouched": [
-        "dashboard",
-        "projects"
-      ],
-      "featuresAngularTouched": [
-        "dashboard",
-        "projects"
-      ],
+      "featuresReactTouched": ["dashboard", "projects"],
+      "featuresAngularTouched": ["dashboard", "projects"],
       "featuresTouched": 2,
       "unrelatedFilesTouched": [],
       "directlyRelated": 7
@@ -133,14 +127,8 @@
       "testsChanged": 3,
       "testsAdded": 0,
       "testsModified": 3,
-      "featuresReactTouched": [
-        "dashboard",
-        "projects"
-      ],
-      "featuresAngularTouched": [
-        "dashboard",
-        "projects"
-      ],
+      "featuresReactTouched": ["dashboard", "projects"],
+      "featuresAngularTouched": ["dashboard", "projects"],
       "featuresTouched": 2,
       "unrelatedFilesTouched": [],
       "directlyRelated": 9
@@ -160,14 +148,8 @@
       "testsChanged": 2,
       "testsAdded": 1,
       "testsModified": 1,
-      "featuresReactTouched": [
-        "dashboard",
-        "projects"
-      ],
-      "featuresAngularTouched": [
-        "dashboard",
-        "projects"
-      ],
+      "featuresReactTouched": ["dashboard", "projects"],
+      "featuresAngularTouched": ["dashboard", "projects"],
       "featuresTouched": 2,
       "unrelatedFilesTouched": [],
       "directlyRelated": 6
@@ -187,15 +169,8 @@
       "testsChanged": 6,
       "testsAdded": 0,
       "testsModified": 6,
-      "featuresReactTouched": [
-        "dashboard",
-        "projects",
-        "teams"
-      ],
-      "featuresAngularTouched": [
-        "dashboard",
-        "projects"
-      ],
+      "featuresReactTouched": ["dashboard", "projects", "teams"],
+      "featuresAngularTouched": ["dashboard", "projects"],
       "featuresTouched": 3,
       "unrelatedFilesTouched": [],
       "directlyRelated": 14
