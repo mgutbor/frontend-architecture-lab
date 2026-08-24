@@ -23,6 +23,7 @@
     "jsx:validate": "node scripts/validate-react-jsx-attribution.mjs",
     "feature:bundle-cost": "node scripts/analyze-feature-bundle-cost.mjs",
     "lighthouse:phase5": "node scripts/run-lighthouse-phase5.mjs",
+    "lighthouse:user-flows": "node scripts/run-lighthouse-user-flows-phase10.mjs",
     "evolution:measure": "node scripts/measure-evolution-phase6.mjs",
     "interaction:measure": "node scripts/measure-interaction-performance-phase7.mjs",
     "scalability:measure": "node scripts/measure-scalability-phase8.mjs",

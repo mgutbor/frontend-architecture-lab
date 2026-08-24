@@ -1,0 +1,3342 @@
+{
+  "experiment": "lighthouse-user-flows-phase10",
+  "capturedAt": "2026-08-24T14:40:07.762Z",
+  "objective": "Validar si las diferencias de bajo nivel de Fases 7-9 (coste de montaje, trabajo síncrono incremental, long tasks) se traducen en métricas de rendimiento percibido (LCP / TBT / INP / CLS / score) medidas con Lighthouse User Flows sobre interacciones reales (input de confianza) en los builds del laboratorio Fase 9 (10 features + scale-dataset), datasets 30-3000. Evaluar H47-H52.",
+  "environment": {
+    "node": "v25.3.0",
+    "platform": "darwin-arm64",
+    "cpuModel": "Apple M1",
+    "cpuCores": 8,
+    "memoryBytes": 17179869184,
+    "lighthouseVersion": "13.4.1",
+    "lighthouseCore": "/Users/plopez7/.npm/_npx/0f94ee7615faf582/node_modules/lighthouse/core/index.cjs",
+    "puppeteerCoreVersion": "unknown",
+    "chromePath": "/Users/plopez7/Library/Caches/ms-playwright/chromium_headless_shell-1228/chrome-headless-shell-mac-arm64/chrome-headless-shell",
+    "chromeFlag": "--enable-blink-features=EventTimingTracing (requerido para INP: sin él el audit interaction-to-next-paint es notApplicable en chrome-headless-shell, verificado experimentalmente)",
+    "inpShellProbe": { "1208": 25.803, "1223": 26.819, "1228": 23.001, "1234": null },
+    "inpShellNote": "La capacidad INP difiere entre versiones de chrome-headless-shell (verificado: 1208 emite EventTiming, 1234 no). El script sondea cada versión en caché y elige la primera (de más reciente a más antigua) con INP numérico.",
+    "labPath": "/tmp/lab-phase10",
+    "labHeadCommit": "cc11abfd67d3ca8099087c3fcf19d0d5bde538c8",
+    "note": "chrome-headless-shell (Chrome for Testing) es el único navegador headless funcional en este entorno (Fases 4.1/5.1/5.9/7/9). Builds del laboratorio Fase 9 (mismos que Fases 9-9.3): React y Angular con 10 features de catálogo + scale-dataset; los monoliths oficiales (233 547 B / 179 634 B) no soportan datasets > 30 y se verifican intactos en el repositorio. Copia aislada en /tmp; el árbol principal no se modifica."
+  },
+  "method": {
+    "summary": "Lighthouse User Flows (API programática, lighthouse core + puppeteer-core desde el caché npx) sobre chrome-headless-shell. Perfil desktop, viewport 1280x800, throttlingMethod \"provided\" (SIN throttling simulado: los user flows miden latencia de interacción real; difiere del móvil simulado de Fase 5.9 — comparaciones con 5.9 solo contextuales). Configuración: onlyCategories performance (accesibilidad en celdas a11y). Interacciones con input de confianza (page.click/type/select) — necesario para INP (los dispatchEvent no confiados no generan interactionId). Flujos: F1 navigate (carga inicial); F2 timespan Projects->Tasks (montaje completo N filas); F3 timespan búsqueda \"incident\"; F4 timespan search+status+priority; F5 flujo completo navigate + mount + combined + interacción repetida (priority high->low); a11y navigate solo categoría accesibilidad. Esperas deterministas por conteo de filas (regla scale-dataset validada en Fases 9.2/9.3). Settles post-commit dentro del timespan (150-250 ms) para capturar el next-paint de las interacciones (INP). RUNS=3 por celda (1 en --quick), sesión de navegador nueva por run; celdas ya presentes en el JSON se reutilizan (idempotencia/recuperación); resumible con --datasets= y --app=.",
+    "viewport": { "width": 1280, "height": 800 },
+    "datasets": { "F5": [500], "extras": ["F1@30", "F2@500", "F3@500,1000", "F4@500", "a11y@500"] },
+    "runsPerCell": 1,
+    "throttling": "provided (sin throttling simulado; documentado)",
+    "flows": {
+      "F5": "flujo end-to-end (nav + mount + combined + repeat)",
+      "F1": "carga inicial (navigation)",
+      "F2": "montaje de Tasks (timespan)",
+      "F3": "búsqueda live (timespan)",
+      "F4": "filtro combinado (timespan)",
+      "a11y": "accesibilidad (navigation)"
+    },
+    "metrics": [
+      "navigation: performance score, FCP, LCP, SI, TBT, CLS, TTI (audits de Lighthouse)",
+      "timespan: performance score, TBT, CLS, INP (interaction-to-next-paint; requiere EventTimingTracing), main-thread-work, long tasks (derivadas de main-thread-tasks; el audit long-tasks es notApplicable en timespan v13)",
+      "a11y: accessibility score + audits fallidos"
+    ],
+    "inpHypothesis": "INP solo se mide en tiempos de interacción con input de confianza; los dispatchEvent programáticos (Fases 7-9) no cuentan como interacciones para INP.",
+    "note": "La comparación válida es React vs Angular dentro de esta misma fase (mismo harness, mismos flujos, mismos datasets). Comparaciones de magnitud con Fases 7-9 solo como contexto de direccionalidad (harness distinto: CDP directo vs Lighthouse)."
+  },
+  "runs": {
+    "F5@300:react": {
+      "flow": "F5",
+      "dataset": 300,
+      "app": "react",
+      "runs": [
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 67.36,
+                "largest-contentful-paint": 67.36,
+                "speed-index": 44,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 67.36
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 0,
+              "cls": 0,
+              "inpMs": 54.089,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 60.696999999998894,
+              "longTasks": { "count": 0, "maxDurationMs": 46.52 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.56,
+              "tbtMs": 0,
+              "cls": 0.8237847714424134,
+              "inpMs": 25.136,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 70.91199999999999,
+              "longTasks": { "count": 0, "maxDurationMs": 12.34 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 0,
+              "cls": 0,
+              "inpMs": null,
+              "inpMode": "notApplicable",
+              "mainthreadWorkMs": 7.837999999999984,
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null, null, null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 96.646,
+                "largest-contentful-paint": 96.646,
+                "speed-index": 79,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 96.646
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 0,
+              "cls": 0,
+              "inpMs": 53.563,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 60.63899999999881,
+              "longTasks": { "count": 0, "maxDurationMs": 45.95 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.56,
+              "tbtMs": 0,
+              "cls": 0.8237847714424134,
+              "inpMs": 23.567,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 64.71300000000004,
+              "longTasks": { "count": 0, "maxDurationMs": 10.27 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 0,
+              "cls": 0,
+              "inpMs": null,
+              "inpMode": "notApplicable",
+              "mainthreadWorkMs": 7.370999999999985,
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null, null, null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 99.824,
+                "largest-contentful-paint": 99.824,
+                "speed-index": 82,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 99.824
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 0,
+              "cls": 0,
+              "inpMs": 54.008,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 60.763999999998745,
+              "longTasks": { "count": 0, "maxDurationMs": 46.54 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.56,
+              "tbtMs": 0,
+              "cls": 0.8237847714424134,
+              "inpMs": 22.402,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 64.48000000000003,
+              "longTasks": { "count": 0, "maxDurationMs": 10.19 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 0,
+              "cls": 0,
+              "inpMs": null,
+              "inpMode": "notApplicable",
+              "mainthreadWorkMs": 7.713999999999985,
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null, null, null]
+        }
+      ]
+    },
+    "F5@300:angular": {
+      "flow": "F5",
+      "dataset": 300,
+      "app": "angular",
+      "runs": [
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 81.907,
+                "largest-contentful-paint": 81.907,
+                "speed-index": 65,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 81.907
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 21.009,
+              "cls": 0,
+              "inpMs": 91.084,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 82.96899999999553,
+              "longTasks": { "count": 1, "maxDurationMs": 71.01 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.57,
+              "tbtMs": 0,
+              "cls": 0.76866796875,
+              "inpMs": 23.139,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 31.73400000000001,
+              "longTasks": { "count": 0, "maxDurationMs": 9.44 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 0,
+              "cls": 0,
+              "inpMs": null,
+              "inpMode": "notApplicable",
+              "mainthreadWorkMs": 8.924999999999983,
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null, null, null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 76.905,
+                "largest-contentful-paint": 76.905,
+                "speed-index": 61,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 76.905
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 19.197000000000003,
+              "cls": 0,
+              "inpMs": 83.75,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 81.44199999999657,
+              "longTasks": { "count": 1, "maxDurationMs": 69.2 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.55,
+              "tbtMs": 0,
+              "cls": 0.9922900428771972,
+              "inpMs": 24.47,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 31.616999999999997,
+              "longTasks": { "count": 0, "maxDurationMs": 9.8 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 0,
+              "cls": 0,
+              "inpMs": null,
+              "inpMode": "notApplicable",
+              "mainthreadWorkMs": 9.096999999999984,
+              "longTasks": { "count": 0, "maxDurationMs": 7.6 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null, null, null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 66.515,
+                "largest-contentful-paint": 66.515,
+                "speed-index": 49,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 66.515
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 21.141000000000005,
+              "cls": 0,
+              "inpMs": 90.956,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 83.63799999999497,
+              "longTasks": { "count": 1, "maxDurationMs": 71.14 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.55,
+              "tbtMs": 0,
+              "cls": 0.9922900428771972,
+              "inpMs": 24.753,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 30.912999999999997,
+              "longTasks": { "count": 0, "maxDurationMs": 9.51 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 0,
+              "cls": 0,
+              "inpMs": null,
+              "inpMode": "notApplicable",
+              "mainthreadWorkMs": 9.330999999999984,
+              "longTasks": { "count": 0, "maxDurationMs": 7.63 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null, null, null]
+        }
+      ]
+    },
+    "F5@500:react": {
+      "flow": "F5",
+      "dataset": 500,
+      "app": "react",
+      "runs": [
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 84.509,
+                "largest-contentful-paint": 84.509,
+                "speed-index": 62,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 84.509
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 27.26400000000001,
+              "cls": 0,
+              "inpMs": 85.218,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 90.201000000003,
+              "longTasks": { "count": 1, "maxDurationMs": 77.26 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.56,
+              "tbtMs": 0,
+              "cls": 0.8237847714424134,
+              "inpMs": 28.353,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 96.69000000000007,
+              "longTasks": { "count": 0, "maxDurationMs": 13.44 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 0,
+              "cls": 0,
+              "inpMs": null,
+              "inpMode": "notApplicable",
+              "mainthreadWorkMs": 10.347999999999985,
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null, null, null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 101.543,
+                "largest-contentful-paint": 101.543,
+                "speed-index": 83,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 101.543
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 26.935000000000002,
+              "cls": 0,
+              "inpMs": 85.501,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 90.369000000003,
+              "longTasks": { "count": 1, "maxDurationMs": 76.94 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.57,
+              "tbtMs": 0,
+              "cls": 0.7373531275749208,
+              "inpMs": 38.002,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 95.13900000000004,
+              "longTasks": { "count": 0, "maxDurationMs": 13.88 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 0,
+              "cls": 0,
+              "inpMs": null,
+              "inpMode": "notApplicable",
+              "mainthreadWorkMs": 10.719000000000058,
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null, null, null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 67.064,
+                "largest-contentful-paint": 67.064,
+                "speed-index": 48,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 67.064
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 26.339,
+              "cls": 0,
+              "inpMs": 84.595,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 89.71200000000307,
+              "longTasks": { "count": 1, "maxDurationMs": 76.34 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.56,
+              "tbtMs": 0,
+              "cls": 0.8237847714424134,
+              "inpMs": 27.689,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 95.58800000000005,
+              "longTasks": { "count": 0, "maxDurationMs": 13.34 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 0,
+              "cls": 0,
+              "inpMs": null,
+              "inpMode": "notApplicable",
+              "mainthreadWorkMs": 10.466999999999992,
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null, null, null]
+        }
+      ]
+    },
+    "F5@500:angular": {
+      "flow": "F5",
+      "dataset": 500,
+      "app": "angular",
+      "runs": [
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 90.17,
+                "largest-contentful-paint": 90.17,
+                "speed-index": 74,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 90.17
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 62.955,
+              "cls": 0,
+              "inpMs": 121.671,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 125.58499999999266,
+              "longTasks": { "count": 1, "maxDurationMs": 112.96 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.57,
+              "tbtMs": 0,
+              "cls": 0.76866796875,
+              "inpMs": 29.338,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 44.585000000000015,
+              "longTasks": { "count": 0, "maxDurationMs": 14.22 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 0,
+              "cls": 0,
+              "inpMs": null,
+              "inpMode": "notApplicable",
+              "mainthreadWorkMs": 13.260000000000066,
+              "longTasks": { "count": 0, "maxDurationMs": 11.66 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null, null, null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 84.715,
+                "largest-contentful-paint": 84.715,
+                "speed-index": 68,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 84.715
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.99,
+              "tbtMs": 63.22399999999999,
+              "cls": 0,
+              "inpMs": 127.999,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 124.90299999999272,
+              "longTasks": { "count": 1, "maxDurationMs": 113.22 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.57,
+              "tbtMs": 0,
+              "cls": 0.76866796875,
+              "inpMs": 30.687,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 44.352000000000025,
+              "longTasks": { "count": 0, "maxDurationMs": 14.07 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 0,
+              "cls": 0,
+              "inpMs": null,
+              "inpMode": "notApplicable",
+              "mainthreadWorkMs": 13.72300000000007,
+              "longTasks": { "count": 0, "maxDurationMs": 12.19 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null, null, null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 84.772,
+                "largest-contentful-paint": 84.772,
+                "speed-index": 68,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 84.772
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.99,
+              "tbtMs": 65.149,
+              "cls": 0,
+              "inpMs": 132.189,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 126.79499999999248,
+              "longTasks": { "count": 1, "maxDurationMs": 115.15 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.57,
+              "tbtMs": 0,
+              "cls": 0.7820004501342774,
+              "inpMs": 34.242,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 54.63700000000006,
+              "longTasks": { "count": 0, "maxDurationMs": 13.66 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 0,
+              "cls": 0,
+              "inpMs": null,
+              "inpMode": "notApplicable",
+              "mainthreadWorkMs": 13.224000000000066,
+              "longTasks": { "count": 0, "maxDurationMs": 11.74 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null, null, null]
+        }
+      ]
+    },
+    "F5@1000:react": {
+      "flow": "F5",
+      "dataset": 1000,
+      "app": "react",
+      "runs": [
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 73.622,
+                "largest-contentful-paint": 73.622,
+                "speed-index": 55,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 73.622
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.98,
+              "tbtMs": 110.27199999999999,
+              "cls": 0,
+              "inpMs": 169.217,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 171.62899999998945,
+              "longTasks": { "count": 1, "maxDurationMs": 160.27 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.55,
+              "tbtMs": 0,
+              "cls": 0.9702623768806458,
+              "inpMs": 40.035,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 191.72100000000023,
+              "longTasks": { "count": 0, "maxDurationMs": 26.43 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 0,
+              "cls": 0,
+              "inpMs": null,
+              "inpMode": "notApplicable",
+              "mainthreadWorkMs": 19.071000000000126,
+              "longTasks": { "count": 0, "maxDurationMs": 9.78 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null, null, null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 100.494,
+                "largest-contentful-paint": 100.494,
+                "speed-index": 82,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 100.494
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.98,
+              "tbtMs": 106.78999999999999,
+              "cls": 0,
+              "inpMs": 165.167,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 167.40499999998974,
+              "longTasks": { "count": 1, "maxDurationMs": 156.79 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.55,
+              "tbtMs": 0,
+              "cls": 0.9702623768806458,
+              "inpMs": 45.993,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 193.9540000000002,
+              "longTasks": { "count": 0, "maxDurationMs": 25.67 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 0,
+              "cls": 0,
+              "inpMs": null,
+              "inpMode": "notApplicable",
+              "mainthreadWorkMs": 19.606000000000023,
+              "longTasks": { "count": 0, "maxDurationMs": 10.03 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null, null, null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 83.531,
+                "largest-contentful-paint": 83.531,
+                "speed-index": 65,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 83.531
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.98,
+              "tbtMs": 104.578,
+              "cls": 0,
+              "inpMs": 163.45,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 165.65699999998938,
+              "longTasks": { "count": 1, "maxDurationMs": 154.58 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.55,
+              "tbtMs": 0,
+              "cls": 0.9702623768806458,
+              "inpMs": 44.615,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 193.9780000000003,
+              "longTasks": { "count": 0, "maxDurationMs": 25.78 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 0,
+              "cls": 0,
+              "inpMs": null,
+              "inpMode": "notApplicable",
+              "mainthreadWorkMs": 18.833000000000126,
+              "longTasks": { "count": 0, "maxDurationMs": 9.72 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null, null, null]
+        }
+      ]
+    },
+    "F5@1000:angular": {
+      "flow": "F5",
+      "dataset": 1000,
+      "app": "angular",
+      "runs": [
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 78.472,
+                "largest-contentful-paint": 78.472,
+                "speed-index": 61,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 78.472
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.92,
+              "tbtMs": 176.08800000000002,
+              "cls": 0,
+              "inpMs": 246.003,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 231.98200000002677,
+              "longTasks": { "count": 1, "maxDurationMs": 226.09 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.57,
+              "tbtMs": 0,
+              "cls": 0.76866796875,
+              "inpMs": 39.849,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 79.89999999999998,
+              "longTasks": { "count": 0, "maxDurationMs": 24.85 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 0,
+              "cls": 0,
+              "inpMs": null,
+              "inpMode": "notApplicable",
+              "mainthreadWorkMs": 24.495999999999754,
+              "longTasks": { "count": 0, "maxDurationMs": 11.63 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null, null, null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 82.818,
+                "largest-contentful-paint": 82.818,
+                "speed-index": 66,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 82.818
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.92,
+              "tbtMs": 176.30700000000002,
+              "cls": 0,
+              "inpMs": 244.9,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 231.9230000000276,
+              "longTasks": { "count": 1, "maxDurationMs": 226.31 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.57,
+              "tbtMs": 0,
+              "cls": 0.76866796875,
+              "inpMs": 44.044,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 76.28400000000002,
+              "longTasks": { "count": 0, "maxDurationMs": 25.12 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 0,
+              "cls": 0,
+              "inpMs": null,
+              "inpMode": "notApplicable",
+              "mainthreadWorkMs": 23.63899999999975,
+              "longTasks": { "count": 0, "maxDurationMs": 11.39 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null, null, null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 85.612,
+                "largest-contentful-paint": 85.612,
+                "speed-index": 69,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 85.612
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.91,
+              "tbtMs": 177.14800000000002,
+              "cls": 0,
+              "inpMs": 247.497,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 232.7710000000278,
+              "longTasks": { "count": 1, "maxDurationMs": 227.15 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.55,
+              "tbtMs": 0,
+              "cls": 0.9922900428771972,
+              "inpMs": 44.827,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 80.67899999999995,
+              "longTasks": { "count": 0, "maxDurationMs": 25.04 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 0,
+              "cls": 0,
+              "inpMs": null,
+              "inpMode": "notApplicable",
+              "mainthreadWorkMs": 23.73099999999974,
+              "longTasks": { "count": 0, "maxDurationMs": 11.44 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null, null, null]
+        }
+      ]
+    },
+    "F5@2000:react": {
+      "flow": "F5",
+      "dataset": 2000,
+      "app": "react",
+      "runs": [
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 70.672,
+                "largest-contentful-paint": 70.672,
+                "speed-index": 47,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 70.672
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.81,
+              "tbtMs": 266.23299999999995,
+              "cls": 0,
+              "inpMs": 325.015,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 326.30500000004986,
+              "longTasks": { "count": 1, "maxDurationMs": 316.23 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.55,
+              "tbtMs": 0,
+              "cls": 0.9868930941581728,
+              "inpMs": 72.235,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 363.6759999999999,
+              "longTasks": { "count": 0, "maxDurationMs": 43.64 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 0,
+              "cls": 0,
+              "inpMs": null,
+              "inpMode": "notApplicable",
+              "mainthreadWorkMs": 34.409999999999556,
+              "longTasks": { "count": 0, "maxDurationMs": 17.93 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null, null, null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 76.838,
+                "largest-contentful-paint": 76.838,
+                "speed-index": 54,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 76.838
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.81,
+              "tbtMs": 265.50899999999996,
+              "cls": 0,
+              "inpMs": 324.473,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 325.8060000000487,
+              "longTasks": { "count": 1, "maxDurationMs": 315.51 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.55,
+              "tbtMs": 0,
+              "cls": 0.9868930941581728,
+              "inpMs": 73.109,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 403.52199999999885,
+              "longTasks": { "count": 0, "maxDurationMs": 44.09 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 0,
+              "cls": 0,
+              "inpMs": null,
+              "inpMode": "notApplicable",
+              "mainthreadWorkMs": 33.544999999999575,
+              "longTasks": { "count": 0, "maxDurationMs": 16.96 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null, null, null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 66.63,
+                "largest-contentful-paint": 66.63,
+                "speed-index": 47,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 66.63
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.81,
+              "tbtMs": 264.99600000000004,
+              "cls": 0,
+              "inpMs": 324.025,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 325.49400000004937,
+              "longTasks": { "count": 1, "maxDurationMs": 315 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.55,
+              "tbtMs": 0,
+              "cls": 0.9868930941581728,
+              "inpMs": 72.542,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 402.1809999999991,
+              "longTasks": { "count": 0, "maxDurationMs": 43.58 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 0,
+              "cls": 0,
+              "inpMs": null,
+              "inpMode": "notApplicable",
+              "mainthreadWorkMs": 34.799999999999564,
+              "longTasks": { "count": 0, "maxDurationMs": 17.43 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null, null, null]
+        }
+      ]
+    },
+    "F5@2000:angular": {
+      "flow": "F5",
+      "dataset": 2000,
+      "app": "angular",
+      "runs": [
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 71.443,
+                "largest-contentful-paint": 71.443,
+                "speed-index": 54,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 71.443
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.69,
+              "tbtMs": 392.441,
+              "cls": 0,
+              "inpMs": 462.313,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 447.046000000055,
+              "longTasks": { "count": 1, "maxDurationMs": 442.44 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.55,
+              "tbtMs": 0,
+              "cls": 0.9922900428771972,
+              "inpMs": 69.109,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 188.81400000000033,
+              "longTasks": { "count": 0, "maxDurationMs": 46.32 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 0,
+              "cls": 0,
+              "inpMs": null,
+              "inpMode": "notApplicable",
+              "mainthreadWorkMs": 42.710000000001074,
+              "longTasks": { "count": 0, "maxDurationMs": 41.19 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null, null, null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 102.297,
+                "largest-contentful-paint": 102.297,
+                "speed-index": 85,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 102.297
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.69,
+              "tbtMs": 388.397,
+              "cls": 0,
+              "inpMs": 458.123,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 443.1440000000569,
+              "longTasks": { "count": 1, "maxDurationMs": 438.4 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.56,
+              "tbtMs": 0,
+              "cls": 0.8503739776611328,
+              "inpMs": 64.599,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 217.65700000000123,
+              "longTasks": { "count": 0, "maxDurationMs": 45.76 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 0,
+              "cls": 0,
+              "inpMs": null,
+              "inpMode": "notApplicable",
+              "mainthreadWorkMs": 42.31500000000109,
+              "longTasks": { "count": 0, "maxDurationMs": 40.82 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null, null, null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 69.487,
+                "largest-contentful-paint": 69.487,
+                "speed-index": 52,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 69.487
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.68,
+              "tbtMs": 395.031,
+              "cls": 0,
+              "inpMs": 452.198,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 452.22800000005225,
+              "longTasks": { "count": 1, "maxDurationMs": 445.03 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.59,
+              "tbtMs": 0,
+              "cls": 0.6267519035339355,
+              "inpMs": 65.022,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 232.69700000000415,
+              "longTasks": { "count": 0, "maxDurationMs": 46.44 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 0,
+              "cls": 0,
+              "inpMs": null,
+              "inpMode": "notApplicable",
+              "mainthreadWorkMs": 43.53600000000113,
+              "longTasks": { "count": 0, "maxDurationMs": 21.82 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null, null, null]
+        }
+      ]
+    },
+    "F5@3000:react": {
+      "flow": "F5",
+      "dataset": 3000,
+      "app": "react",
+      "runs": [
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 71.648,
+                "largest-contentful-paint": 71.648,
+                "speed-index": 47,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 71.648
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.67,
+              "tbtMs": 416.354,
+              "cls": 0,
+              "inpMs": 477.052,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 478.91100000006776,
+              "longTasks": { "count": 1, "maxDurationMs": 466.35 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.8,
+              "tbtMs": 9.612000000000009,
+              "cls": 0.22097422132492067,
+              "inpMs": 88.678,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 526.1349999999993,
+              "longTasks": { "count": 1, "maxDurationMs": 59.61 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 0,
+              "cls": 0,
+              "inpMs": null,
+              "inpMode": "notApplicable",
+              "mainthreadWorkMs": 49.5640000000014,
+              "longTasks": { "count": 0, "maxDurationMs": 26.55 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null, null, null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 78.567,
+                "largest-contentful-paint": 78.567,
+                "speed-index": 60,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 78.567
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.67,
+              "tbtMs": 408.63300000000004,
+              "cls": 0,
+              "inpMs": 467.972,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 470.00500000006787,
+              "longTasks": { "count": 1, "maxDurationMs": 458.63 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.8,
+              "tbtMs": 11.641999999999996,
+              "cls": 0.22097422132492067,
+              "inpMs": 99.629,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 528.2509999999995,
+              "longTasks": { "count": 1, "maxDurationMs": 61.64 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 0,
+              "cls": 0,
+              "inpMs": null,
+              "inpMode": "notApplicable",
+              "mainthreadWorkMs": 50.29400000000142,
+              "longTasks": { "count": 0, "maxDurationMs": 27.07 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null, null, null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 71.281,
+                "largest-contentful-paint": 71.281,
+                "speed-index": 48,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 71.281
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.67,
+              "tbtMs": 407.26500000000004,
+              "cls": 0,
+              "inpMs": 467.022,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 469.0310000000669,
+              "longTasks": { "count": 1, "maxDurationMs": 457.27 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.8,
+              "tbtMs": 12.573000000000008,
+              "cls": 0.22097422132492067,
+              "inpMs": 101.006,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 530.9959999999992,
+              "longTasks": { "count": 1, "maxDurationMs": 62.57 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 0,
+              "cls": 0,
+              "inpMs": null,
+              "inpMode": "notApplicable",
+              "mainthreadWorkMs": 50.34400000000141,
+              "longTasks": { "count": 0, "maxDurationMs": 27.01 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null, null, null]
+        }
+      ]
+    },
+    "F5@3000:angular": {
+      "flow": "F5",
+      "dataset": 3000,
+      "app": "angular",
+      "runs": [
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 76.916,
+                "largest-contentful-paint": 76.916,
+                "speed-index": 59,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 76.916
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 0,
+              "cls": 0,
+              "inpMs": null,
+              "inpMode": "notApplicable",
+              "mainthreadWorkMs": 546.2209999996176,
+              "longTasks": { "count": 1, "maxDurationMs": 542.08 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.56,
+              "tbtMs": 16.197000000000017,
+              "cls": 0.8503739776611328,
+              "inpMs": 79.334,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 283.19900000000035,
+              "longTasks": { "count": 2, "maxDurationMs": 63.6 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 12.913000000000004,
+              "cls": 0,
+              "inpMs": null,
+              "inpMode": "notApplicable",
+              "mainthreadWorkMs": 64.6569999999982,
+              "longTasks": { "count": 1, "maxDurationMs": 62.91 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null, null, null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 64.422,
+                "largest-contentful-paint": 64.422,
+                "speed-index": 46,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 64.422
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.57,
+              "tbtMs": 571.501,
+              "cls": 0,
+              "inpMs": 627.8,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 678.3819999998093,
+              "longTasks": { "count": 1, "maxDurationMs": 621.5 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.56,
+              "tbtMs": 13.927999999999997,
+              "cls": 0.8503739776611328,
+              "inpMs": 83.614,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 319.6770000000004,
+              "longTasks": { "count": 2, "maxDurationMs": 62.93 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 0,
+              "cls": 0,
+              "inpMs": null,
+              "inpMode": "notApplicable",
+              "mainthreadWorkMs": 63.30000000000164,
+              "longTasks": { "count": 0, "maxDurationMs": 31.75 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null, null, null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 77.646,
+                "largest-contentful-paint": 77.646,
+                "speed-index": 60,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 77.646
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 0,
+              "cls": 0,
+              "inpMs": null,
+              "inpMode": "notApplicable",
+              "mainthreadWorkMs": 551.2419999996263,
+              "longTasks": { "count": 1, "maxDurationMs": 547.12 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.56,
+              "tbtMs": 16.995000000000005,
+              "cls": 0.8503739776611328,
+              "inpMs": 77.965,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 281.3250000000004,
+              "longTasks": { "count": 2, "maxDurationMs": 62.51 },
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 11.550999999999995,
+              "cls": 0,
+              "inpMs": null,
+              "inpMode": "notApplicable",
+              "mainthreadWorkMs": 63.23500000000015,
+              "longTasks": { "count": 1, "maxDurationMs": 61.55 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null, null, null]
+        }
+      ]
+    },
+    "F1@30:react": {
+      "flow": "F1",
+      "dataset": 30,
+      "app": "react",
+      "runs": [
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 96.508,
+                "largest-contentful-paint": 96.508,
+                "speed-index": 79,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 96.508
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 68.242,
+                "largest-contentful-paint": 68.242,
+                "speed-index": 50,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 68.242
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 63.986,
+                "largest-contentful-paint": 63.986,
+                "speed-index": 45,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 63.986
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null]
+        }
+      ]
+    },
+    "F1@30:angular": {
+      "flow": "F1",
+      "dataset": 30,
+      "app": "angular",
+      "runs": [
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 65.556,
+                "largest-contentful-paint": 65.556,
+                "speed-index": 49,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 65.556
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 63.568,
+                "largest-contentful-paint": 63.568,
+                "speed-index": 46,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 63.568
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 62.023,
+                "largest-contentful-paint": 62.023,
+                "speed-index": 45,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 62.023
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null]
+        }
+      ]
+    },
+    "F2@500:react": {
+      "flow": "F2",
+      "dataset": 500,
+      "app": "react",
+      "runs": [
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 58.511,
+                "largest-contentful-paint": 58.511,
+                "speed-index": 41,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 58.511
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 26.58399999999999,
+              "cls": 0,
+              "inpMs": 85.464,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 90.16200000000299,
+              "longTasks": { "count": 1, "maxDurationMs": 76.58 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 63.168,
+                "largest-contentful-paint": 63.168,
+                "speed-index": 44,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 63.168
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 26.769999999999996,
+              "cls": 0,
+              "inpMs": 84.946,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 90.01000000000288,
+              "longTasks": { "count": 1, "maxDurationMs": 76.77 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 89.638,
+                "largest-contentful-paint": 89.638,
+                "speed-index": 72,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 89.638
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 27.293000000000006,
+              "cls": 0,
+              "inpMs": 85.539,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 90.25200000000305,
+              "longTasks": { "count": 1, "maxDurationMs": 77.29 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null]
+        }
+      ]
+    },
+    "F2@500:angular": {
+      "flow": "F2",
+      "dataset": 500,
+      "app": "angular",
+      "runs": [
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 65.815,
+                "largest-contentful-paint": 65.815,
+                "speed-index": 47,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 65.815
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.99,
+              "tbtMs": 64.72,
+              "cls": 0,
+              "inpMs": 135.46,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 126.26999999999263,
+              "longTasks": { "count": 1, "maxDurationMs": 114.72 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 97.898,
+                "largest-contentful-paint": 97.898,
+                "speed-index": 81,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 97.898
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 1,
+              "tbtMs": 62.32199999999999,
+              "cls": 0,
+              "inpMs": 118.791,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 124.07199999999297,
+              "longTasks": { "count": 1, "maxDurationMs": 112.32 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 63.965,
+                "largest-contentful-paint": 63.965,
+                "speed-index": 45,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 63.965
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.99,
+              "tbtMs": 66.52600000000001,
+              "cls": 0,
+              "inpMs": 137.606,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 128.77299999999235,
+              "longTasks": { "count": 1, "maxDurationMs": 116.53 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null]
+        }
+      ]
+    },
+    "F3@500:react": {
+      "flow": "F3",
+      "dataset": 500,
+      "app": "react",
+      "runs": [
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 95.96,
+                "largest-contentful-paint": 95.96,
+                "speed-index": 79,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 95.96
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.8,
+              "tbtMs": 0,
+              "cls": 0.22097422132492067,
+              "inpMs": 29.754,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 87.93000000000004,
+              "longTasks": { "count": 0, "maxDurationMs": 14.32 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 86.305,
+                "largest-contentful-paint": 86.305,
+                "speed-index": 69,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 86.305
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.8,
+              "tbtMs": 0,
+              "cls": 0.22097422132492067,
+              "inpMs": 28.921,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 88.45899999999997,
+              "longTasks": { "count": 0, "maxDurationMs": 14.62 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 60.749,
+                "largest-contentful-paint": 60.749,
+                "speed-index": 43,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 60.749
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.72,
+              "tbtMs": 0,
+              "cls": 0.30740586519241336,
+              "inpMs": 28.634,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 85.37300000000003,
+              "longTasks": { "count": 0, "maxDurationMs": 14.33 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null]
+        }
+      ]
+    },
+    "F3@500:angular": {
+      "flow": "F3",
+      "dataset": 500,
+      "app": "angular",
+      "runs": [
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 67.223,
+                "largest-contentful-paint": 67.223,
+                "speed-index": 50,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 67.223
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.72,
+              "tbtMs": 0,
+              "cls": 0.3066328125,
+              "inpMs": 30.255,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 24.80999999999998,
+              "longTasks": { "count": 0, "maxDurationMs": 13.83 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 89.292,
+                "largest-contentful-paint": 89.292,
+                "speed-index": 74,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 89.292
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.72,
+              "tbtMs": 0,
+              "cls": 0.3066328125,
+              "inpMs": 32.584,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 23.27999999999998,
+              "longTasks": { "count": 0, "maxDurationMs": 13.91 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 103.162,
+                "largest-contentful-paint": 103.162,
+                "speed-index": 87,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 103.162
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.72,
+              "tbtMs": 0,
+              "cls": 0.3066328125,
+              "inpMs": 35.335,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 23.619999999999983,
+              "longTasks": { "count": 0, "maxDurationMs": 14.35 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null]
+        }
+      ]
+    },
+    "F3@1000:react": {
+      "flow": "F3",
+      "dataset": 1000,
+      "app": "react",
+      "runs": [
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 87.685,
+                "largest-contentful-paint": 87.685,
+                "speed-index": 69,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 87.685
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.8,
+              "tbtMs": 0,
+              "cls": 0.22311694154739384,
+              "inpMs": 40.252,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 169.36600000000024,
+              "longTasks": { "count": 0, "maxDurationMs": 27.14 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 64.724,
+                "largest-contentful-paint": 64.724,
+                "speed-index": 46,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 64.724
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.8,
+              "tbtMs": 0,
+              "cls": 0.22311694154739384,
+              "inpMs": 45.197,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 167.31800000000024,
+              "longTasks": { "count": 0, "maxDurationMs": 26.59 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 94.836,
+                "largest-contentful-paint": 94.836,
+                "speed-index": 77,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 94.836
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.8,
+              "tbtMs": 0,
+              "cls": 0.22311694154739384,
+              "inpMs": 47.715,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 171.63000000000034,
+              "longTasks": { "count": 0, "maxDurationMs": 27.02 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null]
+        }
+      ]
+    },
+    "F3@1000:angular": {
+      "flow": "F3",
+      "dataset": 1000,
+      "app": "angular",
+      "runs": [
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 61.583,
+                "largest-contentful-paint": 61.583,
+                "speed-index": 43,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 61.583
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.72,
+              "tbtMs": 0,
+              "cls": 0.3066328125,
+              "inpMs": 37.86,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 51.376000000000005,
+              "longTasks": { "count": 0, "maxDurationMs": 24.06 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 74.492,
+                "largest-contentful-paint": 74.492,
+                "speed-index": 57,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 74.492
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.72,
+              "tbtMs": 0,
+              "cls": 0.3066328125,
+              "inpMs": 42.386,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 63.352000000000054,
+              "longTasks": { "count": 0, "maxDurationMs": 27.05 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 87.722,
+                "largest-contentful-paint": 87.722,
+                "speed-index": 71,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 87.722
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.72,
+              "tbtMs": 0,
+              "cls": 0.3066328125,
+              "inpMs": 39.864,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 51.48800000000003,
+              "longTasks": { "count": 0, "maxDurationMs": 24.45 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null]
+        }
+      ]
+    },
+    "F4@500:react": {
+      "flow": "F4",
+      "dataset": 500,
+      "app": "react",
+      "runs": [
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 74.86,
+                "largest-contentful-paint": 74.86,
+                "speed-index": 56,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 74.86
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.55,
+              "tbtMs": 0,
+              "cls": 1.0733247380256654,
+              "inpMs": 29.03,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 95.86200000000007,
+              "longTasks": { "count": 0, "maxDurationMs": 14.35 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 85.931,
+                "largest-contentful-paint": 85.931,
+                "speed-index": 69,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 85.931
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.57,
+              "tbtMs": 0,
+              "cls": 0.7373531275749208,
+              "inpMs": 27.295,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 100.28700000000009,
+              "longTasks": { "count": 0, "maxDurationMs": 13.96 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 75.596,
+                "largest-contentful-paint": 75.596,
+                "speed-index": 58,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 75.596
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.55,
+              "tbtMs": 0,
+              "cls": 0.9868930941581728,
+              "inpMs": 27.651,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 100.88100000000009,
+              "longTasks": { "count": 0, "maxDurationMs": 14.17 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null]
+        }
+      ]
+    },
+    "F4@500:angular": {
+      "flow": "F4",
+      "dataset": 500,
+      "app": "angular",
+      "runs": [
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 63.223,
+                "largest-contentful-paint": 63.223,
+                "speed-index": 48,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 63.223
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.55,
+              "tbtMs": 0,
+              "cls": 0.9922900428771972,
+              "inpMs": 30.11,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 41.83700000000003,
+              "longTasks": { "count": 0, "maxDurationMs": 13.33 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 82.858,
+                "largest-contentful-paint": 82.858,
+                "speed-index": 67,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 82.858
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.63,
+              "tbtMs": 0,
+              "cls": 0.46203515625,
+              "inpMs": 34,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 24.295999999999978,
+              "longTasks": { "count": 0, "maxDurationMs": 13.01 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": 1,
+              "accessibility": null,
+              "cwv": {
+                "first-contentful-paint": 93.878,
+                "largest-contentful-paint": 93.878,
+                "speed-index": 77,
+                "total-blocking-time": 0,
+                "cumulative-layout-shift": 0,
+                "interactive": 93.878
+              },
+              "longTasks": { "count": 0, "maxDurationMs": 0 },
+              "failedA11yAudits": null,
+              "runtimeError": null
+            },
+            {
+              "gatherMode": "timespan",
+              "name": null,
+              "performance": 0.55,
+              "tbtMs": 0,
+              "cls": 0.9922900428771972,
+              "inpMs": 33.598,
+              "inpMode": "numeric",
+              "mainthreadWorkMs": 39.87100000000004,
+              "longTasks": { "count": 0, "maxDurationMs": 13.33 },
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null, null]
+        }
+      ]
+    },
+    "a11y@500:react": {
+      "flow": "a11y",
+      "dataset": 500,
+      "app": "react",
+      "runs": [
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": null,
+              "accessibility": 1,
+              "cwv": {
+                "first-contentful-paint": null,
+                "largest-contentful-paint": null,
+                "speed-index": null,
+                "total-blocking-time": null,
+                "cumulative-layout-shift": null,
+                "interactive": null
+              },
+              "longTasks": null,
+              "failedA11yAudits": null,
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": null,
+              "accessibility": 1,
+              "cwv": {
+                "first-contentful-paint": null,
+                "largest-contentful-paint": null,
+                "speed-index": null,
+                "total-blocking-time": null,
+                "cumulative-layout-shift": null,
+                "interactive": null
+              },
+              "longTasks": null,
+              "failedA11yAudits": null,
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": null,
+              "accessibility": 1,
+              "cwv": {
+                "first-contentful-paint": null,
+                "largest-contentful-paint": null,
+                "speed-index": null,
+                "total-blocking-time": null,
+                "cumulative-layout-shift": null,
+                "interactive": null
+              },
+              "longTasks": null,
+              "failedA11yAudits": [],
+              "passedA11yAudits": [
+                "aria-allowed-attr",
+                "aria-conditional-attr",
+                "aria-hidden-body",
+                "aria-prohibited-attr",
+                "aria-valid-attr-value",
+                "aria-valid-attr",
+                "button-name",
+                "color-contrast",
+                "document-title",
+                "heading-order",
+                "html-has-lang",
+                "html-lang-valid",
+                "list",
+                "listitem",
+                "meta-viewport",
+                "target-size",
+                "landmark-one-main"
+              ],
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null]
+        }
+      ]
+    },
+    "a11y@500:angular": {
+      "flow": "a11y",
+      "dataset": 500,
+      "app": "angular",
+      "runs": [
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": null,
+              "accessibility": 1,
+              "cwv": {
+                "first-contentful-paint": null,
+                "largest-contentful-paint": null,
+                "speed-index": null,
+                "total-blocking-time": null,
+                "cumulative-layout-shift": null,
+                "interactive": null
+              },
+              "longTasks": null,
+              "failedA11yAudits": null,
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": null,
+              "accessibility": 1,
+              "cwv": {
+                "first-contentful-paint": null,
+                "largest-contentful-paint": null,
+                "speed-index": null,
+                "total-blocking-time": null,
+                "cumulative-layout-shift": null,
+                "interactive": null
+              },
+              "longTasks": null,
+              "failedA11yAudits": null,
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null]
+        },
+        {
+          "steps": [
+            {
+              "gatherMode": "navigation",
+              "name": null,
+              "performance": null,
+              "accessibility": 1,
+              "cwv": {
+                "first-contentful-paint": null,
+                "largest-contentful-paint": null,
+                "speed-index": null,
+                "total-blocking-time": null,
+                "cumulative-layout-shift": null,
+                "interactive": null
+              },
+              "longTasks": null,
+              "failedA11yAudits": [],
+              "passedA11yAudits": [
+                "aria-allowed-attr",
+                "aria-conditional-attr",
+                "aria-hidden-body",
+                "aria-prohibited-attr",
+                "aria-valid-attr-value",
+                "aria-valid-attr",
+                "button-name",
+                "color-contrast",
+                "document-title",
+                "heading-order",
+                "html-has-lang",
+                "html-lang-valid",
+                "list",
+                "listitem",
+                "meta-viewport",
+                "target-size",
+                "landmark-one-main"
+              ],
+              "runtimeError": null
+            }
+          ],
+          "stepNames": [null]
+        }
+      ]
+    }
+  },
+  "comparison": {
+    "F5": {
+      "500": {
+        "steps": [
+          {
+            "react": {
+              "first-contentful-paint": { "median": 84.51, "min": 67.06, "max": 101.54, "n": 3 },
+              "largest-contentful-paint": { "median": 84.51, "min": 67.06, "max": 101.54, "n": 3 },
+              "total-blocking-time": { "median": 0, "min": 0, "max": 0, "n": 3 },
+              "cumulative-layout-shift": { "median": 0, "min": 0, "max": 0, "n": 3 },
+              "speed-index": { "median": 62, "min": 48, "max": 83, "n": 3 },
+              "performance": { "median": 1, "min": 1, "max": 1, "n": 3 }
+            },
+            "angular": {
+              "first-contentful-paint": { "median": 84.77, "min": 84.72, "max": 90.17, "n": 3 },
+              "largest-contentful-paint": { "median": 84.77, "min": 84.72, "max": 90.17, "n": 3 },
+              "total-blocking-time": { "median": 0, "min": 0, "max": 0, "n": 3 },
+              "cumulative-layout-shift": { "median": 0, "min": 0, "max": 0, "n": 3 },
+              "speed-index": { "median": 68, "min": 68, "max": 74, "n": 3 },
+              "performance": { "median": 1, "min": 1, "max": 1, "n": 3 }
+            }
+          },
+          {
+            "react": {
+              "tbtMs": { "median": 26.94, "min": 26.34, "max": 27.26, "n": 3 },
+              "cls": { "median": 0, "min": 0, "max": 0, "n": 3 },
+              "inpMs": { "median": 85.22, "min": 84.6, "max": 85.5, "n": 3 },
+              "mainthreadWorkMs": { "median": 90.2, "min": 89.71, "max": 90.37, "n": 3 },
+              "performance": { "median": 1, "min": 1, "max": 1, "n": 3 },
+              "longTasks": { "median": 1, "min": 1, "max": 1, "n": 3 }
+            },
+            "angular": {
+              "tbtMs": { "median": 63.22, "min": 62.96, "max": 65.15, "n": 3 },
+              "cls": { "median": 0, "min": 0, "max": 0, "n": 3 },
+              "inpMs": { "median": 128, "min": 121.67, "max": 132.19, "n": 3 },
+              "mainthreadWorkMs": { "median": 125.58, "min": 124.9, "max": 126.79, "n": 3 },
+              "performance": { "median": 0.99, "min": 0.99, "max": 1, "n": 3 },
+              "longTasks": { "median": 1, "min": 1, "max": 1, "n": 3 }
+            }
+          },
+          {
+            "react": {
+              "tbtMs": { "median": 0, "min": 0, "max": 0, "n": 3 },
+              "cls": { "median": 0.82, "min": 0.74, "max": 0.82, "n": 3 },
+              "inpMs": { "median": 28.35, "min": 27.69, "max": 38, "n": 3 },
+              "mainthreadWorkMs": { "median": 95.59, "min": 95.14, "max": 96.69, "n": 3 },
+              "performance": { "median": 0.56, "min": 0.56, "max": 0.57, "n": 3 },
+              "longTasks": { "median": 0, "min": 0, "max": 0, "n": 3 }
+            },
+            "angular": {
+              "tbtMs": { "median": 0, "min": 0, "max": 0, "n": 3 },
+              "cls": { "median": 0.77, "min": 0.77, "max": 0.78, "n": 3 },
+              "inpMs": { "median": 30.69, "min": 29.34, "max": 34.24, "n": 3 },
+              "mainthreadWorkMs": { "median": 44.59, "min": 44.35, "max": 54.64, "n": 3 },
+              "performance": { "median": 0.57, "min": 0.57, "max": 0.57, "n": 3 },
+              "longTasks": { "median": 0, "min": 0, "max": 0, "n": 3 }
+            }
+          },
+          {
+            "react": {
+              "tbtMs": { "median": 0, "min": 0, "max": 0, "n": 3 },
+              "cls": { "median": 0, "min": 0, "max": 0, "n": 3 },
+              "inpMs": { "median": null, "min": null, "max": null, "n": 0 },
+              "mainthreadWorkMs": { "median": 10.47, "min": 10.35, "max": 10.72, "n": 3 },
+              "performance": { "median": 1, "min": 1, "max": 1, "n": 3 },
+              "longTasks": { "median": 0, "min": 0, "max": 0, "n": 3 }
+            },
+            "angular": {
+              "tbtMs": { "median": 0, "min": 0, "max": 0, "n": 3 },
+              "cls": { "median": 0, "min": 0, "max": 0, "n": 3 },
+              "inpMs": { "median": null, "min": null, "max": null, "n": 0 },
+              "mainthreadWorkMs": { "median": 13.26, "min": 13.22, "max": 13.72, "n": 3 },
+              "performance": { "median": 1, "min": 1, "max": 1, "n": 3 },
+              "longTasks": { "median": 0, "min": 0, "max": 0, "n": 3 }
+            }
+          }
+        ]
+      }
+    },
+    "F1": {
+      "30": {
+        "steps": [
+          {
+            "react": {
+              "first-contentful-paint": { "median": 68.24, "min": 63.99, "max": 96.51, "n": 3 },
+              "largest-contentful-paint": { "median": 68.24, "min": 63.99, "max": 96.51, "n": 3 },
+              "total-blocking-time": { "median": 0, "min": 0, "max": 0, "n": 3 },
+              "cumulative-layout-shift": { "median": 0, "min": 0, "max": 0, "n": 3 },
+              "speed-index": { "median": 50, "min": 45, "max": 79, "n": 3 },
+              "performance": { "median": 1, "min": 1, "max": 1, "n": 3 }
+            },
+            "angular": {
+              "first-contentful-paint": { "median": 63.57, "min": 62.02, "max": 65.56, "n": 3 },
+              "largest-contentful-paint": { "median": 63.57, "min": 62.02, "max": 65.56, "n": 3 },
+              "total-blocking-time": { "median": 0, "min": 0, "max": 0, "n": 3 },
+              "cumulative-layout-shift": { "median": 0, "min": 0, "max": 0, "n": 3 },
+              "speed-index": { "median": 46, "min": 45, "max": 49, "n": 3 },
+              "performance": { "median": 1, "min": 1, "max": 1, "n": 3 }
+            }
+          }
+        ]
+      }
+    },
+    "F2": {
+      "500": {
+        "steps": [
+          {
+            "react": {
+              "tbtMs": { "median": null, "min": null, "max": null, "n": 0 },
+              "cls": { "median": null, "min": null, "max": null, "n": 0 },
+              "inpMs": { "median": null, "min": null, "max": null, "n": 0 },
+              "mainthreadWorkMs": { "median": null, "min": null, "max": null, "n": 0 },
+              "performance": { "median": 1, "min": 1, "max": 1, "n": 3 },
+              "longTasks": { "median": 0, "min": 0, "max": 0, "n": 3 }
+            },
+            "angular": {
+              "tbtMs": { "median": null, "min": null, "max": null, "n": 0 },
+              "cls": { "median": null, "min": null, "max": null, "n": 0 },
+              "inpMs": { "median": null, "min": null, "max": null, "n": 0 },
+              "mainthreadWorkMs": { "median": null, "min": null, "max": null, "n": 0 },
+              "performance": { "median": 1, "min": 1, "max": 1, "n": 3 },
+              "longTasks": { "median": 0, "min": 0, "max": 0, "n": 3 }
+            }
+          },
+          {
+            "react": {
+              "tbtMs": { "median": 26.77, "min": 26.58, "max": 27.29, "n": 3 },
+              "cls": { "median": 0, "min": 0, "max": 0, "n": 3 },
+              "inpMs": { "median": 85.46, "min": 84.95, "max": 85.54, "n": 3 },
+              "mainthreadWorkMs": { "median": 90.16, "min": 90.01, "max": 90.25, "n": 3 },
+              "performance": { "median": 1, "min": 1, "max": 1, "n": 3 },
+              "longTasks": { "median": 1, "min": 1, "max": 1, "n": 3 }
+            },
+            "angular": {
+              "tbtMs": { "median": 64.72, "min": 62.32, "max": 66.53, "n": 3 },
+              "cls": { "median": 0, "min": 0, "max": 0, "n": 3 },
+              "inpMs": { "median": 135.46, "min": 118.79, "max": 137.61, "n": 3 },
+              "mainthreadWorkMs": { "median": 126.27, "min": 124.07, "max": 128.77, "n": 3 },
+              "performance": { "median": 0.99, "min": 0.99, "max": 1, "n": 3 },
+              "longTasks": { "median": 1, "min": 1, "max": 1, "n": 3 }
+            }
+          }
+        ]
+      }
+    },
+    "F3": {
+      "500": {
+        "steps": [
+          {
+            "react": {
+              "tbtMs": { "median": null, "min": null, "max": null, "n": 0 },
+              "cls": { "median": null, "min": null, "max": null, "n": 0 },
+              "inpMs": { "median": null, "min": null, "max": null, "n": 0 },
+              "mainthreadWorkMs": { "median": null, "min": null, "max": null, "n": 0 },
+              "performance": { "median": 1, "min": 1, "max": 1, "n": 3 },
+              "longTasks": { "median": 0, "min": 0, "max": 0, "n": 3 }
+            },
+            "angular": {
+              "tbtMs": { "median": null, "min": null, "max": null, "n": 0 },
+              "cls": { "median": null, "min": null, "max": null, "n": 0 },
+              "inpMs": { "median": null, "min": null, "max": null, "n": 0 },
+              "mainthreadWorkMs": { "median": null, "min": null, "max": null, "n": 0 },
+              "performance": { "median": 1, "min": 1, "max": 1, "n": 3 },
+              "longTasks": { "median": 0, "min": 0, "max": 0, "n": 3 }
+            }
+          },
+          {
+            "react": {
+              "tbtMs": { "median": 0, "min": 0, "max": 0, "n": 3 },
+              "cls": { "median": 0.22, "min": 0.22, "max": 0.31, "n": 3 },
+              "inpMs": { "median": 28.92, "min": 28.63, "max": 29.75, "n": 3 },
+              "mainthreadWorkMs": { "median": 87.93, "min": 85.37, "max": 88.46, "n": 3 },
+              "performance": { "median": 0.8, "min": 0.72, "max": 0.8, "n": 3 },
+              "longTasks": { "median": 0, "min": 0, "max": 0, "n": 3 }
+            },
+            "angular": {
+              "tbtMs": { "median": 0, "min": 0, "max": 0, "n": 3 },
+              "cls": { "median": 0.31, "min": 0.31, "max": 0.31, "n": 3 },
+              "inpMs": { "median": 32.58, "min": 30.26, "max": 35.34, "n": 3 },
+              "mainthreadWorkMs": { "median": 23.62, "min": 23.28, "max": 24.81, "n": 3 },
+              "performance": { "median": 0.72, "min": 0.72, "max": 0.72, "n": 3 },
+              "longTasks": { "median": 0, "min": 0, "max": 0, "n": 3 }
+            }
+          }
+        ]
+      },
+      "1000": {
+        "steps": [
+          {
+            "react": {
+              "tbtMs": { "median": null, "min": null, "max": null, "n": 0 },
+              "cls": { "median": null, "min": null, "max": null, "n": 0 },
+              "inpMs": { "median": null, "min": null, "max": null, "n": 0 },
+              "mainthreadWorkMs": { "median": null, "min": null, "max": null, "n": 0 },
+              "performance": { "median": 1, "min": 1, "max": 1, "n": 3 },
+              "longTasks": { "median": 0, "min": 0, "max": 0, "n": 3 }
+            },
+            "angular": {
+              "tbtMs": { "median": null, "min": null, "max": null, "n": 0 },
+              "cls": { "median": null, "min": null, "max": null, "n": 0 },
+              "inpMs": { "median": null, "min": null, "max": null, "n": 0 },
+              "mainthreadWorkMs": { "median": null, "min": null, "max": null, "n": 0 },
+              "performance": { "median": 1, "min": 1, "max": 1, "n": 3 },
+              "longTasks": { "median": 0, "min": 0, "max": 0, "n": 3 }
+            }
+          },
+          {
+            "react": {
+              "tbtMs": { "median": 0, "min": 0, "max": 0, "n": 3 },
+              "cls": { "median": 0.22, "min": 0.22, "max": 0.22, "n": 3 },
+              "inpMs": { "median": 45.2, "min": 40.25, "max": 47.72, "n": 3 },
+              "mainthreadWorkMs": { "median": 169.37, "min": 167.32, "max": 171.63, "n": 3 },
+              "performance": { "median": 0.8, "min": 0.8, "max": 0.8, "n": 3 },
+              "longTasks": { "median": 0, "min": 0, "max": 0, "n": 3 }
+            },
+            "angular": {
+              "tbtMs": { "median": 0, "min": 0, "max": 0, "n": 3 },
+              "cls": { "median": 0.31, "min": 0.31, "max": 0.31, "n": 3 },
+              "inpMs": { "median": 39.86, "min": 37.86, "max": 42.39, "n": 3 },
+              "mainthreadWorkMs": { "median": 51.49, "min": 51.38, "max": 63.35, "n": 3 },
+              "performance": { "median": 0.72, "min": 0.72, "max": 0.72, "n": 3 },
+              "longTasks": { "median": 0, "min": 0, "max": 0, "n": 3 }
+            }
+          }
+        ]
+      }
+    },
+    "F4": {
+      "500": {
+        "steps": [
+          {
+            "react": {
+              "tbtMs": { "median": null, "min": null, "max": null, "n": 0 },
+              "cls": { "median": null, "min": null, "max": null, "n": 0 },
+              "inpMs": { "median": null, "min": null, "max": null, "n": 0 },
+              "mainthreadWorkMs": { "median": null, "min": null, "max": null, "n": 0 },
+              "performance": { "median": 1, "min": 1, "max": 1, "n": 3 },
+              "longTasks": { "median": 0, "min": 0, "max": 0, "n": 3 }
+            },
+            "angular": {
+              "tbtMs": { "median": null, "min": null, "max": null, "n": 0 },
+              "cls": { "median": null, "min": null, "max": null, "n": 0 },
+              "inpMs": { "median": null, "min": null, "max": null, "n": 0 },
+              "mainthreadWorkMs": { "median": null, "min": null, "max": null, "n": 0 },
+              "performance": { "median": 1, "min": 1, "max": 1, "n": 3 },
+              "longTasks": { "median": 0, "min": 0, "max": 0, "n": 3 }
+            }
+          },
+          {
+            "react": {
+              "tbtMs": { "median": 0, "min": 0, "max": 0, "n": 3 },
+              "cls": { "median": 0.99, "min": 0.74, "max": 1.07, "n": 3 },
+              "inpMs": { "median": 27.65, "min": 27.3, "max": 29.03, "n": 3 },
+              "mainthreadWorkMs": { "median": 100.29, "min": 95.86, "max": 100.88, "n": 3 },
+              "performance": { "median": 0.55, "min": 0.55, "max": 0.57, "n": 3 },
+              "longTasks": { "median": 0, "min": 0, "max": 0, "n": 3 }
+            },
+            "angular": {
+              "tbtMs": { "median": 0, "min": 0, "max": 0, "n": 3 },
+              "cls": { "median": 0.99, "min": 0.46, "max": 0.99, "n": 3 },
+              "inpMs": { "median": 33.6, "min": 30.11, "max": 34, "n": 3 },
+              "mainthreadWorkMs": { "median": 39.87, "min": 24.3, "max": 41.84, "n": 3 },
+              "performance": { "median": 0.55, "min": 0.55, "max": 0.63, "n": 3 },
+              "longTasks": { "median": 0, "min": 0, "max": 0, "n": 3 }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "accessibility": {
+    "react": { "score": { "median": 1, "min": 1, "max": 1, "n": 3 }, "n": 3 },
+    "angular": { "score": { "median": 1, "min": 1, "max": 1, "n": 3 }, "n": 3 }
+  },
+  "limitations": [
+    "Mediciones en localhost sin throttling; no representan condiciones de campo ni dispositivos móviles (perfil desktop).",
+    "INP requiere input de confianza y el flag --enable-blink-features=EventTimingTracing en chrome-headless-shell; sin el flag el audit es notApplicable (verificado).",
+    "El audit long-tasks es notApplicable en modo timespan (Lighthouse v13); el conteo de long tasks se deriva de main-thread-tasks (items > 50 ms).",
+    "El timespan CLS mide desplazamientos durante la interacción (cambio de la lista), no el CLS de página; la semántica difiere del CLS de Fase 5.9.",
+    "El typing (page.type) dispara N interacciones; INP es la peor de ellas (semántica correcta de INP).",
+    "Los builds son los del laboratorio Fase 9 (10 features + scale-dataset), no los monoliths oficiales de Fase 5 (que no soportan datasets > 30); los bundles oficiales se verifican intactos.",
+    "La navegación SPA no es una navegación de página: F2/F3/F4 usan timespan sobre la sección Tasks; F1 mide la carga inicial (Dashboard, que agrega el dataset y por tanto escala con N).",
+    "Una máquina local; resultados indicativos, no benchmark científico (metrics.md §1)."
+  ]
+}
