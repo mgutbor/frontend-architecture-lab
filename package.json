@@ -25,6 +25,7 @@
     "lighthouse:phase5": "node scripts/run-lighthouse-phase5.mjs",
     "evolution:measure": "node scripts/measure-evolution-phase6.mjs",
     "interaction:measure": "node scripts/measure-interaction-performance-phase7.mjs",
+    "scalability:measure": "node scripts/measure-scalability-phase8.mjs",
     "check": "pnpm lint && pnpm format:check && pnpm typecheck && pnpm test && pnpm build"
   },
   "devDependencies": {

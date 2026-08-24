@@ -1,0 +1,872 @@
+{
+  "experiment": "scalability-phase8",
+  "capturedAt": "2026-08-24T08:05:12.888Z",
+  "objective": "Medir cómo evolucionan las propiedades arquitectónicas y de coste de React y Angular cuando el sistema crece de 6 a 16 áreas funcionales (10 features de catálogo añadidas de forma incremental en 4 niveles), más un experimento de modificación localizada (c5) y un escenario de presión con capacidad compartida (c6).",
+  "environment": {
+    "node": "v25.3.0",
+    "platform": "darwin-arm64",
+    "cpuModel": "Apple M1",
+    "cpuCores": 8,
+    "memoryBytes": 17179869184,
+    "experimentalCopy": "/tmp/lab-phase8",
+    "commits": {
+      "baseline": "367f08916e3fe7d3ff123b89b3284a0dad829b7e",
+      "c1-level1": "7302cc29dcb3dcb68c4244a371090c9f7e674a5a",
+      "c2-level2": "ed81ccbf171b9be3e3936ed3c54821293ce95c30",
+      "c3-level3": "6ea93d35e69e12fa9006c20f4c961b63cb050359",
+      "c4-level4": "38fbc1d55fa1959a1bc91923f4f36b159be74fd7",
+      "c5-modification": "b22820cebef600c961190c27444e7ac0165848c7",
+      "c6-pressure": "cc11abfd67d3ca8099087c3fcf19d0d5bde538c8"
+    },
+    "note": "Experimento ejecutado en copia aislada (/tmp) con git propio; el árbol principal no se modificó. buildTimeMs y testTimeMs: 1 ejecución por estado (indicativo, no mediana)."
+  },
+  "method": "Escalera de crecimiento en copia aislada: LEVEL 0 (baseline, 6 áreas) -> LEVEL 1 (c1, +1 feature Milestones) -> LEVEL 2 (c2, +Issues/Notes = 3) -> LEVEL 3 (c3, +Tags/Risks = 5) -> LEVEL 4 (c4, +Deliverables/AuditLog/Watchers/BudgetLines/Sprints = 10). Cada feature es un catálogo con la misma plantilla: entrada de navegación, UI, estado local (búsqueda + filtro de estado + selección), consumo de datos y reglas de @operations-hub/domain (catalogs module), tests y una interacción real. c5: experimento de modificación (regla countOverdue + milestone vencido + display en la feature Milestones). c6: escenario de presión (componente compartido CatalogToolbar en components/ consumido por las 10 features). Métricas por estado: build/bundle/tests (1 ejecución), LOC y archivos por framework desde git, imports entre features (escaneo), imports de dominio, dependencias (diff package.json). Métricas derivadas: curvas acumuladas por nivel, coste marginal por feature, coste de modificación y de capacidad compartida.",
+  "states": {
+    "baseline": {
+      "commit": "367f08916e3fe7d3ff123b89b3284a0dad829b7e",
+      "buildTimeMs": { "domain": 297.9, "react": 188.3, "angular": 1852.7 },
+      "testTimeMs": { "domain": 410.6, "react": 2574, "angular": 2978.2 },
+      "testCount": { "domain": 78, "react": 84, "angular": 61 },
+      "bundle": {
+        "reactJs": { "raw": 233547, "gzip": 68572 },
+        "reactCss": { "raw": 3666, "gzip": 1162 },
+        "angularJs": { "raw": 179634, "gzip": 53485 },
+        "angularCss": { "raw": 3438, "gzip": 1135 }
+      },
+      "code": {
+        "loc": {
+          "reactProd": 2182,
+          "reactTest": 1093,
+          "reactFiles": 26,
+          "reactTestFiles": 9,
+          "angularProd": 2296,
+          "angularTest": 1035,
+          "angularFiles": 35,
+          "angularTestFiles": 8,
+          "domainProd": 753,
+          "domainTest": 768,
+          "domainFiles": 7,
+          "domainTestFiles": 5
+        },
+        "ratios": { "reactTestCode": 0.500916590284143, "angularTestCode": 0.45078397212543553 },
+        "featureCount": { "total": 6, "catalog": 0 },
+        "architecture": {
+          "crossFeatureImports": 0,
+          "crossFeatureImportsDetail": { "react": [], "angular": [] },
+          "domainImports": 20,
+          "catalogFeatures": []
+        }
+      }
+    },
+    "c1-level1": {
+      "commit": "7302cc29dcb3dcb68c4244a371090c9f7e674a5a",
+      "buildTimeMs": { "domain": 2173.3, "react": 188.7, "angular": 1909.5 },
+      "testTimeMs": { "domain": 422, "react": 2709.8, "angular": 3065.1 },
+      "testCount": { "domain": 84, "react": 90, "angular": 67 },
+      "bundle": {
+        "reactJs": { "raw": 236664, "gzip": 69106 },
+        "reactCss": { "raw": 3666, "gzip": 1162 },
+        "angularJs": { "raw": 183525, "gzip": 54330 },
+        "angularCss": { "raw": 3438, "gzip": 1135 }
+      },
+      "code": {
+        "loc": {
+          "reactProd": 2320,
+          "reactTest": 1184,
+          "reactFiles": 27,
+          "reactTestFiles": 10,
+          "angularProd": 2440,
+          "angularTest": 1148,
+          "angularFiles": 37,
+          "angularTestFiles": 9,
+          "domainProd": 852,
+          "domainTest": 819,
+          "domainFiles": 9,
+          "domainTestFiles": 6
+        },
+        "ratios": { "reactTestCode": 0.5103448275862069, "angularTestCode": 0.4704918032786885 },
+        "featureCount": { "total": 7, "catalog": 1 },
+        "architecture": {
+          "crossFeatureImports": 0,
+          "crossFeatureImportsDetail": { "react": [], "angular": [] },
+          "domainImports": 21,
+          "catalogFeatures": ["milestones"]
+        }
+      }
+    },
+    "c2-level2": {
+      "commit": "ed81ccbf171b9be3e3936ed3c54821293ce95c30",
+      "buildTimeMs": { "domain": 2333.5, "react": 187.3, "angular": 1927 },
+      "testTimeMs": { "domain": 422.7, "react": 3066, "angular": 3130.1 },
+      "testCount": { "domain": 89, "react": 99, "angular": 75 },
+      "bundle": {
+        "reactJs": { "raw": 242512, "gzip": 69899 },
+        "reactCss": { "raw": 3666, "gzip": 1162 },
+        "angularJs": { "raw": 190923, "gzip": 55280 },
+        "angularCss": { "raw": 3438, "gzip": 1135 }
+      },
+      "code": {
+        "loc": {
+          "reactProd": 2524,
+          "reactTest": 1319,
+          "reactFiles": 29,
+          "reactTestFiles": 12,
+          "angularProd": 2655,
+          "angularTest": 1303,
+          "angularFiles": 41,
+          "angularTestFiles": 11,
+          "domainProd": 974,
+          "domainTest": 889,
+          "domainFiles": 11,
+          "domainTestFiles": 6
+        },
+        "ratios": { "reactTestCode": 0.5225832012678289, "angularTestCode": 0.49077212806026366 },
+        "featureCount": { "total": 9, "catalog": 3 },
+        "architecture": {
+          "crossFeatureImports": 0,
+          "crossFeatureImportsDetail": { "react": [], "angular": [] },
+          "domainImports": 27,
+          "catalogFeatures": ["milestones", "issues", "notes"]
+        }
+      }
+    },
+    "c3-level3": {
+      "commit": "6ea93d35e69e12fa9006c20f4c961b63cb050359",
+      "buildTimeMs": { "domain": 2582.2, "react": 190.5, "angular": 1977.2 },
+      "testTimeMs": { "domain": 435.1, "react": 3463.5, "angular": 3176.3 },
+      "testCount": { "domain": 93, "react": 107, "angular": 83 },
+      "bundle": {
+        "reactJs": { "raw": 247597, "gzip": 70446 },
+        "reactCss": { "raw": 3666, "gzip": 1162 },
+        "angularJs": { "raw": 197466, "gzip": 55997 },
+        "angularCss": { "raw": 3438, "gzip": 1135 }
+      },
+      "code": {
+        "loc": {
+          "reactProd": 2716,
+          "reactTest": 1432,
+          "reactFiles": 31,
+          "reactTestFiles": 14,
+          "angularProd": 2857,
+          "angularTest": 1455,
+          "angularFiles": 45,
+          "angularTestFiles": 13,
+          "domainProd": 1054,
+          "domainTest": 939,
+          "domainFiles": 13,
+          "domainTestFiles": 6
+        },
+        "ratios": { "reactTestCode": 0.5272459499263623, "angularTestCode": 0.5092754637731887 },
+        "featureCount": { "total": 11, "catalog": 5 },
+        "architecture": {
+          "crossFeatureImports": 0,
+          "crossFeatureImportsDetail": { "react": [], "angular": [] },
+          "domainImports": 33,
+          "catalogFeatures": ["milestones", "issues", "notes", "tags", "risks"]
+        }
+      }
+    },
+    "c4-level4": {
+      "commit": "38fbc1d55fa1959a1bc91923f4f36b159be74fd7",
+      "buildTimeMs": { "domain": 2847.3, "react": 192.6, "angular": 2079.7 },
+      "testTimeMs": { "domain": 441.2, "react": 4517.2, "angular": 3331.7 },
+      "testCount": { "domain": 105, "react": 127, "angular": 103 },
+      "bundle": {
+        "reactJs": { "raw": 261733, "gzip": 71906 },
+        "reactCss": { "raw": 3666, "gzip": 1162 },
+        "angularJs": { "raw": 215811, "gzip": 57927 },
+        "angularCss": { "raw": 3438, "gzip": 1135 }
+      },
+      "code": {
+        "loc": {
+          "reactProd": 3228,
+          "reactTest": 1725,
+          "reactFiles": 36,
+          "reactTestFiles": 19,
+          "angularProd": 3413,
+          "angularTest": 1858,
+          "angularFiles": 55,
+          "angularTestFiles": 18,
+          "domainProd": 1342,
+          "domainTest": 1102,
+          "domainFiles": 18,
+          "domainTestFiles": 6
+        },
+        "ratios": { "reactTestCode": 0.5343866171003717, "angularTestCode": 0.5443891004980955 },
+        "featureCount": { "total": 16, "catalog": 10 },
+        "architecture": {
+          "crossFeatureImports": 0,
+          "crossFeatureImportsDetail": { "react": [], "angular": [] },
+          "domainImports": 48,
+          "catalogFeatures": [
+            "milestones",
+            "issues",
+            "notes",
+            "tags",
+            "risks",
+            "deliverables",
+            "audit-log",
+            "watchers",
+            "budget-lines",
+            "sprints"
+          ]
+        }
+      }
+    },
+    "c5-modification": {
+      "commit": "b22820cebef600c961190c27444e7ac0165848c7",
+      "buildTimeMs": { "domain": 3529.2, "react": 205.9, "angular": 2071.7 },
+      "testTimeMs": { "domain": 432.3, "react": 4638.1, "angular": 3531.3 },
+      "testCount": { "domain": 106, "react": 127, "angular": 103 },
+      "bundle": {
+        "reactJs": { "raw": 261810, "gzip": 71949 },
+        "reactCss": { "raw": 3666, "gzip": 1162 },
+        "angularJs": { "raw": 216212, "gzip": 58061 },
+        "angularCss": { "raw": 3438, "gzip": 1135 }
+      },
+      "code": {
+        "loc": {
+          "reactProd": 3233,
+          "reactTest": 1725,
+          "reactFiles": 36,
+          "reactTestFiles": 19,
+          "angularProd": 3417,
+          "angularTest": 1858,
+          "angularFiles": 55,
+          "angularTestFiles": 18,
+          "domainProd": 1353,
+          "domainTest": 1107,
+          "domainFiles": 18,
+          "domainTestFiles": 6
+        },
+        "ratios": { "reactTestCode": 0.5335601608413238, "angularTestCode": 0.5437518290898449 },
+        "featureCount": { "total": 16, "catalog": 10 },
+        "architecture": {
+          "crossFeatureImports": 0,
+          "crossFeatureImportsDetail": { "react": [], "angular": [] },
+          "domainImports": 48,
+          "catalogFeatures": [
+            "milestones",
+            "issues",
+            "notes",
+            "tags",
+            "risks",
+            "deliverables",
+            "audit-log",
+            "watchers",
+            "budget-lines",
+            "sprints"
+          ]
+        }
+      }
+    },
+    "c6-pressure": {
+      "commit": "cc11abfd67d3ca8099087c3fcf19d0d5bde538c8",
+      "buildTimeMs": { "domain": 3695, "react": 212.9, "angular": 2175.6 },
+      "testTimeMs": { "domain": 450.5, "react": 4899.5, "angular": 3381.4 },
+      "testCount": { "domain": 106, "react": 127, "angular": 103 },
+      "bundle": {
+        "reactJs": { "raw": 256727, "gzip": 71834 },
+        "reactCss": { "raw": 3666, "gzip": 1162 },
+        "angularJs": { "raw": 214367, "gzip": 58116 },
+        "angularCss": { "raw": 3438, "gzip": 1135 }
+      },
+      "code": {
+        "loc": {
+          "reactProd": 3138,
+          "reactTest": 1725,
+          "reactFiles": 37,
+          "reactTestFiles": 19,
+          "angularProd": 3304,
+          "angularTest": 1858,
+          "angularFiles": 57,
+          "angularTestFiles": 18,
+          "domainProd": 1353,
+          "domainTest": 1107,
+          "domainFiles": 18,
+          "domainTestFiles": 6
+        },
+        "ratios": { "reactTestCode": 0.5497131931166348, "angularTestCode": 0.5623486682808717 },
+        "featureCount": { "total": 16, "catalog": 10 },
+        "architecture": {
+          "crossFeatureImports": 0,
+          "crossFeatureImportsDetail": { "react": [], "angular": [] },
+          "domainImports": 48,
+          "catalogFeatures": [
+            "milestones",
+            "issues",
+            "notes",
+            "tags",
+            "risks",
+            "deliverables",
+            "audit-log",
+            "watchers",
+            "budget-lines",
+            "sprints"
+          ]
+        }
+      }
+    }
+  },
+  "experiments": {
+    "level1": {
+      "label": "LEVEL 1",
+      "filesAdded": 8,
+      "filesModified": 8,
+      "filesAddedList": [
+        "apps/angular-app/src/app/features/milestones/milestones.component.html",
+        "apps/angular-app/src/app/features/milestones/milestones.component.spec.ts",
+        "apps/angular-app/src/app/features/milestones/milestones.component.ts",
+        "apps/react-app/src/features/milestones/milestones-page.test.tsx",
+        "apps/react-app/src/features/milestones/milestones-page.tsx",
+        "packages/domain/src/catalogs/milestones.ts",
+        "packages/domain/src/catalogs/shared.ts",
+        "packages/domain/test/catalogs.test.ts"
+      ],
+      "filesModifiedList": [
+        "apps/angular-app/src/app/app.html",
+        "apps/angular-app/src/app/app.spec.ts",
+        "apps/angular-app/src/app/app.ts",
+        "apps/angular-app/src/app/services/filters.ts",
+        "apps/react-app/src/app/App.test.tsx",
+        "apps/react-app/src/app/App.tsx",
+        "apps/react-app/src/services/filters.ts",
+        "packages/domain/src/index.ts"
+      ],
+      "locAdded": 642,
+      "locRemoved": 6,
+      "filesByLayer": {
+        "app-shell": 3,
+        "other": 2,
+        "features": 5,
+        "services": 2,
+        "domain": 3,
+        "domain-tests": 1
+      },
+      "testsAdded": { "domain": 6, "react": 6, "angular": 6 },
+      "dependenciesChanged": false
+    },
+    "level2": {
+      "label": "LEVEL 2",
+      "filesAdded": 12,
+      "filesModified": 7,
+      "filesAddedList": [
+        "apps/angular-app/src/app/features/issues/issues.component.html",
+        "apps/angular-app/src/app/features/issues/issues.component.spec.ts",
+        "apps/angular-app/src/app/features/issues/issues.component.ts",
+        "apps/angular-app/src/app/features/notes/notes.component.html",
+        "apps/angular-app/src/app/features/notes/notes.component.spec.ts",
+        "apps/angular-app/src/app/features/notes/notes.component.ts",
+        "apps/react-app/src/features/issues/issues-page.test.tsx",
+        "apps/react-app/src/features/issues/issues-page.tsx",
+        "apps/react-app/src/features/notes/notes-page.test.tsx",
+        "apps/react-app/src/features/notes/notes-page.tsx",
+        "packages/domain/src/catalogs/issues.ts",
+        "packages/domain/src/catalogs/notes.ts"
+      ],
+      "filesModifiedList": [
+        "apps/angular-app/src/app/app.html",
+        "apps/angular-app/src/app/app.spec.ts",
+        "apps/angular-app/src/app/app.ts",
+        "apps/react-app/src/app/App.test.tsx",
+        "apps/react-app/src/app/App.tsx",
+        "packages/domain/src/index.ts",
+        "packages/domain/test/catalogs.test.ts"
+      ],
+      "locAdded": 906,
+      "locRemoved": 5,
+      "filesByLayer": {
+        "app-shell": 3,
+        "other": 2,
+        "features": 10,
+        "domain": 3,
+        "domain-tests": 1
+      },
+      "testsAdded": { "domain": 5, "react": 9, "angular": 8 },
+      "dependenciesChanged": false
+    },
+    "level3": {
+      "label": "LEVEL 3",
+      "filesAdded": 12,
+      "filesModified": 7,
+      "filesAddedList": [
+        "apps/angular-app/src/app/features/risks/risks.component.html",
+        "apps/angular-app/src/app/features/risks/risks.component.spec.ts",
+        "apps/angular-app/src/app/features/risks/risks.component.ts",
+        "apps/angular-app/src/app/features/tags/tags.component.html",
+        "apps/angular-app/src/app/features/tags/tags.component.spec.ts",
+        "apps/angular-app/src/app/features/tags/tags.component.ts",
+        "apps/react-app/src/features/risks/risks-page.test.tsx",
+        "apps/react-app/src/features/risks/risks-page.tsx",
+        "apps/react-app/src/features/tags/tags-page.test.tsx",
+        "apps/react-app/src/features/tags/tags-page.tsx",
+        "packages/domain/src/catalogs/risks.ts",
+        "packages/domain/src/catalogs/tags.ts"
+      ],
+      "filesModifiedList": [
+        "apps/angular-app/src/app/app.html",
+        "apps/angular-app/src/app/app.spec.ts",
+        "apps/angular-app/src/app/app.ts",
+        "apps/react-app/src/app/App.test.tsx",
+        "apps/react-app/src/app/App.tsx",
+        "packages/domain/src/index.ts",
+        "packages/domain/test/catalogs.test.ts"
+      ],
+      "locAdded": 791,
+      "locRemoved": 2,
+      "filesByLayer": {
+        "app-shell": 3,
+        "other": 2,
+        "features": 10,
+        "domain": 3,
+        "domain-tests": 1
+      },
+      "testsAdded": { "domain": 4, "react": 8, "angular": 8 },
+      "dependenciesChanged": false
+    },
+    "level4": {
+      "label": "LEVEL 4",
+      "filesAdded": 30,
+      "filesModified": 7,
+      "filesAddedList": [
+        "apps/angular-app/src/app/features/audit-log/audit-log.component.html",
+        "apps/angular-app/src/app/features/audit-log/audit-log.component.spec.ts",
+        "apps/angular-app/src/app/features/audit-log/audit-log.component.ts",
+        "apps/angular-app/src/app/features/budget-lines/budget-lines.component.html",
+        "apps/angular-app/src/app/features/budget-lines/budget-lines.component.spec.ts",
+        "apps/angular-app/src/app/features/budget-lines/budget-lines.component.ts",
+        "apps/angular-app/src/app/features/deliverables/deliverables.component.html",
+        "apps/angular-app/src/app/features/deliverables/deliverables.component.spec.ts",
+        "apps/angular-app/src/app/features/deliverables/deliverables.component.ts",
+        "apps/angular-app/src/app/features/sprints/sprints.component.html",
+        "apps/angular-app/src/app/features/sprints/sprints.component.spec.ts",
+        "apps/angular-app/src/app/features/sprints/sprints.component.ts",
+        "apps/angular-app/src/app/features/watchers/watchers.component.html",
+        "apps/angular-app/src/app/features/watchers/watchers.component.spec.ts",
+        "apps/angular-app/src/app/features/watchers/watchers.component.ts",
+        "apps/react-app/src/features/audit-log/audit-log-page.test.tsx",
+        "apps/react-app/src/features/audit-log/audit-log-page.tsx",
+        "apps/react-app/src/features/budget-lines/budget-lines-page.test.tsx",
+        "apps/react-app/src/features/budget-lines/budget-lines-page.tsx",
+        "apps/react-app/src/features/deliverables/deliverables-page.test.tsx",
+        "apps/react-app/src/features/deliverables/deliverables-page.tsx",
+        "apps/react-app/src/features/sprints/sprints-page.test.tsx",
+        "apps/react-app/src/features/sprints/sprints-page.tsx",
+        "apps/react-app/src/features/watchers/watchers-page.test.tsx",
+        "apps/react-app/src/features/watchers/watchers-page.tsx",
+        "packages/domain/src/catalogs/audit-log.ts",
+        "packages/domain/src/catalogs/budget-lines.ts",
+        "packages/domain/src/catalogs/deliverables.ts",
+        "packages/domain/src/catalogs/sprints.ts",
+        "packages/domain/src/catalogs/watchers.ts"
+      ],
+      "filesModifiedList": [
+        "apps/angular-app/src/app/app.html",
+        "apps/angular-app/src/app/app.spec.ts",
+        "apps/angular-app/src/app/app.ts",
+        "apps/react-app/src/app/App.test.tsx",
+        "apps/react-app/src/app/App.tsx",
+        "packages/domain/src/index.ts",
+        "packages/domain/test/catalogs.test.ts"
+      ],
+      "locAdded": 2217,
+      "locRemoved": 2,
+      "filesByLayer": {
+        "app-shell": 3,
+        "other": 2,
+        "features": 25,
+        "domain": 6,
+        "domain-tests": 1
+      },
+      "testsAdded": { "domain": 12, "react": 20, "angular": 20 },
+      "dependenciesChanged": false
+    },
+    "modification": {
+      "label": "MODIFICATION (c5)",
+      "filesAdded": 0,
+      "filesModified": 8,
+      "filesAddedList": [],
+      "filesModifiedList": [
+        "apps/angular-app/src/app/features/milestones/milestones.component.html",
+        "apps/angular-app/src/app/features/milestones/milestones.component.spec.ts",
+        "apps/angular-app/src/app/features/milestones/milestones.component.ts",
+        "apps/react-app/src/features/milestones/milestones-page.test.tsx",
+        "apps/react-app/src/features/milestones/milestones-page.tsx",
+        "packages/domain/src/catalogs/milestones.ts",
+        "packages/domain/src/index.ts",
+        "packages/domain/test/catalogs.test.ts"
+      ],
+      "locAdded": 42,
+      "locRemoved": 17,
+      "filesByLayer": { "features": 5, "domain": 2, "domain-tests": 1 },
+      "testsAdded": { "domain": 1, "react": 0, "angular": 0 },
+      "dependenciesChanged": false
+    },
+    "pressure": {
+      "label": "PRESSURE (c6)",
+      "filesAdded": 3,
+      "filesModified": 30,
+      "filesAddedList": [
+        "apps/angular-app/src/app/components/catalog-toolbar.component.html",
+        "apps/angular-app/src/app/components/catalog-toolbar.component.ts",
+        "apps/react-app/src/components/catalog-toolbar.tsx"
+      ],
+      "filesModifiedList": [
+        "apps/angular-app/src/app/features/audit-log/audit-log.component.html",
+        "apps/angular-app/src/app/features/audit-log/audit-log.component.ts",
+        "apps/angular-app/src/app/features/budget-lines/budget-lines.component.html",
+        "apps/angular-app/src/app/features/budget-lines/budget-lines.component.ts",
+        "apps/angular-app/src/app/features/deliverables/deliverables.component.html",
+        "apps/angular-app/src/app/features/deliverables/deliverables.component.ts",
+        "apps/angular-app/src/app/features/issues/issues.component.html",
+        "apps/angular-app/src/app/features/issues/issues.component.ts",
+        "apps/angular-app/src/app/features/milestones/milestones.component.html",
+        "apps/angular-app/src/app/features/milestones/milestones.component.ts",
+        "apps/angular-app/src/app/features/notes/notes.component.html",
+        "apps/angular-app/src/app/features/notes/notes.component.ts",
+        "apps/angular-app/src/app/features/risks/risks.component.html",
+        "apps/angular-app/src/app/features/risks/risks.component.ts",
+        "apps/angular-app/src/app/features/sprints/sprints.component.html",
+        "apps/angular-app/src/app/features/sprints/sprints.component.ts",
+        "apps/angular-app/src/app/features/tags/tags.component.html",
+        "apps/angular-app/src/app/features/tags/tags.component.ts",
+        "apps/angular-app/src/app/features/watchers/watchers.component.html",
+        "apps/angular-app/src/app/features/watchers/watchers.component.ts",
+        "apps/react-app/src/features/audit-log/audit-log-page.tsx",
+        "apps/react-app/src/features/budget-lines/budget-lines-page.tsx",
+        "apps/react-app/src/features/deliverables/deliverables-page.tsx",
+        "apps/react-app/src/features/issues/issues-page.tsx",
+        "apps/react-app/src/features/milestones/milestones-page.tsx",
+        "apps/react-app/src/features/notes/notes-page.tsx",
+        "apps/react-app/src/features/risks/risks-page.tsx",
+        "apps/react-app/src/features/sprints/sprints-page.tsx",
+        "apps/react-app/src/features/tags/tags-page.tsx",
+        "apps/react-app/src/features/watchers/watchers-page.tsx"
+      ],
+      "locAdded": 292,
+      "locRemoved": 500,
+      "filesByLayer": { "components": 3, "features": 30 },
+      "testsAdded": { "domain": 0, "react": 0, "angular": 0 },
+      "dependenciesChanged": false
+    }
+  },
+  "curves": [
+    {
+      "level": 0,
+      "features": 0,
+      "react": {
+        "locProd": 2182,
+        "locTest": 1093,
+        "testCount": 84,
+        "bundleRaw": 233547,
+        "bundleGzip": 68572,
+        "buildMs": 188.3,
+        "testMs": 2574
+      },
+      "angular": {
+        "locProd": 2296,
+        "locTest": 1035,
+        "testCount": 61,
+        "bundleRaw": 179634,
+        "bundleGzip": 53485,
+        "buildMs": 1852.7,
+        "testMs": 2978.2
+      },
+      "domain": { "locProd": 753, "testCount": 78 }
+    },
+    {
+      "level": 1,
+      "features": 1,
+      "react": {
+        "locProd": 2320,
+        "locTest": 1184,
+        "testCount": 90,
+        "bundleRaw": 236664,
+        "bundleGzip": 69106,
+        "buildMs": 188.7,
+        "testMs": 2709.8
+      },
+      "angular": {
+        "locProd": 2440,
+        "locTest": 1148,
+        "testCount": 67,
+        "bundleRaw": 183525,
+        "bundleGzip": 54330,
+        "buildMs": 1909.5,
+        "testMs": 3065.1
+      },
+      "domain": { "locProd": 852, "testCount": 84 }
+    },
+    {
+      "level": 2,
+      "features": 3,
+      "react": {
+        "locProd": 2524,
+        "locTest": 1319,
+        "testCount": 99,
+        "bundleRaw": 242512,
+        "bundleGzip": 69899,
+        "buildMs": 187.3,
+        "testMs": 3066
+      },
+      "angular": {
+        "locProd": 2655,
+        "locTest": 1303,
+        "testCount": 75,
+        "bundleRaw": 190923,
+        "bundleGzip": 55280,
+        "buildMs": 1927,
+        "testMs": 3130.1
+      },
+      "domain": { "locProd": 974, "testCount": 89 }
+    },
+    {
+      "level": 3,
+      "features": 5,
+      "react": {
+        "locProd": 2716,
+        "locTest": 1432,
+        "testCount": 107,
+        "bundleRaw": 247597,
+        "bundleGzip": 70446,
+        "buildMs": 190.5,
+        "testMs": 3463.5
+      },
+      "angular": {
+        "locProd": 2857,
+        "locTest": 1455,
+        "testCount": 83,
+        "bundleRaw": 197466,
+        "bundleGzip": 55997,
+        "buildMs": 1977.2,
+        "testMs": 3176.3
+      },
+      "domain": { "locProd": 1054, "testCount": 93 }
+    },
+    {
+      "level": 4,
+      "features": 10,
+      "react": {
+        "locProd": 3228,
+        "locTest": 1725,
+        "testCount": 127,
+        "bundleRaw": 261733,
+        "bundleGzip": 71906,
+        "buildMs": 192.6,
+        "testMs": 4517.2
+      },
+      "angular": {
+        "locProd": 3413,
+        "locTest": 1858,
+        "testCount": 103,
+        "bundleRaw": 215811,
+        "bundleGzip": 57927,
+        "buildMs": 2079.7,
+        "testMs": 3331.7
+      },
+      "domain": { "locProd": 1342, "testCount": 105 }
+    }
+  ],
+  "marginals": [
+    {
+      "level": 1,
+      "featuresAdded": 1,
+      "react": {
+        "locProd": 138,
+        "locTest": 91,
+        "testCount": 6,
+        "bundleRaw": 3117,
+        "buildMs": 0.39999999999997726,
+        "locPerFeature": 138,
+        "bundlePerFeature": 3117
+      },
+      "angular": {
+        "locProd": 144,
+        "locTest": 113,
+        "testCount": 6,
+        "bundleRaw": 3891,
+        "buildMs": 56.799999999999955,
+        "locPerFeature": 144,
+        "bundlePerFeature": 3891
+      },
+      "domain": { "locProd": 99, "testCount": 6 }
+    },
+    {
+      "level": 2,
+      "featuresAdded": 2,
+      "react": {
+        "locProd": 204,
+        "locTest": 135,
+        "testCount": 9,
+        "bundleRaw": 5848,
+        "buildMs": -1.3999999999999773,
+        "locPerFeature": 102,
+        "bundlePerFeature": 2924
+      },
+      "angular": {
+        "locProd": 215,
+        "locTest": 155,
+        "testCount": 8,
+        "bundleRaw": 7398,
+        "buildMs": 17.5,
+        "locPerFeature": 108,
+        "bundlePerFeature": 3699
+      },
+      "domain": { "locProd": 122, "testCount": 5 }
+    },
+    {
+      "level": 3,
+      "featuresAdded": 2,
+      "react": {
+        "locProd": 192,
+        "locTest": 113,
+        "testCount": 8,
+        "bundleRaw": 5085,
+        "buildMs": 3.1999999999999886,
+        "locPerFeature": 96,
+        "bundlePerFeature": 2543
+      },
+      "angular": {
+        "locProd": 202,
+        "locTest": 152,
+        "testCount": 8,
+        "bundleRaw": 6543,
+        "buildMs": 50.200000000000045,
+        "locPerFeature": 101,
+        "bundlePerFeature": 3272
+      },
+      "domain": { "locProd": 80, "testCount": 4 }
+    },
+    {
+      "level": 4,
+      "featuresAdded": 5,
+      "react": {
+        "locProd": 512,
+        "locTest": 293,
+        "testCount": 20,
+        "bundleRaw": 14136,
+        "buildMs": 2.0999999999999943,
+        "locPerFeature": 102,
+        "bundlePerFeature": 2827
+      },
+      "angular": {
+        "locProd": 556,
+        "locTest": 403,
+        "testCount": 20,
+        "bundleRaw": 18345,
+        "buildMs": 102.49999999999977,
+        "locPerFeature": 111,
+        "bundlePerFeature": 3669
+      },
+      "domain": { "locProd": 288, "testCount": 12 }
+    }
+  ],
+  "modification": {
+    "filesTouched": [
+      "apps/angular-app/src/app/features/milestones/milestones.component.html",
+      "apps/angular-app/src/app/features/milestones/milestones.component.spec.ts",
+      "apps/angular-app/src/app/features/milestones/milestones.component.ts",
+      "apps/react-app/src/features/milestones/milestones-page.test.tsx",
+      "apps/react-app/src/features/milestones/milestones-page.tsx",
+      "packages/domain/src/catalogs/milestones.ts",
+      "packages/domain/src/index.ts",
+      "packages/domain/test/catalogs.test.ts"
+    ],
+    "filesTouchedCount": 8,
+    "filesByLayer": { "features": 5, "domain": 2, "domain-tests": 1 },
+    "locAdded": 42,
+    "locRemoved": 17,
+    "testsAdded": { "domain": 1, "react": 0, "angular": 0 },
+    "bundleDelta": { "react": 77, "angular": 401 },
+    "buildDeltaMs": { "react": 13.300000000000011, "angular": -8 },
+    "localizedToMilestones": true
+  },
+  "pressure": {
+    "filesTouched": [
+      "apps/angular-app/src/app/components/catalog-toolbar.component.html",
+      "apps/angular-app/src/app/components/catalog-toolbar.component.ts",
+      "apps/react-app/src/components/catalog-toolbar.tsx",
+      "apps/angular-app/src/app/features/audit-log/audit-log.component.html",
+      "apps/angular-app/src/app/features/audit-log/audit-log.component.ts",
+      "apps/angular-app/src/app/features/budget-lines/budget-lines.component.html",
+      "apps/angular-app/src/app/features/budget-lines/budget-lines.component.ts",
+      "apps/angular-app/src/app/features/deliverables/deliverables.component.html",
+      "apps/angular-app/src/app/features/deliverables/deliverables.component.ts",
+      "apps/angular-app/src/app/features/issues/issues.component.html",
+      "apps/angular-app/src/app/features/issues/issues.component.ts",
+      "apps/angular-app/src/app/features/milestones/milestones.component.html",
+      "apps/angular-app/src/app/features/milestones/milestones.component.ts",
+      "apps/angular-app/src/app/features/notes/notes.component.html",
+      "apps/angular-app/src/app/features/notes/notes.component.ts",
+      "apps/angular-app/src/app/features/risks/risks.component.html",
+      "apps/angular-app/src/app/features/risks/risks.component.ts",
+      "apps/angular-app/src/app/features/sprints/sprints.component.html",
+      "apps/angular-app/src/app/features/sprints/sprints.component.ts",
+      "apps/angular-app/src/app/features/tags/tags.component.html",
+      "apps/angular-app/src/app/features/tags/tags.component.ts",
+      "apps/angular-app/src/app/features/watchers/watchers.component.html",
+      "apps/angular-app/src/app/features/watchers/watchers.component.ts",
+      "apps/react-app/src/features/audit-log/audit-log-page.tsx",
+      "apps/react-app/src/features/budget-lines/budget-lines-page.tsx",
+      "apps/react-app/src/features/deliverables/deliverables-page.tsx",
+      "apps/react-app/src/features/issues/issues-page.tsx",
+      "apps/react-app/src/features/milestones/milestones-page.tsx",
+      "apps/react-app/src/features/notes/notes-page.tsx",
+      "apps/react-app/src/features/risks/risks-page.tsx",
+      "apps/react-app/src/features/sprints/sprints-page.tsx",
+      "apps/react-app/src/features/tags/tags-page.tsx",
+      "apps/react-app/src/features/watchers/watchers-page.tsx"
+    ],
+    "filesTouchedCount": 33,
+    "filesByLayer": { "components": 3, "features": 30 },
+    "locAdded": 292,
+    "locRemoved": 500,
+    "testsAdded": { "domain": 0, "react": 0, "angular": 0 },
+    "sharedComponentFiles": [
+      "apps/angular-app/src/app/components/catalog-toolbar.component.html",
+      "apps/angular-app/src/app/components/catalog-toolbar.component.ts",
+      "apps/react-app/src/components/catalog-toolbar.tsx"
+    ],
+    "catalogFeatureFilesTouched": [
+      "apps/angular-app/src/app/features/audit-log/audit-log.component.html",
+      "apps/angular-app/src/app/features/audit-log/audit-log.component.ts",
+      "apps/angular-app/src/app/features/budget-lines/budget-lines.component.html",
+      "apps/angular-app/src/app/features/budget-lines/budget-lines.component.ts",
+      "apps/angular-app/src/app/features/deliverables/deliverables.component.html",
+      "apps/angular-app/src/app/features/deliverables/deliverables.component.ts",
+      "apps/angular-app/src/app/features/issues/issues.component.html",
+      "apps/angular-app/src/app/features/issues/issues.component.ts",
+      "apps/angular-app/src/app/features/milestones/milestones.component.html",
+      "apps/angular-app/src/app/features/milestones/milestones.component.ts",
+      "apps/angular-app/src/app/features/notes/notes.component.html",
+      "apps/angular-app/src/app/features/notes/notes.component.ts",
+      "apps/angular-app/src/app/features/risks/risks.component.html",
+      "apps/angular-app/src/app/features/risks/risks.component.ts",
+      "apps/angular-app/src/app/features/sprints/sprints.component.html",
+      "apps/angular-app/src/app/features/sprints/sprints.component.ts",
+      "apps/angular-app/src/app/features/tags/tags.component.html",
+      "apps/angular-app/src/app/features/tags/tags.component.ts",
+      "apps/angular-app/src/app/features/watchers/watchers.component.html",
+      "apps/angular-app/src/app/features/watchers/watchers.component.ts",
+      "apps/react-app/src/features/audit-log/audit-log-page.tsx",
+      "apps/react-app/src/features/budget-lines/budget-lines-page.tsx",
+      "apps/react-app/src/features/deliverables/deliverables-page.tsx",
+      "apps/react-app/src/features/issues/issues-page.tsx",
+      "apps/react-app/src/features/milestones/milestones-page.tsx",
+      "apps/react-app/src/features/notes/notes-page.tsx",
+      "apps/react-app/src/features/risks/risks-page.tsx",
+      "apps/react-app/src/features/sprints/sprints-page.tsx",
+      "apps/react-app/src/features/tags/tags-page.tsx",
+      "apps/react-app/src/features/watchers/watchers-page.tsx"
+    ],
+    "bundleDelta": { "react": -5083, "angular": -1845 }
+  },
+  "limitations": [
+    "buildTimeMs y testTimeMs: 1 ejecución por estado (7 estados x 3 suites); pueden incluir ruido del sistema; no se usó mediana de 3. La tendencia de crecimiento es el señal primario.",
+    "testCount: conteo por declaraciones it() en archivos test/spec (heurística; it.each cuenta 1). testCount en states proviene de la salida del runner (passed).",
+    "LOC: conteo de líneas de archivos fuente vía git ls-tree/show (incluye líneas en blanco); LOC es volumen de cambio, no calidad.",
+    "crossFeatureImports: heurística sobre imports con features/<slug>; 0 no garantiza ausencia de acoplamiento indirecto.",
+    "Dependencias transitivas: no medidas por estado (no cambian: 0 dependencias añadidas, verificado por diff de package.json en cada transición).",
+    "time_to_implement: NO MEDIBLE (trabajo manual, no reproducible); no se reporta."
+  ]
+}
