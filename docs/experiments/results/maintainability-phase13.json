@@ -1,0 +1,611 @@
+{
+  "experiment": "maintainability-phase13",
+  "capturedAt": "2026-08-24T16:15:37.953Z",
+  "objective": "Medir el coste cognitivo y estructural de 6 tareas heterogéneas de mantenimiento (C1 nueva feature, C2 modificación, C3 bug fix, C4 refactor, C5 UI-only, C6 eliminación) implementadas idénticamente en React y Angular sobre el mismo dominio, separando trabajo funcional de trabajo accidental con heurísticas documentadas y proxies reproducibles (tiempo humano NO MEDIBLE).",
+  "environment": {
+    "node": "v25.3.0",
+    "platform": "darwin-arm64",
+    "cpuModel": "Apple M1",
+    "memoryBytes": 17179869184,
+    "labPath": "/tmp/lab-phase13",
+    "labHead": "36ce86f C6: remove Settings feature from both apps (0 residual references)",
+    "labCommits": [
+      "36ce86f C6: remove Settings feature from both apps (0 residual references)",
+      "a029bd9 C5: add UI-only compact rows toggle to Tasks",
+      "51ec350 C4: refactor dashboard KPI list to data + single map/@for (no functional change)",
+      "924bd64 C3-FIX: restore case-insensitive task search (regression tests green)",
+      "3f4b527 C3-BUG: inject case-sensitive task search (1 failing test per framework)",
+      "71bf655 C2: add presentation-only sort control to Tasks",
+      "7dcbc07 C1: new Board feature (kanban-lite) in react and angular",
+      "1422b49 test(experiments): measure versioned contract migration cost with gradual v1->v2",
+      "bbe0f67 test(experiments): measure domain evolution cost under breaking changes"
+    ],
+    "note": "Copia aislada con historial propio (un commit por escenario). El árbol principal no se modifica."
+  },
+  "snapshots": [
+    {
+      "name": "BASELINE",
+      "commit": "1422b49"
+    },
+    {
+      "name": "C1",
+      "commit": "7dcbc07"
+    },
+    {
+      "name": "C2",
+      "commit": "71bf655"
+    },
+    {
+      "name": "C3-BUG",
+      "commit": "3f4b527"
+    },
+    {
+      "name": "C3-FIX",
+      "commit": "924bd64"
+    },
+    {
+      "name": "C4",
+      "commit": "51ec350"
+    },
+    {
+      "name": "C5",
+      "commit": "a029bd9"
+    },
+    {
+      "name": "C6",
+      "commit": "36ce86f"
+    }
+  ],
+  "transitions": {
+    "BASELINE->C1": {
+      "transition": "BASELINE->C1",
+      "label": "C1: new Board feature",
+      "filesChanged": 12,
+      "filesAdded": 5,
+      "filesDeleted": 0,
+      "filesModified": 7,
+      "filesChangedReact": 5,
+      "filesChangedAngular": 7,
+      "filesChangedDomain": 0,
+      "locAdded": 532,
+      "locRemoved": 41,
+      "locNet": 491,
+      "locDeltaReact": 253,
+      "locDeltaAngular": 263,
+      "locDeltaDomain": 0,
+      "importsAdded": 22,
+      "importsRemoved": 0,
+      "testsChanged": 4,
+      "testsAdded": 2,
+      "testsDeleted": 0,
+      "testsModified": 2,
+      "featuresReactTouched": ["board"],
+      "featuresAngularTouched": ["board"],
+      "unrelatedFeaturesTouched": 0,
+      "classification": {
+        "domain": 0,
+        "framework": 10,
+        "mixed": 2,
+        "files": {
+          "apps/angular-app/src/app/features/board/board.component.html": "framework",
+          "apps/angular-app/src/app/features/board/board.component.spec.ts": "framework",
+          "apps/angular-app/src/app/features/board/board.component.ts": "framework",
+          "apps/react-app/src/features/board/board-page.test.tsx": "mixed",
+          "apps/react-app/src/features/board/board-page.tsx": "mixed",
+          "apps/angular-app/src/app/app.html": "framework",
+          "apps/angular-app/src/app/app.spec.ts": "framework",
+          "apps/angular-app/src/app/app.ts": "framework",
+          "apps/angular-app/src/styles.css": "framework",
+          "apps/react-app/src/app/App.test.tsx": "framework",
+          "apps/react-app/src/app/App.tsx": "framework",
+          "apps/react-app/src/styles.css": "framework"
+        }
+      },
+      "classificationLoc": {
+        "domain": {
+          "add": 0,
+          "del": 0
+        },
+        "framework": {
+          "add": 310,
+          "del": 8
+        },
+        "mixed": {
+          "add": 214,
+          "del": 0
+        }
+      },
+      "complexityProxy": {
+        "apps/angular-app/src/app/app.spec.ts": 2,
+        "apps/angular-app/src/app/app.ts": 0,
+        "apps/react-app/src/app/App.test.tsx": 0,
+        "apps/react-app/src/app/App.tsx": 9
+      },
+      "symbolsNew": {
+        "react": 1,
+        "angular": 1
+      }
+    },
+    "C1->C2": {
+      "transition": "C1->C2",
+      "label": "C2: modify Tasks (sort control)",
+      "filesChanged": 5,
+      "filesAdded": 0,
+      "filesDeleted": 0,
+      "filesModified": 5,
+      "filesChangedReact": 2,
+      "filesChangedAngular": 3,
+      "filesChangedDomain": 0,
+      "locAdded": 101,
+      "locRemoved": 4,
+      "locNet": 97,
+      "locDeltaReact": 51,
+      "locDeltaAngular": 46,
+      "locDeltaDomain": 0,
+      "importsAdded": 1,
+      "importsRemoved": 1,
+      "testsChanged": 2,
+      "testsAdded": 0,
+      "testsDeleted": 0,
+      "testsModified": 2,
+      "featuresReactTouched": ["tasks"],
+      "featuresAngularTouched": ["tasks"],
+      "unrelatedFeaturesTouched": 0,
+      "classification": {
+        "domain": 0,
+        "framework": 3,
+        "mixed": 2,
+        "files": {
+          "apps/angular-app/src/app/features/tasks/tasks.component.html": "framework",
+          "apps/angular-app/src/app/features/tasks/tasks.component.spec.ts": "framework",
+          "apps/angular-app/src/app/features/tasks/tasks.component.ts": "framework",
+          "apps/react-app/src/features/tasks/tasks-page.test.tsx": "mixed",
+          "apps/react-app/src/features/tasks/tasks-page.tsx": "mixed"
+        }
+      },
+      "classificationLoc": {
+        "domain": {
+          "add": 0,
+          "del": 0
+        },
+        "framework": {
+          "add": 48,
+          "del": 2
+        },
+        "mixed": {
+          "add": 53,
+          "del": 2
+        }
+      },
+      "complexityProxy": {
+        "apps/angular-app/src/app/features/tasks/tasks.component.spec.ts": 20,
+        "apps/angular-app/src/app/features/tasks/tasks.component.ts": 33,
+        "apps/react-app/src/features/tasks/tasks-page.test.tsx": 9,
+        "apps/react-app/src/features/tasks/tasks-page.tsx": 28
+      },
+      "symbolsNew": {
+        "react": 0,
+        "angular": 0
+      }
+    },
+    "C2->C3-BUG": {
+      "transition": "C2->C3-BUG",
+      "label": "C3-BUG: inject case-sensitive search",
+      "filesChanged": 4,
+      "filesAdded": 0,
+      "filesDeleted": 0,
+      "filesModified": 4,
+      "filesChangedReact": 2,
+      "filesChangedAngular": 2,
+      "filesChangedDomain": 0,
+      "locAdded": 30,
+      "locRemoved": 2,
+      "locNet": 28,
+      "locDeltaReact": 16,
+      "locDeltaAngular": 12,
+      "locDeltaDomain": 0,
+      "importsAdded": 0,
+      "importsRemoved": 0,
+      "testsChanged": 2,
+      "testsAdded": 0,
+      "testsDeleted": 0,
+      "testsModified": 2,
+      "featuresReactTouched": [],
+      "featuresAngularTouched": ["tasks"],
+      "unrelatedFeaturesTouched": 0,
+      "classification": {
+        "domain": 0,
+        "framework": 1,
+        "mixed": 3,
+        "files": {
+          "apps/angular-app/src/app/features/tasks/tasks.component.spec.ts": "framework",
+          "apps/angular-app/src/app/services/filters.ts": "mixed",
+          "apps/react-app/src/services/filters.test.ts": "mixed",
+          "apps/react-app/src/services/filters.ts": "mixed"
+        }
+      },
+      "classificationLoc": {
+        "domain": {
+          "add": 0,
+          "del": 0
+        },
+        "framework": {
+          "add": 10,
+          "del": 0
+        },
+        "mixed": {
+          "add": 20,
+          "del": 2
+        }
+      },
+      "complexityProxy": {
+        "apps/angular-app/src/app/features/tasks/tasks.component.spec.ts": 20,
+        "apps/angular-app/src/app/services/filters.ts": 8,
+        "apps/react-app/src/services/filters.test.ts": 0,
+        "apps/react-app/src/services/filters.ts": 8
+      },
+      "symbolsNew": {
+        "react": 0,
+        "angular": 0
+      }
+    },
+    "C3-BUG->C3-FIX": {
+      "transition": "C3-BUG->C3-FIX",
+      "label": "C3-FIX: restore case-insensitive search",
+      "filesChanged": 2,
+      "filesAdded": 0,
+      "filesDeleted": 0,
+      "filesModified": 2,
+      "filesChangedReact": 1,
+      "filesChangedAngular": 1,
+      "filesChangedDomain": 0,
+      "locAdded": 2,
+      "locRemoved": 6,
+      "locNet": -4,
+      "locDeltaReact": -2,
+      "locDeltaAngular": -2,
+      "locDeltaDomain": 0,
+      "importsAdded": 0,
+      "importsRemoved": 0,
+      "testsChanged": 0,
+      "testsAdded": 0,
+      "testsDeleted": 0,
+      "testsModified": 0,
+      "featuresReactTouched": [],
+      "featuresAngularTouched": [],
+      "unrelatedFeaturesTouched": 0,
+      "classification": {
+        "domain": 0,
+        "framework": 0,
+        "mixed": 2,
+        "files": {
+          "apps/angular-app/src/app/services/filters.ts": "mixed",
+          "apps/react-app/src/services/filters.ts": "mixed"
+        }
+      },
+      "classificationLoc": {
+        "domain": {
+          "add": 0,
+          "del": 0
+        },
+        "framework": {
+          "add": 0,
+          "del": 0
+        },
+        "mixed": {
+          "add": 2,
+          "del": 6
+        }
+      },
+      "complexityProxy": {
+        "apps/angular-app/src/app/services/filters.ts": 8,
+        "apps/react-app/src/services/filters.ts": 8
+      },
+      "symbolsNew": {
+        "react": 0,
+        "angular": 0
+      }
+    },
+    "C3-FIX->C4": {
+      "transition": "C3-FIX->C4",
+      "label": "C4: refactor dashboard KPIs",
+      "filesChanged": 3,
+      "filesAdded": 0,
+      "filesDeleted": 0,
+      "filesModified": 3,
+      "filesChangedReact": 1,
+      "filesChangedAngular": 2,
+      "filesChangedDomain": 0,
+      "locAdded": 42,
+      "locRemoved": 22,
+      "locNet": 20,
+      "locDeltaReact": 11,
+      "locDeltaAngular": 9,
+      "locDeltaDomain": 0,
+      "importsAdded": 0,
+      "importsRemoved": 0,
+      "testsChanged": 0,
+      "testsAdded": 0,
+      "testsDeleted": 0,
+      "testsModified": 0,
+      "featuresReactTouched": ["dashboard"],
+      "featuresAngularTouched": ["dashboard"],
+      "unrelatedFeaturesTouched": 0,
+      "classification": {
+        "domain": 0,
+        "framework": 2,
+        "mixed": 1,
+        "files": {
+          "apps/angular-app/src/app/features/dashboard/dashboard.component.html": "framework",
+          "apps/angular-app/src/app/features/dashboard/dashboard.component.ts": "framework",
+          "apps/react-app/src/features/dashboard/dashboard-page.tsx": "mixed"
+        }
+      },
+      "classificationLoc": {
+        "domain": {
+          "add": 0,
+          "del": 0
+        },
+        "framework": {
+          "add": 24,
+          "del": 15
+        },
+        "mixed": {
+          "add": 18,
+          "del": 7
+        }
+      },
+      "complexityProxy": {
+        "apps/angular-app/src/app/features/dashboard/dashboard.component.ts": 6,
+        "apps/react-app/src/features/dashboard/dashboard-page.tsx": 1
+      },
+      "symbolsNew": {
+        "react": 0,
+        "angular": 0
+      }
+    },
+    "C4->C5": {
+      "transition": "C4->C5",
+      "label": "C5: UI-only density toggle",
+      "filesChanged": 7,
+      "filesAdded": 0,
+      "filesDeleted": 0,
+      "filesModified": 7,
+      "filesChangedReact": 3,
+      "filesChangedAngular": 4,
+      "filesChangedDomain": 0,
+      "locAdded": 63,
+      "locRemoved": 2,
+      "locNet": 61,
+      "locDeltaReact": 30,
+      "locDeltaAngular": 31,
+      "locDeltaDomain": 0,
+      "importsAdded": 0,
+      "importsRemoved": 0,
+      "testsChanged": 2,
+      "testsAdded": 0,
+      "testsDeleted": 0,
+      "testsModified": 2,
+      "featuresReactTouched": ["tasks"],
+      "featuresAngularTouched": ["tasks"],
+      "unrelatedFeaturesTouched": 0,
+      "classification": {
+        "domain": 0,
+        "framework": 5,
+        "mixed": 2,
+        "files": {
+          "apps/angular-app/src/app/features/tasks/tasks.component.html": "framework",
+          "apps/angular-app/src/app/features/tasks/tasks.component.spec.ts": "framework",
+          "apps/angular-app/src/app/features/tasks/tasks.component.ts": "framework",
+          "apps/angular-app/src/styles.css": "framework",
+          "apps/react-app/src/features/tasks/tasks-page.test.tsx": "mixed",
+          "apps/react-app/src/features/tasks/tasks-page.tsx": "mixed",
+          "apps/react-app/src/styles.css": "framework"
+        }
+      },
+      "classificationLoc": {
+        "domain": {
+          "add": 0,
+          "del": 0
+        },
+        "framework": {
+          "add": 37,
+          "del": 1
+        },
+        "mixed": {
+          "add": 26,
+          "del": 1
+        }
+      },
+      "complexityProxy": {
+        "apps/angular-app/src/app/features/tasks/tasks.component.spec.ts": 20,
+        "apps/angular-app/src/app/features/tasks/tasks.component.ts": 33,
+        "apps/react-app/src/features/tasks/tasks-page.test.tsx": 12,
+        "apps/react-app/src/features/tasks/tasks-page.tsx": 29
+      },
+      "symbolsNew": {
+        "react": 0,
+        "angular": 0
+      }
+    },
+    "C5->C6": {
+      "transition": "C5->C6",
+      "label": "C6: remove Settings feature",
+      "filesChanged": 9,
+      "filesAdded": 0,
+      "filesDeleted": 4,
+      "filesModified": 5,
+      "filesChangedReact": 3,
+      "filesChangedAngular": 6,
+      "filesChangedDomain": 0,
+      "locAdded": 24,
+      "locRemoved": 224,
+      "locNet": -200,
+      "locDeltaReact": -66,
+      "locDeltaAngular": -134,
+      "locDeltaDomain": 0,
+      "importsAdded": 0,
+      "importsRemoved": 6,
+      "testsChanged": 3,
+      "testsAdded": 0,
+      "testsDeleted": 1,
+      "testsModified": 2,
+      "featuresReactTouched": ["settings"],
+      "featuresAngularTouched": ["settings"],
+      "unrelatedFeaturesTouched": 0,
+      "classification": {
+        "domain": 0,
+        "framework": 8,
+        "mixed": 1,
+        "files": {
+          "apps/angular-app/src/app/features/settings/settings.component.html": "framework",
+          "apps/angular-app/src/app/features/settings/settings.component.spec.ts": "framework",
+          "apps/angular-app/src/app/features/settings/settings.component.ts": "framework",
+          "apps/react-app/src/features/settings/settings-page.tsx": "mixed",
+          "apps/angular-app/src/app/app.html": "framework",
+          "apps/angular-app/src/app/app.spec.ts": "framework",
+          "apps/angular-app/src/app/app.ts": "framework",
+          "apps/react-app/src/app/App.test.tsx": "framework",
+          "apps/react-app/src/app/App.tsx": "framework"
+        }
+      },
+      "classificationLoc": {
+        "domain": {
+          "add": 0,
+          "del": 0
+        },
+        "framework": {
+          "add": 24,
+          "del": 192
+        },
+        "mixed": {
+          "add": 0,
+          "del": 32
+        }
+      },
+      "complexityProxy": {
+        "apps/angular-app/src/app/app.spec.ts": 2,
+        "apps/angular-app/src/app/app.ts": 0,
+        "apps/react-app/src/app/App.test.tsx": 0,
+        "apps/react-app/src/app/App.tsx": 8
+      },
+      "symbolsNew": {
+        "react": 0,
+        "angular": 0
+      }
+    }
+  },
+  "c3": {
+    "testsFailedBeforeFix": {
+      "react": 1,
+      "angular": 1,
+      "note": "exactly the injected regression test"
+    },
+    "testsFailedAfterFix": {
+      "react": 0,
+      "angular": 0
+    },
+    "filesInspectedToLocate": {
+      "react": [
+        "apps/react-app/src/services/filters.ts",
+        "apps/react-app/src/features/tasks/tasks-page.tsx"
+      ],
+      "angular": [
+        "apps/angular-app/src/app/services/filters.ts",
+        "apps/angular-app/src/app/features/tasks/tasks.component.html"
+      ],
+      "note": "symptom (search UI) -> cause (filters service): 1 file away, 1 layer boundary"
+    },
+    "distanceCauseToSymptom": {
+      "layers": 1,
+      "files": 1,
+      "note": "the bug lived in the presentation filter service; the symptom appeared in the Tasks view that consumes it"
+    },
+    "bugEquivalentInBoth": true
+  },
+  "aggregate": {
+    "perScenario": [
+      {
+        "label": "C1: new Board feature",
+        "react": {
+          "files": 5,
+          "loc": 253,
+          "tests": 4
+        },
+        "angular": {
+          "files": 7,
+          "loc": 263,
+          "tests": 4
+        }
+      },
+      {
+        "label": "C2: modify Tasks (sort control)",
+        "react": {
+          "files": 2,
+          "loc": 51,
+          "tests": 2
+        },
+        "angular": {
+          "files": 3,
+          "loc": 46,
+          "tests": 2
+        }
+      },
+      {
+        "label": "C4: refactor dashboard KPIs",
+        "react": {
+          "files": 1,
+          "loc": 11,
+          "tests": 0
+        },
+        "angular": {
+          "files": 2,
+          "loc": 9,
+          "tests": 0
+        }
+      },
+      {
+        "label": "C5: UI-only density toggle",
+        "react": {
+          "files": 3,
+          "loc": 30,
+          "tests": 2
+        },
+        "angular": {
+          "files": 4,
+          "loc": 31,
+          "tests": 2
+        }
+      },
+      {
+        "label": "C6: remove Settings feature",
+        "react": {
+          "files": 3,
+          "loc": -66,
+          "tests": 3
+        },
+        "angular": {
+          "files": 6,
+          "loc": -134,
+          "tests": 3
+        }
+      }
+    ]
+  },
+  "accidentalWorkMethodology": {
+    "classification": {
+      "domain": "packages/domain — requerido por el problema funcional",
+      "framework": "archivos que existen solo por la estructura del framework (.html, boilerplate de componente, integración de estado store/hook/adapter, shell de la app, estilos, specs de componente)",
+      "mixed": "lógica agnóstica co-localizada con uso del framework (.tsx, services/filters, tests de store) — no separable mecánicamente, se reporta aparte"
+    },
+    "limitation": "La clasificación es por heurística de archivo, no por análisis semántico; los .tsx mezclan JSX y lógica, por eso se marcan mixed en lugar de atribuirlos."
+  },
+  "limitations": [
+    "time_to_implement es NO MEDIBLE: no hay operador humano cronometrado; se usan proxies estructurales reproducibles.",
+    "La clasificación accidental-vs-funcional es heurística y puede discutirse caso a caso; los archivos mixtos se reportan por separado.",
+    "El proxy de complejidad (ramas if/ternario/&&/||) es una aproximación McCabe limitada, no complejidad ciclomática real.",
+    "C3 se ejecutó con un bug deliberadamente equivalente en ambos frameworks; los tiempos de localización reales de un equipo no están medidos.",
+    "Una sola máquina, un solo par de implementaciones; los deltas dependen del estilo del experimento.",
+    "La feature Board (C1) permanece en los estados posteriores (escenarios acumulativos), como en Fases 11-12."
+  ]
+}

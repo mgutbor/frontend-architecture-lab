@@ -32,6 +32,7 @@
     "interaction:end-to-end": "node scripts/measure-interaction-end-to-end-phase9-3.mjs",
     "domain:evolution": "node scripts/measure-domain-evolution-phase11.mjs",
     "contracts:versioned": "node scripts/measure-versioned-contracts-phase12.mjs",
+    "maintainability:measure": "node scripts/measure-maintainability-phase13.mjs",
     "check": "pnpm lint && pnpm format:check && pnpm typecheck && pnpm test && pnpm build"
   },
   "devDependencies": {
