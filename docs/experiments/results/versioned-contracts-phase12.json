@@ -1,0 +1,559 @@
+{
+  "experiment": "versioned-contracts-phase12",
+  "capturedAt": "2026-08-24T15:55:02.108Z",
+  "objective": "Determinar si un contrato de dominio puede evolucionar de V1 a V2 mediante una migración gradual (V1+V2 coexistiendo temporalmente, migración progresiva de React y Angular, retirada final de V1) sin segunda fuente de verdad, duplicación significativa ni deuda permanente, y si el coste es comparable entre React y Angular.",
+  "environment": {
+    "node": "v25.3.0",
+    "platform": "darwin-arm64",
+    "cpuModel": "Apple M1",
+    "memoryBytes": 17179869184,
+    "labPath": "/tmp/lab-phase12",
+    "labHead": "48167a9 M5: retire V1 contract, canonical V2 (persistence boundary keeps migrator)",
+    "labCommits": [
+      "48167a9 M5: retire V1 contract, canonical V2 (persistence boundary keeps migrator)",
+      "2826b85 M4: migrate angular-app to V2 contract (both apps on V2)",
+      "5a8fd50 M3: migrate react-app to V2 contract (Angular stays V1)",
+      "030cafe M2",
+      "3e96caf M1",
+      "fd79ff6 M4",
+      "221ece1 M3"
+    ],
+    "note": "Copia aislada con historial propio (un commit por estado). El árbol principal no se modifica."
+  },
+  "states": ["BASELINE", "M1", "M2", "M3", "M4", "M5"],
+  "snapshots": [
+    {
+      "snapshot": "BASELINE",
+      "commit": "fd79ff6",
+      "files": {
+        "prodFiles": 56,
+        "testFiles": 17,
+        "prodLoc": 4126,
+        "testLoc": 2182,
+        "domainProdLoc": 888,
+        "reactProdLoc": 1931,
+        "angularProdLoc": 1307
+      },
+      "contract": {
+        "domainConsumers": 25,
+        "integrationPoints": {
+          "react": [
+            {
+              "file": "apps/react-app/src/adapters/domain-adapter.ts",
+              "version": "agnostic"
+            },
+            {
+              "file": "apps/react-app/src/services/domain-store.ts",
+              "version": "v1"
+            }
+          ],
+          "angular": [
+            {
+              "file": "apps/angular-app/src/app/domain/domain-data.adapter.ts",
+              "version": "agnostic"
+            },
+            {
+              "file": "apps/angular-app/src/app/domain/domain.store.ts",
+              "version": "v1"
+            }
+          ]
+        },
+        "v1Consumers": {
+          "react": 1,
+          "angular": 1,
+          "total": 2
+        },
+        "v2Consumers": {
+          "react": 0,
+          "angular": 0,
+          "total": null
+        },
+        "migrationProgress": 0,
+        "remainingV1Consumers": 2,
+        "v1References": 4,
+        "v1ReferencesOutsideBoundary": 4,
+        "v1ReferenceFiles": [
+          "apps/angular-app/src/app/domain/domain.store.ts",
+          "apps/react-app/src/services/domain-store.ts",
+          "packages/domain/src/index.ts",
+          "packages/domain/src/project-status.ts"
+        ]
+      }
+    },
+    {
+      "snapshot": "M1",
+      "commit": "3e96caf",
+      "files": {
+        "prodFiles": 57,
+        "testFiles": 17,
+        "prodLoc": 4231,
+        "testLoc": 2182,
+        "domainProdLoc": 993,
+        "reactProdLoc": 1931,
+        "angularProdLoc": 1307
+      },
+      "contract": {
+        "domainConsumers": 25,
+        "integrationPoints": {
+          "react": [
+            {
+              "file": "apps/react-app/src/adapters/domain-adapter.ts",
+              "version": "agnostic"
+            },
+            {
+              "file": "apps/react-app/src/services/domain-store.ts",
+              "version": "v1"
+            }
+          ],
+          "angular": [
+            {
+              "file": "apps/angular-app/src/app/domain/domain-data.adapter.ts",
+              "version": "agnostic"
+            },
+            {
+              "file": "apps/angular-app/src/app/domain/domain.store.ts",
+              "version": "v1"
+            }
+          ]
+        },
+        "v1Consumers": {
+          "react": 1,
+          "angular": 1,
+          "total": 2
+        },
+        "v2Consumers": {
+          "react": 0,
+          "angular": 0,
+          "total": null
+        },
+        "migrationProgress": 0,
+        "remainingV1Consumers": 2,
+        "v1References": 6,
+        "v1ReferencesOutsideBoundary": 5,
+        "v1ReferenceFiles": [
+          "apps/angular-app/src/app/domain/domain.store.ts",
+          "apps/react-app/src/services/domain-store.ts",
+          "packages/domain/src/index.ts",
+          "packages/domain/src/project-status.ts",
+          "packages/domain/src/types.ts",
+          "packages/domain/src/versioned-contract.ts"
+        ]
+      }
+    },
+    {
+      "snapshot": "M2",
+      "commit": "030cafe",
+      "files": {
+        "prodFiles": 57,
+        "testFiles": 17,
+        "prodLoc": 4252,
+        "testLoc": 2182,
+        "domainProdLoc": 1014,
+        "reactProdLoc": 1931,
+        "angularProdLoc": 1307
+      },
+      "contract": {
+        "domainConsumers": 25,
+        "integrationPoints": {
+          "react": [
+            {
+              "file": "apps/react-app/src/adapters/domain-adapter.ts",
+              "version": "agnostic"
+            },
+            {
+              "file": "apps/react-app/src/services/domain-store.ts",
+              "version": "v1"
+            }
+          ],
+          "angular": [
+            {
+              "file": "apps/angular-app/src/app/domain/domain-data.adapter.ts",
+              "version": "agnostic"
+            },
+            {
+              "file": "apps/angular-app/src/app/domain/domain.store.ts",
+              "version": "v1"
+            }
+          ]
+        },
+        "v1Consumers": {
+          "react": 1,
+          "angular": 1,
+          "total": 2
+        },
+        "v2Consumers": {
+          "react": 0,
+          "angular": 0,
+          "total": null
+        },
+        "migrationProgress": 0,
+        "remainingV1Consumers": 2,
+        "v1References": 7,
+        "v1ReferencesOutsideBoundary": 5,
+        "v1ReferenceFiles": [
+          "apps/angular-app/src/app/domain/domain.store.ts",
+          "apps/react-app/src/services/domain-store.ts",
+          "packages/domain/src/fixture.ts",
+          "packages/domain/src/index.ts",
+          "packages/domain/src/project-status.ts",
+          "packages/domain/src/types.ts",
+          "packages/domain/src/versioned-contract.ts"
+        ]
+      }
+    },
+    {
+      "snapshot": "M3",
+      "commit": "5a8fd50",
+      "files": {
+        "prodFiles": 57,
+        "testFiles": 17,
+        "prodLoc": 4279,
+        "testLoc": 2193,
+        "domainProdLoc": 1014,
+        "reactProdLoc": 1958,
+        "angularProdLoc": 1307
+      },
+      "contract": {
+        "domainConsumers": 25,
+        "integrationPoints": {
+          "react": [
+            {
+              "file": "apps/react-app/src/adapters/domain-adapter.ts",
+              "version": "v2"
+            },
+            {
+              "file": "apps/react-app/src/services/domain-store.ts",
+              "version": "v2"
+            }
+          ],
+          "angular": [
+            {
+              "file": "apps/angular-app/src/app/domain/domain-data.adapter.ts",
+              "version": "agnostic"
+            },
+            {
+              "file": "apps/angular-app/src/app/domain/domain.store.ts",
+              "version": "v1"
+            }
+          ]
+        },
+        "v1Consumers": {
+          "react": 0,
+          "angular": 1,
+          "total": 1
+        },
+        "v2Consumers": {
+          "react": 2,
+          "angular": 0,
+          "total": null
+        },
+        "migrationProgress": 67,
+        "remainingV1Consumers": 1,
+        "v1References": 9,
+        "v1ReferencesOutsideBoundary": 7,
+        "v1ReferenceFiles": [
+          "apps/angular-app/src/app/domain/domain.store.ts",
+          "apps/react-app/src/adapters/domain-adapter.ts",
+          "apps/react-app/src/hooks/use-domain-store.ts",
+          "apps/react-app/src/services/domain-store.ts",
+          "packages/domain/src/fixture.ts",
+          "packages/domain/src/index.ts",
+          "packages/domain/src/project-status.ts",
+          "packages/domain/src/types.ts",
+          "packages/domain/src/versioned-contract.ts"
+        ]
+      }
+    },
+    {
+      "snapshot": "M4",
+      "commit": "2826b85",
+      "files": {
+        "prodFiles": 57,
+        "testFiles": 17,
+        "prodLoc": 4309,
+        "testLoc": 2193,
+        "domainProdLoc": 1014,
+        "reactProdLoc": 1958,
+        "angularProdLoc": 1337
+      },
+      "contract": {
+        "domainConsumers": 25,
+        "integrationPoints": {
+          "react": [
+            {
+              "file": "apps/react-app/src/adapters/domain-adapter.ts",
+              "version": "v2"
+            },
+            {
+              "file": "apps/react-app/src/services/domain-store.ts",
+              "version": "v2"
+            }
+          ],
+          "angular": [
+            {
+              "file": "apps/angular-app/src/app/domain/domain-data.adapter.ts",
+              "version": "v2"
+            },
+            {
+              "file": "apps/angular-app/src/app/domain/domain.store.ts",
+              "version": "v2"
+            }
+          ]
+        },
+        "v1Consumers": {
+          "react": 0,
+          "angular": 0,
+          "total": 0
+        },
+        "v2Consumers": {
+          "react": 2,
+          "angular": 2,
+          "total": null
+        },
+        "migrationProgress": 100,
+        "remainingV1Consumers": 0,
+        "v1References": 10,
+        "v1ReferencesOutsideBoundary": 8,
+        "v1ReferenceFiles": [
+          "apps/angular-app/src/app/domain/domain-data.adapter.ts",
+          "apps/angular-app/src/app/domain/domain.store.ts",
+          "apps/react-app/src/adapters/domain-adapter.ts",
+          "apps/react-app/src/hooks/use-domain-store.ts",
+          "apps/react-app/src/services/domain-store.ts",
+          "packages/domain/src/fixture.ts",
+          "packages/domain/src/index.ts",
+          "packages/domain/src/project-status.ts",
+          "packages/domain/src/types.ts",
+          "packages/domain/src/versioned-contract.ts"
+        ]
+      }
+    },
+    {
+      "snapshot": "M5",
+      "commit": "48167a9",
+      "files": {
+        "prodFiles": 57,
+        "testFiles": 17,
+        "prodLoc": 4244,
+        "testLoc": 2193,
+        "domainProdLoc": 962,
+        "reactProdLoc": 1951,
+        "angularProdLoc": 1331
+      },
+      "contract": {
+        "domainConsumers": 25,
+        "integrationPoints": {
+          "react": [
+            {
+              "file": "apps/react-app/src/adapters/domain-adapter.ts",
+              "version": "agnostic"
+            },
+            {
+              "file": "apps/react-app/src/services/domain-store.ts",
+              "version": "v2"
+            }
+          ],
+          "angular": [
+            {
+              "file": "apps/angular-app/src/app/domain/domain-data.adapter.ts",
+              "version": "agnostic"
+            },
+            {
+              "file": "apps/angular-app/src/app/domain/domain.store.ts",
+              "version": "v2"
+            }
+          ]
+        },
+        "v1Consumers": {
+          "react": 0,
+          "angular": 0,
+          "total": 0
+        },
+        "v2Consumers": {
+          "react": 1,
+          "angular": 1,
+          "total": null
+        },
+        "migrationProgress": 100,
+        "remainingV1Consumers": 0,
+        "v1References": 2,
+        "v1ReferencesOutsideBoundary": 0,
+        "v1ReferenceFiles": [
+          "packages/domain/src/fixture.ts",
+          "packages/domain/src/versioned-contract.ts"
+        ]
+      }
+    }
+  ],
+  "transitions": {
+    "BASELINE->M1": {
+      "filesChanged": 4,
+      "filesAdded": 2,
+      "filesDeleted": 0,
+      "filesModified": 2,
+      "filesChangedReact": 0,
+      "filesChangedAngular": 0,
+      "filesChangedDomain": 4,
+      "locAdded": 165,
+      "locRemoved": 3,
+      "locDelta": 162,
+      "locDeltaReact": 0,
+      "locDeltaAngular": 0,
+      "locDeltaDomain": 162,
+      "testsChanged": 1,
+      "testsAdded": 1,
+      "testsDeleted": 0,
+      "testsModified": 0,
+      "featuresReactTouched": [],
+      "featuresAngularTouched": []
+    },
+    "M1->M2": {
+      "filesChanged": 3,
+      "filesAdded": 0,
+      "filesDeleted": 0,
+      "filesModified": 3,
+      "filesChangedReact": 0,
+      "filesChangedAngular": 0,
+      "filesChangedDomain": 3,
+      "locAdded": 28,
+      "locRemoved": 7,
+      "locDelta": 21,
+      "locDeltaReact": 0,
+      "locDeltaAngular": 0,
+      "locDeltaDomain": 21,
+      "testsChanged": 0,
+      "testsAdded": 0,
+      "testsDeleted": 0,
+      "testsModified": 0,
+      "featuresReactTouched": [],
+      "featuresAngularTouched": []
+    },
+    "M2->M3": {
+      "filesChanged": 9,
+      "filesAdded": 0,
+      "filesDeleted": 0,
+      "filesModified": 9,
+      "filesChangedReact": 9,
+      "filesChangedAngular": 0,
+      "filesChangedDomain": 0,
+      "locAdded": 74,
+      "locRemoved": 36,
+      "locDelta": 38,
+      "locDeltaReact": 38,
+      "locDeltaAngular": 0,
+      "locDeltaDomain": 0,
+      "testsChanged": 6,
+      "testsAdded": 0,
+      "testsDeleted": 0,
+      "testsModified": 6,
+      "featuresReactTouched": ["dashboard", "projects", "tasks", "teams", "reports"],
+      "featuresAngularTouched": []
+    },
+    "M3->M4": {
+      "filesChanged": 2,
+      "filesAdded": 0,
+      "filesDeleted": 0,
+      "filesModified": 2,
+      "filesChangedReact": 0,
+      "filesChangedAngular": 2,
+      "filesChangedDomain": 0,
+      "locAdded": 46,
+      "locRemoved": 16,
+      "locDelta": 30,
+      "locDeltaReact": 0,
+      "locDeltaAngular": 30,
+      "locDeltaDomain": 0,
+      "testsChanged": 0,
+      "testsAdded": 0,
+      "testsDeleted": 0,
+      "testsModified": 0,
+      "featuresReactTouched": [],
+      "featuresAngularTouched": []
+    },
+    "M4->M5": {
+      "filesChanged": 18,
+      "filesAdded": 0,
+      "filesDeleted": 0,
+      "filesModified": 18,
+      "filesChangedReact": 9,
+      "filesChangedAngular": 2,
+      "filesChangedDomain": 7,
+      "locAdded": 147,
+      "locRemoved": 217,
+      "locDelta": -70,
+      "locDeltaReact": -7,
+      "locDeltaAngular": -6,
+      "locDeltaDomain": -57,
+      "testsChanged": 7,
+      "testsAdded": 0,
+      "testsDeleted": 0,
+      "testsModified": 7,
+      "featuresReactTouched": ["dashboard", "projects", "tasks", "teams", "reports"],
+      "featuresAngularTouched": []
+    }
+  },
+  "migrationCompleteness": {
+    "BASELINE": 0,
+    "M2": 0,
+    "M3": 67,
+    "M4": 100,
+    "M5": 100
+  },
+  "compatibilityDebt": {
+    "BASELINE": {
+      "v1SymbolReferences": 4,
+      "v1ReferenceFilesOutsideBoundary": 4
+    },
+    "M1": {
+      "v1SymbolReferences": 6,
+      "v1ReferenceFilesOutsideBoundary": 5
+    },
+    "M2": {
+      "v1SymbolReferences": 7,
+      "v1ReferenceFilesOutsideBoundary": 5
+    },
+    "M3": {
+      "v1SymbolReferences": 9,
+      "v1ReferenceFilesOutsideBoundary": 7
+    },
+    "M4": {
+      "v1SymbolReferences": 10,
+      "v1ReferenceFilesOutsideBoundary": 8
+    },
+    "M5": {
+      "v1SymbolReferences": 2,
+      "v1ReferenceFilesOutsideBoundary": 0
+    }
+  },
+  "residualDebt": {
+    "afterM5": {
+      "v1SymbolReferences": 2,
+      "v1ReferenceFilesOutsideBoundary": 0,
+      "note": "Las únicas referencias funcionales restantes están en la frontera de persistencia interna (packages/domain/src/versioned-contract.ts + fixture.ts): el JSON del fixture conserva el formato V1 en disco y el migrador adapta la forma sin lógica de negocio. No se exporta nada V1 desde la API pública (verificado en dist/src/index.d.ts)."
+    }
+  },
+  "architecture": {
+    "crossFeatureImports": [],
+    "duplicatedDomainRules": [],
+    "domainImportsApps": [],
+    "newDependencies": []
+  },
+  "methodology": {
+    "summary": "Cada transición se aplicó en /tmp/lab-phase12 (copia aislada con historial git) partiendo del estado anterior y validándose con format + format:check + lint + typecheck + test + build antes del snapshot. Los consumidores V1/V2 se detectan por marcadores: V2 = statusHistory/changedById/ProjectStatusEvent/makeProjectStatusEvent; V1 = símbolos V1 (loadFixtureV2, ProjectV2, DatasetV2, migradores, makeProjectStatus, ...). v1References se cuenta en source de prod (apps + domain) excluyendo docs. Deltas estructurales con git diff/numstat entre snapshots. Invariantes finales verificadas con escaneo de imports entre features, reglas duplicadas, imports del dominio y diffs de package.json.",
+    "metrics": [
+      "contract: v1Consumers, v2Consumers, migrationProgress, remainingV1Consumers, v1References",
+      "structural: filesChanged/Added/Deleted/Modified, locDelta (total y por framework), per transition",
+      "testing: testsChanged/Added/Deleted/Modified per transition",
+      "architectural: crossFeatureImports, duplicatedDomainRules, domainImportsApps, newDependencies",
+      "debt: compatibilityDebt (referencias V1 por estado), residualDebt tras M5",
+      "derived: migrationCompleteness v2/(v1+v2), migration blast radius (features touched + files changed)"
+    ]
+  },
+  "limitations": [
+    "Una sola máquina y una sola secuencia de migración; los deltas de LOC/archivos dependen del estilo de implementación.",
+    "time_to_implement es NO MEDIBLE: no hay forma reproducible de medir tiempo humano.",
+    "El migrador V1->V2 permanece como frontera de persistencia interna porque el fixture JSON conserva el formato V1 en disco; es la excepción documentada al criterio \"0 referencias funcionales a V1\" (no es código muerto: lee el fixture persistido).",
+    "El experimento evoluciona el dominio \"congelado\" del ADR-001 deliberadamente, pero solo en la copia aislada; el árbol principal conserva el dominio original.",
+    "Los estados intermedios (M2-M4) no se ejecutaron en navegador; la validación es typecheck + tests + build."
+  ]
+}
