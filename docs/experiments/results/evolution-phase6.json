@@ -1,0 +1,281 @@
+{
+  "experiment": "evolution-phase6",
+  "capturedAt": "2026-08-23T23:10:02.613Z",
+  "objective": "Medir el coste real de cambio (evolución) de React Monolith y Angular Monolith al implementar el mismo contrato: nueva feature (C1), nueva regla de dominio (C2), evolución de feature (C4) y cambio de contrato compartido (C3).",
+  "environment": {
+    "node": "v25.3.0",
+    "platform": "darwin-arm64",
+    "cpuModel": "Apple M1",
+    "cpuCores": 8,
+    "memoryBytes": 17179869184,
+    "experimentalCopy": "/tmp/lab-phase6",
+    "commits": {
+      "baseline": "e4f9f5ff49a18175121ba5b746fc2cb8f67577ab",
+      "c1-feature": "73878b428faef0fdc509eb09b7a05fcf2e586d05",
+      "c2-domain-rule": "d50c4ebdaba31115f49a443f86d96f698d052538",
+      "c4-feature-evolution": "bc9a36708843dabdeb1a26856ff0173070cd8201",
+      "c3-contract-change": "82b95646aa417b5c7c1667ed82cb34b149c9e6b5"
+    },
+    "note": "Experimento ejecutado en copia aislada (/tmp) con git propio; el árbol principal no se modificó. buildTimeMs: 1 ejecución por estado (indicativo, no mediana)."
+  },
+  "method": "CAMBIO 1: feature Favoritos (nav entry, UI, estado local UI en App, consumo de buildProjectReport/getProjectHealth vía store/adapter, interacción star, tests) en ambos frameworks. CAMBIO 2: regla getProjectHealth añadida una sola vez en packages/domain y consumida por ambas apps. CAMBIO 4: evolución de la feature (filtro por estado reutilizando filterProjects + contador de tareas). CAMBIO 3: cambio de firma canTransitionProject(from,to) -> canTransitionProject({from,to}); censo de errores typecheck en dos etapas (sin rebuild del dist y tras rebuild). Métricas: git diff (numstat/stat) entre commits consecutivos del copy; conteo de tests por declaraciones it(); imports por líneas import; violaciones cross-feature por escaneo de imports; dependencias por diff de package.json; build y bundle por reconstrucción en cada estado.",
+  "states": {
+    "baseline": {
+      "commit": "e4f9f5ff49a18175121ba5b746fc2cb8f67577ab",
+      "buildTimeMs": { "domain": 285.2, "react": 187.3, "angular": 1799.5 },
+      "bundle": {
+        "reactJs": { "raw": 233547, "gzip": 68572 },
+        "reactCss": { "raw": 3666, "gzip": 1162 },
+        "angularJs": { "raw": 179634, "gzip": 53485 },
+        "angularCss": { "raw": 3438, "gzip": 1135 }
+      }
+    },
+    "c1-feature": {
+      "commit": "73878b428faef0fdc509eb09b7a05fcf2e586d05",
+      "buildTimeMs": { "domain": 237.4, "react": 191.3, "angular": 2083.4 },
+      "bundle": {
+        "reactJs": { "raw": 235447, "gzip": 68997 },
+        "reactCss": { "raw": 4049, "gzip": 1224 },
+        "angularJs": { "raw": 183273, "gzip": 54165 },
+        "angularCss": { "raw": 3829, "gzip": 1233 }
+      }
+    },
+    "c2-domain-rule": {
+      "commit": "d50c4ebdaba31115f49a443f86d96f698d052538",
+      "buildTimeMs": { "domain": 239.8, "react": 185.3, "angular": 1873 },
+      "bundle": {
+        "reactJs": { "raw": 235814, "gzip": 69130 },
+        "reactCss": { "raw": 4049, "gzip": 1224 },
+        "angularJs": { "raw": 183969, "gzip": 54351 },
+        "angularCss": { "raw": 3829, "gzip": 1233 }
+      }
+    },
+    "c4-feature-evolution": {
+      "commit": "bc9a36708843dabdeb1a26856ff0173070cd8201",
+      "buildTimeMs": { "domain": 243.9, "react": 183.9, "angular": 1832.7 },
+      "bundle": {
+        "reactJs": { "raw": 236535, "gzip": 69201 },
+        "reactCss": { "raw": 4049, "gzip": 1224 },
+        "angularJs": { "raw": 184919, "gzip": 54499 },
+        "angularCss": { "raw": 3829, "gzip": 1233 }
+      }
+    },
+    "c3-contract-change": {
+      "commit": "82b95646aa417b5c7c1667ed82cb34b149c9e6b5",
+      "buildTimeMs": { "domain": 242.3, "react": 189.1, "angular": 1837.4 },
+      "bundle": {
+        "reactJs": { "raw": 236561, "gzip": 69227 },
+        "reactCss": { "raw": 4049, "gzip": 1224 },
+        "angularJs": { "raw": 184945, "gzip": 54526 },
+        "angularCss": { "raw": 3829, "gzip": 1233 }
+      }
+    }
+  },
+  "experiments": {
+    "c1-feature": {
+      "filesAdded": 5,
+      "filesModified": 12,
+      "filesAddedList": [
+        "apps/angular-app/src/app/features/favorites/favorites.component.html",
+        "apps/angular-app/src/app/features/favorites/favorites.component.spec.ts",
+        "apps/angular-app/src/app/features/favorites/favorites.component.ts",
+        "apps/react-app/src/features/favorites/favorites-page.test.tsx",
+        "apps/react-app/src/features/favorites/favorites-page.tsx"
+      ],
+      "filesModifiedList": [
+        "apps/angular-app/src/app/app.html",
+        "apps/angular-app/src/app/app.spec.ts",
+        "apps/angular-app/src/app/app.ts",
+        "apps/angular-app/src/app/features/projects/projects.component.html",
+        "apps/angular-app/src/app/features/projects/projects.component.spec.ts",
+        "apps/angular-app/src/app/features/projects/projects.component.ts",
+        "apps/angular-app/src/styles.css",
+        "apps/react-app/src/app/App.test.tsx",
+        "apps/react-app/src/app/App.tsx",
+        "apps/react-app/src/features/projects/projects-page.test.tsx",
+        "apps/react-app/src/features/projects/projects-page.tsx",
+        "apps/react-app/src/styles.css"
+      ],
+      "locAdded": 686,
+      "locRemoved": 58,
+      "filesByLayer": {
+        "app-shell": 3,
+        "other": 2,
+        "feature-favorites-angular": 3,
+        "features-angular": 3,
+        "styles": 2,
+        "feature-favorites-react": 2,
+        "features-react": 2
+      },
+      "testsAdded": 14,
+      "testsFrom": 223,
+      "testsTo": 237,
+      "importsAdded": 7,
+      "importsAddedList": [
+        "import { FavoritesComponent } from './features/favorites/favorites.component'",
+        "import { FavoritesComponent } from './favorites.component'",
+        "import { Component, computed, inject, input, output } from '@angular/core'",
+        "import { buildProjectReport } from '@operations-hub/domain'",
+        "import { Component, computed, inject, input, output, signal } from '@angular/core'",
+        "import { FavoritesPage } from '../features/favorites/favorites-page'",
+        "import { FavoritesPage } from './favorites-page'"
+      ],
+      "dependenciesChanged": false,
+      "crossFeatureImportsInFavorites": { "react": 0, "angular": 0 },
+      "statSummary": " 17 files changed, 686 insertions(+), 58 deletions(-)"
+    },
+    "c2-domain-rule": {
+      "filesAdded": 2,
+      "filesModified": 6,
+      "filesAddedList": [
+        "packages/domain/src/project-health.ts",
+        "packages/domain/test/project-health.test.ts"
+      ],
+      "filesModifiedList": [
+        "apps/angular-app/src/app/features/favorites/favorites.component.html",
+        "apps/angular-app/src/app/features/favorites/favorites.component.spec.ts",
+        "apps/angular-app/src/app/features/favorites/favorites.component.ts",
+        "apps/react-app/src/features/favorites/favorites-page.test.tsx",
+        "apps/react-app/src/features/favorites/favorites-page.tsx",
+        "packages/domain/src/index.ts"
+      ],
+      "locAdded": 150,
+      "locRemoved": 4,
+      "filesByLayer": { "feature-favorites-angular": 3, "feature-favorites-react": 2, "domain": 3 },
+      "testsAdded": 6,
+      "testsFrom": 237,
+      "testsTo": 243,
+      "importsAdded": 4,
+      "importsAddedList": [
+        "import { buildProjectReport, getProjectHealth } from '@operations-hub/domain'",
+        "import { computeCompletionRate } from './reports'",
+        "import type { Project, Task } from './types'",
+        "import { getProjectHealth, loadFixture, type Project, type Task } from '../src'"
+      ],
+      "dependenciesChanged": false,
+      "crossFeatureImportsInFavorites": { "react": 0, "angular": 0 },
+      "statSummary": " 8 files changed, 150 insertions(+), 4 deletions(-)"
+    },
+    "c4-feature-evolution": {
+      "filesAdded": 0,
+      "filesModified": 7,
+      "filesAddedList": [],
+      "filesModifiedList": [
+        "apps/angular-app/src/app/app.spec.ts",
+        "apps/angular-app/src/app/features/favorites/favorites.component.html",
+        "apps/angular-app/src/app/features/favorites/favorites.component.spec.ts",
+        "apps/angular-app/src/app/features/favorites/favorites.component.ts",
+        "apps/react-app/src/app/App.test.tsx",
+        "apps/react-app/src/features/favorites/favorites-page.test.tsx",
+        "apps/react-app/src/features/favorites/favorites-page.tsx"
+      ],
+      "locAdded": 139,
+      "locRemoved": 23,
+      "filesByLayer": {
+        "app-shell": 1,
+        "feature-favorites-angular": 3,
+        "other": 1,
+        "feature-favorites-react": 2
+      },
+      "testsAdded": 4,
+      "testsFrom": 243,
+      "testsTo": 247,
+      "importsAdded": 0,
+      "importsAddedList": [],
+      "dependenciesChanged": false,
+      "crossFeatureImportsInFavorites": { "react": 0, "angular": 0 },
+      "statSummary": " 7 files changed, 139 insertions(+), 23 deletions(-)"
+    },
+    "c3-contract-change": {
+      "filesAdded": 0,
+      "filesModified": 5,
+      "filesAddedList": [],
+      "filesModifiedList": [
+        "apps/angular-app/src/app/domain/domain.store.ts",
+        "apps/react-app/src/services/domain-store.ts",
+        "packages/domain/src/transitions.ts",
+        "packages/domain/src/validation.ts",
+        "packages/domain/test/transitions.test.ts"
+      ],
+      "locAdded": 19,
+      "locRemoved": 9,
+      "filesByLayer": { "other": 1, "services": 1, "domain": 3 },
+      "testsAdded": 0,
+      "testsFrom": 247,
+      "testsTo": 247,
+      "importsAdded": 0,
+      "importsAddedList": [],
+      "dependenciesChanged": false,
+      "crossFeatureImportsInFavorites": { "react": 0, "angular": 0 },
+      "statSummary": " 5 files changed, 19 insertions(+), 9 deletions(-)"
+    }
+  },
+  "c3Census": {
+    "experiment": "c3-contract-change",
+    "change": "firma canTransitionProject(from, to) -> canTransitionProject({ from, to }) en packages/domain",
+    "stages": [
+      {
+        "stage": "sin rebuild del dominio (frontera de paquete)",
+        "note": "El cambio se aplica al src de packages/domain pero NO se reconstruye dist; las apps consumen dist y no detectan el cambio.",
+        "domain": {
+          "errors": 5,
+          "files": 2,
+          "timeMs": 425,
+          "detail": "src/validation.ts(165,46) caller interno + test/transitions.test.ts x4"
+        },
+        "react": {
+          "errors": 0,
+          "files": 0,
+          "timeMs": 897,
+          "note": "consumia dist con la firma antigua"
+        },
+        "angular": {
+          "errors": 0,
+          "files": 0,
+          "timeMs": 413,
+          "note": "consumia dist con la firma antigua"
+        },
+        "domainBuildBlocked": true
+      },
+      {
+        "stage": "tras arreglar caller interno + rebuild de dist",
+        "domain": {
+          "errors": 0,
+          "files": 0,
+          "timeMs": 0,
+          "note": "validation.ts arreglado; dist reconstruido"
+        },
+        "react": {
+          "errors": 1,
+          "files": 1,
+          "timeMs": 863,
+          "detail": "src/services/domain-store.ts(64,74)"
+        },
+        "angular": {
+          "errors": 1,
+          "files": 1,
+          "timeMs": 419,
+          "detail": "src/app/domain/domain.store.ts(50,72)"
+        }
+      }
+    ],
+    "total": { "errors": 7, "files": 5 },
+    "filesToAdapt": [
+      "packages/domain/src/transitions.ts (definicion)",
+      "packages/domain/src/validation.ts (caller interno)",
+      "packages/domain/test/transitions.test.ts (tests de dominio)",
+      "apps/react-app/src/services/domain-store.ts (store React)",
+      "apps/angular-app/src/app/domain/domain.store.ts (store Angular)"
+    ],
+    "errorsOutsideExpectedArea": 0,
+    "featuresAffected": 0
+  },
+  "limitations": [
+    "buildTimeMs: 1 ejecución por estado; puede incluir ruido del sistema; no se usó mediana de 3 (coste de 5 estados x 2 apps).",
+    "testsAdded: conteo por declaraciones it() en archivos test/spec (heurística; it.each cuenta 1).",
+    "importsAdded: heurística sobre líneas import de archivos .ts/.tsx en las rutas dadas.",
+    "time_to_implement: NO MEDIBLE (trabajo manual, no reproducible); no se reporta.",
+    "time_to_detect_contract_break: medido como tiempo de tsc en el censo C3 (reproducible).",
+    "El dist de packages/domain no se commitea (gitignored); cada medición reconstruye el dominio antes de las apps."
+  ]
+}

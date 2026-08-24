@@ -23,6 +23,7 @@
     "jsx:validate": "node scripts/validate-react-jsx-attribution.mjs",
     "feature:bundle-cost": "node scripts/analyze-feature-bundle-cost.mjs",
     "lighthouse:phase5": "node scripts/run-lighthouse-phase5.mjs",
+    "evolution:measure": "node scripts/measure-evolution-phase6.mjs",
     "check": "pnpm lint && pnpm format:check && pnpm typecheck && pnpm test && pnpm build"
   },
   "devDependencies": {
