@@ -1,0 +1,253 @@
+{
+  "experiment": "domain-evolution-phase11",
+  "capturedAt": "2026-08-24T15:09:11.249Z",
+  "objective": "Medir el coste arquitectónico, contractual y estructural de 4 migraciones reales y deliberadamente incómodas del dominio compartido (M1 refinar status, M2 nueva entidad Milestone, M3 regla derivada getProjectHealth, M4 breaking change status -> {value, changedAt}), y comparar React vs Angular dentro de una arquitectura equivalente.",
+  "environment": {
+    "node": "v25.3.0",
+    "platform": "darwin-arm64",
+    "cpuModel": "Apple M1",
+    "memoryBytes": 17179869184,
+    "labPath": "/tmp/lab-phase11",
+    "labHead": "fd79ff6 M4",
+    "labCommits": [
+      "fd79ff6 M4",
+      "221ece1 M3",
+      "364383d M2",
+      "e9476dc M1",
+      "c8465c8 build: make typecheck depend on workspace builds in turbo pipeline"
+    ],
+    "note": "Copia aislada con su propio historial (commits por estado). El árbol principal no se modifica."
+  },
+  "snapshots": [
+    {
+      "snapshot": "BASELINE",
+      "commit": "c8465c8",
+      "prodFiles": 54,
+      "testFiles": 17,
+      "prodLoc": 3860,
+      "testLoc": 2145,
+      "domainProdFiles": 7,
+      "domainProdLoc": 760,
+      "reactProdFiles": 25,
+      "reactProdLoc": 1859,
+      "angularProdFiles": 22,
+      "angularProdLoc": 1241
+    },
+    {
+      "snapshot": "M1",
+      "commit": "e9476dc",
+      "prodFiles": 54,
+      "testFiles": 17,
+      "prodLoc": 3879,
+      "testLoc": 2147,
+      "domainProdFiles": 7,
+      "domainProdLoc": 768,
+      "reactProdFiles": 25,
+      "reactProdLoc": 1865,
+      "angularProdFiles": 22,
+      "angularProdLoc": 1246
+    },
+    {
+      "snapshot": "M2",
+      "commit": "364383d",
+      "prodFiles": 54,
+      "testFiles": 17,
+      "prodLoc": 3971,
+      "testLoc": 2171,
+      "domainProdFiles": 7,
+      "domainProdLoc": 804,
+      "reactProdFiles": 25,
+      "reactProdLoc": 1901,
+      "angularProdFiles": 22,
+      "angularProdLoc": 1266
+    },
+    {
+      "snapshot": "M3",
+      "commit": "221ece1",
+      "prodFiles": 55,
+      "testFiles": 17,
+      "prodLoc": 4055,
+      "testLoc": 2179,
+      "domainProdFiles": 8,
+      "domainProdLoc": 849,
+      "reactProdFiles": 25,
+      "reactProdLoc": 1919,
+      "angularProdFiles": 22,
+      "angularProdLoc": 1287
+    },
+    {
+      "snapshot": "M4",
+      "commit": "fd79ff6",
+      "prodFiles": 56,
+      "testFiles": 17,
+      "prodLoc": 4126,
+      "testLoc": 2182,
+      "domainProdFiles": 9,
+      "domainProdLoc": 888,
+      "reactProdFiles": 25,
+      "reactProdLoc": 1931,
+      "angularProdFiles": 22,
+      "angularProdLoc": 1307
+    }
+  ],
+  "migrations": {
+    "M1": {
+      "filesChanged": 10,
+      "filesAdded": 0,
+      "filesDeleted": 0,
+      "filesModified": 10,
+      "filesChangedReact": 3,
+      "filesChangedAngular": 3,
+      "filesChangedDomain": 4,
+      "domainFilesChanged": 4,
+      "locAdded": 44,
+      "locRemoved": 14,
+      "locDelta": 30,
+      "testsChanged": 3,
+      "testsAdded": 0,
+      "testsModified": 3,
+      "featuresReactTouched": [
+        "dashboard",
+        "projects"
+      ],
+      "featuresAngularTouched": [
+        "dashboard",
+        "projects"
+      ],
+      "featuresTouched": 2,
+      "unrelatedFilesTouched": [],
+      "directlyRelated": 7
+    },
+    "M2": {
+      "filesChanged": 17,
+      "filesAdded": 0,
+      "filesDeleted": 0,
+      "filesModified": 17,
+      "filesChangedReact": 4,
+      "filesChangedAngular": 7,
+      "filesChangedDomain": 6,
+      "domainFilesChanged": 6,
+      "locAdded": 282,
+      "locRemoved": 4,
+      "locDelta": 278,
+      "testsChanged": 3,
+      "testsAdded": 0,
+      "testsModified": 3,
+      "featuresReactTouched": [
+        "dashboard",
+        "projects"
+      ],
+      "featuresAngularTouched": [
+        "dashboard",
+        "projects"
+      ],
+      "featuresTouched": 2,
+      "unrelatedFilesTouched": [],
+      "directlyRelated": 9
+    },
+    "M3": {
+      "filesChanged": 10,
+      "filesAdded": 2,
+      "filesDeleted": 0,
+      "filesModified": 8,
+      "filesChangedReact": 3,
+      "filesChangedAngular": 4,
+      "filesChangedDomain": 3,
+      "domainFilesChanged": 3,
+      "locAdded": 137,
+      "locRemoved": 2,
+      "locDelta": 135,
+      "testsChanged": 2,
+      "testsAdded": 1,
+      "testsModified": 1,
+      "featuresReactTouched": [
+        "dashboard",
+        "projects"
+      ],
+      "featuresAngularTouched": [
+        "dashboard",
+        "projects"
+      ],
+      "featuresTouched": 2,
+      "unrelatedFilesTouched": [],
+      "directlyRelated": 6
+    },
+    "M4": {
+      "filesChanged": 29,
+      "filesAdded": 1,
+      "filesDeleted": 0,
+      "filesModified": 28,
+      "filesChangedReact": 9,
+      "filesChangedAngular": 10,
+      "filesChangedDomain": 10,
+      "domainFilesChanged": 10,
+      "locAdded": 165,
+      "locRemoved": 66,
+      "locDelta": 99,
+      "testsChanged": 6,
+      "testsAdded": 0,
+      "testsModified": 6,
+      "featuresReactTouched": [
+        "dashboard",
+        "projects",
+        "teams"
+      ],
+      "featuresAngularTouched": [
+        "dashboard",
+        "projects"
+      ],
+      "featuresTouched": 3,
+      "unrelatedFilesTouched": [],
+      "directlyRelated": 14
+    }
+  },
+  "compileErrors": {
+    "M1": {
+      "errors": 0,
+      "files": 0
+    },
+    "M2": {
+      "errors": 0,
+      "files": 0
+    },
+    "M3": {
+      "errors": 0,
+      "files": 0
+    },
+    "M4": {
+      "errors": 21,
+      "files": 11,
+      "note": "breaking change: Project.status -> ProjectStatusInfo; errors counted on the untouched consumers (see report §9)"
+    }
+  },
+  "architecture": {
+    "crossFeatureImports": {
+      "react": [],
+      "angular": []
+    },
+    "domainImportsApps": [],
+    "duplicatedDomainRules": [],
+    "packageJsonChanges": []
+  },
+  "consumers": {
+    "react": 13,
+    "angular": 12
+  },
+  "methodology": {
+    "summary": "Cada migración se aplicó en /tmp/lab-phase11 (copia aislada con historial git) partiendo del estado anterior y validándose con format:check + lint + typecheck + test + build antes del snapshot. Métricas estructurales y de delta calculadas con git diff/numstat entre snapshots. Blast radius: filesChanged + featuresTouched + unrelatedFilesTouched + testsChanged. Migration locality: (domain files + features touched) / filesChanged. Typecheck errors: contados con tsc --noEmit sobre los consumidores sin migrar tras aplicar el cambio de contrato. Invariantes: 0 imports feature->feature, 0 reglas de dominio duplicadas, 0 dependencias nuevas, domain sin imports de apps.",
+    "metrics": [
+      "structural: filesChanged, filesAdded/Deleted/Modified, locAdded/Removed/Delta, filesChanged{React,Angular,Domain}",
+      "contractual: compileErrors (antes de corregir), domain consumers, breaking consumers",
+      "architectural: crossFeatureImports, newDependencies, duplicatedDomainRules, architectureViolations",
+      "testing: testsChanged/Added/Modified, test suite duration",
+      "derived: blastRadius (direct + indirect + unrelated), migrationLocality, domainChangeRatio"
+    ]
+  },
+  "limitations": [
+    "Una sola máquina y un solo conjunto de migraciones; los deltas de LOC y archivos dependen del estilo de implementación del experimento.",
+    "compileErrors solo se registró para M4 (breaking change); M1-M3 son aditivos y no rompen el contrato (0 errores de typecheck).",
+    "time_to_implement es NO MEDIBLE: no hay forma reproducible de medir tiempo humano; se priorizan métricas estructurales.",
+    "El experimento modifica el dominio \"congelado\" del ADR-001 deliberadamente, pero solo en la copia aislada; el árbol principal conserva el dominio original.",
+    "El fixture operaciones-hub-v1.json cambia en M2/M4 (milestones, status.changedAt) — es un cambio de contrato de datos intencional."
+  ]
+}
