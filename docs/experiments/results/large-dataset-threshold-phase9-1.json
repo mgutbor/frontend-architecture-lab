@@ -1,0 +1,4098 @@
+{
+  "experiment": "large-dataset-threshold-phase9-1",
+  "capturedAt": "2026-08-24T09:57:36.499Z",
+  "objective": "Determinar experimentalmente si existe un umbral de degradación perceptible (100 ms operativos) al montar la vista completa (S1) con datasets grandes (300-3000 tareas), qué framework lo alcanza primero, si el crecimiento es aproximadamente lineal o cambia de régimen, si el trabajo síncrono y la latencia divergen, y si aparecen long tasks. Evaluar H31-H34.",
+  "environment": {
+    "node": "v25.3.0",
+    "platform": "darwin-arm64",
+    "cpuModel": "Apple M1",
+    "cpuCores": 8,
+    "memoryBytes": 17179869184,
+    "chromeVersion": "HeadlessChrome/151.0.7922.34",
+    "chromeShell": "/Users/plopez7/Library/Caches/ms-playwright/chromium_headless_shell-1234/chrome-headless-shell-mac-arm64/chrome-headless-shell",
+    "labPath": "/tmp/lab-phase9-1",
+    "labHeadCommit": "cc11abfd67d3ca8099087c3fcf19d0d5bde538c8",
+    "labBaselineCommit": "367f08916e3fe7d3ff123b89b3284a0dad829b7e",
+    "note": "chrome-headless-shell (Chrome for Testing), único headless funcional en este entorno (Fases 4.1/5.1/7/9). Copia experimental aislada en /tmp; el árbol principal no se modifica."
+  },
+  "method": {
+    "summary": "Solo escenario S1 (navegación Projects -> Tasks = montaje de la lista completa). Dataset por ?dataset=N (regla determinista scale-dataset.ts). Protocolo mount-settle determinista: click -> sync (dispatch síncrono) -> poll hasta que las N filas están en el DOM (mountToRows); duration = tiempo hasta el commit completo (sync + mountToRows); la ventana posterior (2 rAF + macrotask + 100 ms) solo recoge long tasks/mutaciones residuales (paintTail, informativo). Se descartó una ventana de quiescencia fija porque añade un piso de ~150 ms que cruzaría el umbral de 100 ms ya en el dataset menor. Harness ligero: long tasks + MutationObserver mínimo (childList + characterData; sin atributos ni clasificación). Sonda de overhead del observador en 1000 (ON vs OFF). Tandas de confirmación (+10 iteraciones) en datasets con mediana o p95 >= 100 ms. 300 se regenera como referencia contemporánea de Fase 9.",
+    "viewport": { "width": 1280, "height": 800, "deviceScaleFactor": 1, "mobile": false },
+    "datasets": [3000],
+    "iterations": 10,
+    "warmup": 1,
+    "probeDataset": 1000,
+    "thresholds": "50 / 100 / 200 ms como umbrales operativos del experimento (NO equivalen automáticamente a percepción humana; documentado).",
+    "metrics": [
+      "duration (ms) = tiempo desde el click hasta que las N filas están en el DOM (commit completo; settle del montaje). PRIMARIA para el umbral",
+      "sync (ms) = trabajo síncrono del evento (dispatch del click)",
+      "mountToRows (ms) = commit diferido hasta que las N filas están en el DOM",
+      "paintTail (ms) = ventana posterior al commit (2 rAF + macrotask + 100 ms de flush; informativa, ~constante)",
+      "longTasks (PerformanceObserver longtask)",
+      "mutations (MutationObserver mínimo: registros, nodos añadidos/eliminados)",
+      "heapDeltaKb / nodesDelta (CDP Performance.getMetrics; informativas; ScriptDuration NO se usa)"
+    ],
+    "checks": "cada iteración verifica que el número de filas alcanza exactamente N (checkOk); si no llega en el plazo, la medición lanza error (parada controlada).",
+    "growthHeuristic": "pendientes por segmento: delta por 1000 elementos entre puntos consecutivos; |s2-s1| <= 0.25*max(|s1|,|s2|,1) -> lineal; s2 < 0.75*s1 -> sublineal; s2 > 1.25*s1 -> superlineal; cambio >2x -> cambio de régimen. Heurística sobre 3-5 puntos, no estadística formal."
+  },
+  "results": {
+    "300": {
+      "react": {
+        "n": 10,
+        "iterations": [
+          {
+            "duration": 68.9,
+            "sync": 0.2,
+            "mountToRows": 68.7,
+            "paintTail": 114.8,
+            "rows": 300,
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 1616.02,
+            "nodesDelta": 26515,
+            "checkOk": true
+          },
+          {
+            "duration": 78.2,
+            "sync": 0.5,
+            "mountToRows": 77.7,
+            "paintTail": 103.7,
+            "rows": 300,
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 360.68,
+            "nodesDelta": 26515,
+            "checkOk": true
+          },
+          {
+            "duration": 72.8,
+            "sync": 0.3,
+            "mountToRows": 72.5,
+            "paintTail": 111.4,
+            "rows": 300,
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 2080.7,
+            "nodesDelta": 26515,
+            "checkOk": true
+          },
+          {
+            "duration": 68,
+            "sync": 0.3,
+            "mountToRows": 67.7,
+            "paintTail": 116.6,
+            "rows": 300,
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 1953.39,
+            "nodesDelta": 26515,
+            "checkOk": true
+          },
+          {
+            "duration": 55.5,
+            "sync": 0.2,
+            "mountToRows": 55.3,
+            "paintTail": 112.6,
+            "rows": 300,
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 1799.45,
+            "nodesDelta": 25788,
+            "checkOk": true
+          },
+          {
+            "duration": 66.4,
+            "sync": 0.1,
+            "mountToRows": 66.3,
+            "paintTail": 101.8,
+            "rows": 300,
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 2035.22,
+            "nodesDelta": 26515,
+            "checkOk": true
+          },
+          {
+            "duration": 69.9,
+            "sync": 0.5,
+            "mountToRows": 69.4,
+            "paintTail": 112.8,
+            "rows": 300,
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": -3789.41,
+            "nodesDelta": -26779,
+            "checkOk": true
+          },
+          {
+            "duration": 68.7,
+            "sync": 0.3,
+            "mountToRows": 68.4,
+            "paintTail": 114.7,
+            "rows": 300,
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 2041.36,
+            "nodesDelta": 26515,
+            "checkOk": true
+          },
+          {
+            "duration": 66.7,
+            "sync": 0.2,
+            "mountToRows": 66.5,
+            "paintTail": 117.3,
+            "rows": 300,
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": -3774.46,
+            "nodesDelta": -26779,
+            "checkOk": true
+          },
+          {
+            "duration": 69.3,
+            "sync": 0.3,
+            "mountToRows": 69,
+            "paintTail": 114.3,
+            "rows": 300,
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 2017.39,
+            "nodesDelta": 26515,
+            "checkOk": true
+          }
+        ],
+        "checksPassed": 10,
+        "duration": {
+          "n": 10,
+          "median": 68.8,
+          "min": 55.5,
+          "max": 78.2,
+          "p90": 78.2,
+          "p95": 78.2,
+          "stdev": 5.41
+        },
+        "sync": {
+          "n": 10,
+          "median": 0.3,
+          "min": 0.1,
+          "max": 0.5,
+          "p90": 0.5,
+          "p95": 0.5,
+          "stdev": 0.12
+        },
+        "mountToRows": {
+          "n": 10,
+          "median": 68.6,
+          "min": 55.3,
+          "max": 77.7,
+          "p90": 77.7,
+          "p95": 77.7,
+          "stdev": 5.33
+        },
+        "paintTail": {
+          "n": 10,
+          "median": 113.6,
+          "min": 101.8,
+          "max": 117.3,
+          "p90": 117.3,
+          "p95": 117.3,
+          "stdev": 4.94
+        },
+        "longTaskCount": { "sum": 0, "iterationsWithLongTasks": 0 },
+        "longTaskMs": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null,
+          "p90": null,
+          "p95": null,
+          "stdev": null
+        },
+        "mutations": {
+          "records": { "n": 10, "median": 2, "min": 2, "max": 2, "p90": 2, "p95": 2, "stdev": 0 },
+          "addedNodes": {
+            "n": 10,
+            "median": 1,
+            "min": 1,
+            "max": 1,
+            "p90": 1,
+            "p95": 1,
+            "stdev": 0
+          },
+          "removedNodes": {
+            "n": 10,
+            "median": 1,
+            "min": 1,
+            "max": 1,
+            "p90": 1,
+            "p95": 1,
+            "stdev": 0
+          }
+        },
+        "heapDeltaKb": {
+          "n": 10,
+          "median": 1876.4,
+          "min": -3789.4,
+          "max": 2080.7,
+          "p90": 2080.7,
+          "p95": 2080.7,
+          "stdev": 2260.31
+        },
+        "nodesDelta": {
+          "n": 10,
+          "median": 26515,
+          "min": -26779,
+          "max": 26515,
+          "p90": 26515,
+          "p95": 26515,
+          "stdev": 21282.34
+        },
+        "thresholds": { "gt50ms": 10, "gt100ms": 0, "gt200ms": 0 }
+      },
+      "angular": {
+        "n": 10,
+        "iterations": [
+          {
+            "duration": 72.1,
+            "sync": 0.1,
+            "mountToRows": 72,
+            "paintTail": 112.3,
+            "rows": 300,
+            "longTasks": [],
+            "mutations": { "n": 7664, "added": 3234, "removed": 1 },
+            "heapDeltaKb": 563.22,
+            "nodesDelta": 25717,
+            "checkOk": true
+          },
+          {
+            "duration": 78.9,
+            "sync": 0.2,
+            "mountToRows": 78.7,
+            "paintTail": 104.1,
+            "rows": 300,
+            "longTasks": [],
+            "mutations": { "n": 7664, "added": 3234, "removed": 1 },
+            "heapDeltaKb": 3861.29,
+            "nodesDelta": 26966,
+            "checkOk": true
+          },
+          {
+            "duration": 77.9,
+            "sync": 0.1,
+            "mountToRows": 77.8,
+            "paintTail": 106.8,
+            "rows": 300,
+            "longTasks": [],
+            "mutations": { "n": 7664, "added": 3234, "removed": 1 },
+            "heapDeltaKb": 511.43,
+            "nodesDelta": 26966,
+            "checkOk": true
+          },
+          {
+            "duration": 84.4,
+            "sync": 0.2,
+            "mountToRows": 84.2,
+            "paintTail": 114.8,
+            "rows": 300,
+            "longTasks": [],
+            "mutations": { "n": 7664, "added": 3234, "removed": 1 },
+            "heapDeltaKb": -6466.75,
+            "nodesDelta": -80914,
+            "checkOk": true
+          },
+          {
+            "duration": 81.6,
+            "sync": 0.2,
+            "mountToRows": 81.4,
+            "paintTail": 103.4,
+            "rows": 300,
+            "longTasks": [],
+            "mutations": { "n": 7664, "added": 3234, "removed": 1 },
+            "heapDeltaKb": 3500.85,
+            "nodesDelta": 26966,
+            "checkOk": true
+          },
+          {
+            "duration": 74,
+            "sync": 0.2,
+            "mountToRows": 73.8,
+            "paintTail": 110,
+            "rows": 300,
+            "longTasks": [],
+            "mutations": { "n": 7664, "added": 3234, "removed": 1 },
+            "heapDeltaKb": -3800.7,
+            "nodesDelta": -27196,
+            "checkOk": true
+          },
+          {
+            "duration": 77,
+            "sync": 0.1,
+            "mountToRows": 76.9,
+            "paintTail": 106.3,
+            "rows": 300,
+            "longTasks": [],
+            "mutations": { "n": 7664, "added": 3234, "removed": 1 },
+            "heapDeltaKb": 3300.77,
+            "nodesDelta": 26966,
+            "checkOk": true
+          },
+          {
+            "duration": 76,
+            "sync": 0.1,
+            "mountToRows": 75.9,
+            "paintTail": 108,
+            "rows": 300,
+            "longTasks": [],
+            "mutations": { "n": 7664, "added": 3234, "removed": 1 },
+            "heapDeltaKb": -3576.55,
+            "nodesDelta": -27196,
+            "checkOk": true
+          },
+          {
+            "duration": 75.8,
+            "sync": 0.1,
+            "mountToRows": 75.7,
+            "paintTail": 107.6,
+            "rows": 300,
+            "longTasks": [],
+            "mutations": { "n": 7664, "added": 3234, "removed": 1 },
+            "heapDeltaKb": 3310.31,
+            "nodesDelta": 26966,
+            "checkOk": true
+          },
+          {
+            "duration": 75.4,
+            "sync": 0.1,
+            "mountToRows": 75.3,
+            "paintTail": 108.4,
+            "rows": 300,
+            "longTasks": [],
+            "mutations": { "n": 7664, "added": 3234, "removed": 1 },
+            "heapDeltaKb": -3593.98,
+            "nodesDelta": -27196,
+            "checkOk": true
+          }
+        ],
+        "checksPassed": 10,
+        "duration": {
+          "n": 10,
+          "median": 76.5,
+          "min": 72.1,
+          "max": 84.4,
+          "p90": 84.4,
+          "p95": 84.4,
+          "stdev": 3.43
+        },
+        "sync": {
+          "n": 10,
+          "median": 0.1,
+          "min": 0.1,
+          "max": 0.2,
+          "p90": 0.2,
+          "p95": 0.2,
+          "stdev": 0.05
+        },
+        "mountToRows": {
+          "n": 10,
+          "median": 76.4,
+          "min": 72,
+          "max": 84.2,
+          "p90": 84.2,
+          "p95": 84.2,
+          "stdev": 3.4
+        },
+        "paintTail": {
+          "n": 10,
+          "median": 107.8,
+          "min": 103.4,
+          "max": 114.8,
+          "p90": 114.8,
+          "p95": 114.8,
+          "stdev": 3.31
+        },
+        "longTaskCount": { "sum": 0, "iterationsWithLongTasks": 0 },
+        "longTaskMs": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null,
+          "p90": null,
+          "p95": null,
+          "stdev": null
+        },
+        "mutations": {
+          "records": {
+            "n": 10,
+            "median": 7664,
+            "min": 7664,
+            "max": 7664,
+            "p90": 7664,
+            "p95": 7664,
+            "stdev": 0
+          },
+          "addedNodes": {
+            "n": 10,
+            "median": 3234,
+            "min": 3234,
+            "max": 3234,
+            "p90": 3234,
+            "p95": 3234,
+            "stdev": 0
+          },
+          "removedNodes": {
+            "n": 10,
+            "median": 1,
+            "min": 1,
+            "max": 1,
+            "p90": 1,
+            "p95": 1,
+            "stdev": 0
+          }
+        },
+        "heapDeltaKb": {
+          "n": 10,
+          "median": 537.3,
+          "min": -6466.7,
+          "max": 3861.3,
+          "p90": 3861.3,
+          "p95": 3861.3,
+          "stdev": 3619.38
+        },
+        "nodesDelta": {
+          "n": 10,
+          "median": 26341.5,
+          "min": -80914,
+          "max": 26966,
+          "p90": 26966,
+          "p95": 26966,
+          "stdev": 36142.43
+        },
+        "thresholds": { "gt50ms": 10, "gt100ms": 0, "gt200ms": 0 }
+      }
+    },
+    "600": {
+      "react": {
+        "n": 10,
+        "iterations": [
+          {
+            "duration": 105,
+            "sync": 0.2,
+            "mountToRows": 104.8,
+            "paintTail": 111.5,
+            "rows": 600,
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 2685.19,
+            "nodesDelta": 52915,
+            "checkOk": true
+          },
+          {
+            "duration": 116,
+            "sync": 0.2,
+            "mountToRows": 115.8,
+            "paintTail": 118.1,
+            "rows": 600,
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 1481.84,
+            "nodesDelta": 52915,
+            "checkOk": true
+          },
+          {
+            "duration": 94.6,
+            "sync": 0.1,
+            "mountToRows": 94.5,
+            "paintTail": 123.6,
+            "rows": 600,
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 3615.99,
+            "nodesDelta": 51588,
+            "checkOk": true
+          },
+          {
+            "duration": 109.9,
+            "sync": 0.3,
+            "mountToRows": 109.6,
+            "paintTail": 107.3,
+            "rows": 600,
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 4009.24,
+            "nodesDelta": 52915,
+            "checkOk": true
+          },
+          {
+            "duration": 106.1,
+            "sync": 0.2,
+            "mountToRows": 105.9,
+            "paintTail": 111.6,
+            "rows": 600,
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": -7454.16,
+            "nodesDelta": -53179,
+            "checkOk": true
+          },
+          {
+            "duration": 105.7,
+            "sync": 0,
+            "mountToRows": 105.7,
+            "paintTail": 112,
+            "rows": 600,
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 4000.74,
+            "nodesDelta": 52915,
+            "checkOk": true
+          },
+          {
+            "duration": 104.1,
+            "sync": 0.1,
+            "mountToRows": 104,
+            "paintTail": 112.9,
+            "rows": 600,
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": -7446.31,
+            "nodesDelta": -53179,
+            "checkOk": true
+          },
+          {
+            "duration": 103.6,
+            "sync": 0.2,
+            "mountToRows": 103.4,
+            "paintTail": 113.9,
+            "rows": 600,
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 4032.75,
+            "nodesDelta": 52915,
+            "checkOk": true
+          },
+          {
+            "duration": 106.9,
+            "sync": 0.2,
+            "mountToRows": 106.7,
+            "paintTail": 110.8,
+            "rows": 600,
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": -7456.5,
+            "nodesDelta": -53179,
+            "checkOk": true
+          },
+          {
+            "duration": 101.6,
+            "sync": 0.1,
+            "mountToRows": 101.5,
+            "paintTail": 116,
+            "rows": 600,
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 4009.01,
+            "nodesDelta": 52915,
+            "checkOk": true
+          }
+        ],
+        "checksPassed": 10,
+        "duration": {
+          "n": 10,
+          "median": 105.4,
+          "min": 94.6,
+          "max": 116,
+          "p90": 116,
+          "p95": 116,
+          "stdev": 5.21
+        },
+        "sync": {
+          "n": 10,
+          "median": 0.2,
+          "min": 0,
+          "max": 0.3,
+          "p90": 0.3,
+          "p95": 0.3,
+          "stdev": 0.08
+        },
+        "mountToRows": {
+          "n": 10,
+          "median": 105.3,
+          "min": 94.5,
+          "max": 115.8,
+          "p90": 115.8,
+          "p95": 115.8,
+          "stdev": 5.17
+        },
+        "paintTail": {
+          "n": 10,
+          "median": 112.5,
+          "min": 107.3,
+          "max": 123.6,
+          "p90": 123.6,
+          "p95": 123.6,
+          "stdev": 4.3
+        },
+        "longTaskCount": { "sum": 0, "iterationsWithLongTasks": 0 },
+        "longTaskMs": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null,
+          "p90": null,
+          "p95": null,
+          "stdev": null
+        },
+        "mutations": {
+          "records": { "n": 10, "median": 2, "min": 2, "max": 2, "p90": 2, "p95": 2, "stdev": 0 },
+          "addedNodes": {
+            "n": 10,
+            "median": 1,
+            "min": 1,
+            "max": 1,
+            "p90": 1,
+            "p95": 1,
+            "stdev": 0
+          },
+          "removedNodes": {
+            "n": 10,
+            "median": 1,
+            "min": 1,
+            "max": 1,
+            "p90": 1,
+            "p95": 1,
+            "stdev": 0
+          }
+        },
+        "heapDeltaKb": {
+          "n": 10,
+          "median": 3150.6,
+          "min": -7456.5,
+          "max": 4032.8,
+          "p90": 4032.8,
+          "p95": 4032.8,
+          "stdev": 5032.79
+        },
+        "nodesDelta": {
+          "n": 10,
+          "median": 52915,
+          "min": -53179,
+          "max": 52915,
+          "p90": 52915,
+          "p95": 52915,
+          "stdev": 48533.06
+        },
+        "thresholds": { "gt50ms": 10, "gt100ms": 9, "gt200ms": 0 }
+      },
+      "angular": {
+        "n": 10,
+        "iterations": [
+          {
+            "duration": 124.3,
+            "sync": 0.2,
+            "mountToRows": 124.1,
+            "paintTail": 110.2,
+            "rows": 600,
+            "longTasks": [{ "start": 1166.2, "dur": 52 }],
+            "mutations": { "n": 15314, "added": 6459, "removed": 1 },
+            "heapDeltaKb": 4673.49,
+            "nodesDelta": 53816,
+            "checkOk": true
+          },
+          {
+            "duration": 139.7,
+            "sync": 0.2,
+            "mountToRows": 139.5,
+            "paintTail": 110.3,
+            "rows": 600,
+            "longTasks": [{ "start": 1667.5, "dur": 63 }],
+            "mutations": { "n": 15314, "added": 6459, "removed": 1 },
+            "heapDeltaKb": -5341.68,
+            "nodesDelta": -54109,
+            "checkOk": true
+          },
+          {
+            "duration": 123.8,
+            "sync": 0.2,
+            "mountToRows": 123.6,
+            "paintTail": 109.6,
+            "rows": 600,
+            "longTasks": [{ "start": 2167, "dur": 52 }],
+            "mutations": { "n": 15314, "added": 6459, "removed": 1 },
+            "heapDeltaKb": 6899.05,
+            "nodesDelta": 53816,
+            "checkOk": true
+          },
+          {
+            "duration": 124.3,
+            "sync": 0.2,
+            "mountToRows": 124.1,
+            "paintTail": 110.4,
+            "rows": 600,
+            "longTasks": [{ "start": 2650.4, "dur": 52 }],
+            "mutations": { "n": 15314, "added": 6459, "removed": 1 },
+            "heapDeltaKb": -7489.54,
+            "nodesDelta": -54046,
+            "checkOk": true
+          },
+          {
+            "duration": 121.8,
+            "sync": 0.2,
+            "mountToRows": 121.6,
+            "paintTail": 112.8,
+            "rows": 600,
+            "longTasks": [{ "start": 3133.7, "dur": 50 }],
+            "mutations": { "n": 15314, "added": 6459, "removed": 1 },
+            "heapDeltaKb": 6610.98,
+            "nodesDelta": 53816,
+            "checkOk": true
+          },
+          {
+            "duration": 126.1,
+            "sync": 0.2,
+            "mountToRows": 125.9,
+            "paintTail": 107.9,
+            "rows": 600,
+            "longTasks": [{ "start": 3617.4, "dur": 52 }],
+            "mutations": { "n": 15314, "added": 6459, "removed": 1 },
+            "heapDeltaKb": -7110.93,
+            "nodesDelta": -54046,
+            "checkOk": true
+          },
+          {
+            "duration": 123,
+            "sync": 0.2,
+            "mountToRows": 122.8,
+            "paintTail": 111,
+            "rows": 600,
+            "longTasks": [{ "start": 4101.5, "dur": 51 }],
+            "mutations": { "n": 15314, "added": 6459, "removed": 1 },
+            "heapDeltaKb": 6480.72,
+            "nodesDelta": 53816,
+            "checkOk": true
+          },
+          {
+            "duration": 123.6,
+            "sync": 0.1,
+            "mountToRows": 123.5,
+            "paintTail": 109.1,
+            "rows": 600,
+            "longTasks": [{ "start": 4586, "dur": 51 }],
+            "mutations": { "n": 15314, "added": 6459, "removed": 1 },
+            "heapDeltaKb": -6990.79,
+            "nodesDelta": -54046,
+            "checkOk": true
+          },
+          {
+            "duration": 96.8,
+            "sync": 0.2,
+            "mountToRows": 96.6,
+            "paintTail": 103.6,
+            "rows": 600,
+            "longTasks": [],
+            "mutations": { "n": 15314, "added": 6459, "removed": 1 },
+            "heapDeltaKb": 6453.76,
+            "nodesDelta": 53816,
+            "checkOk": true
+          },
+          {
+            "duration": 124.5,
+            "sync": 0.3,
+            "mountToRows": 124.2,
+            "paintTail": 109.9,
+            "rows": 600,
+            "longTasks": [{ "start": 5519.5, "dur": 54 }],
+            "mutations": { "n": 15314, "added": 6459, "removed": 1 },
+            "heapDeltaKb": -6972.51,
+            "nodesDelta": -54152,
+            "checkOk": true
+          }
+        ],
+        "checksPassed": 10,
+        "duration": {
+          "n": 10,
+          "median": 124.1,
+          "min": 96.8,
+          "max": 139.7,
+          "p90": 139.7,
+          "p95": 139.7,
+          "stdev": 9.91
+        },
+        "sync": {
+          "n": 10,
+          "median": 0.2,
+          "min": 0.1,
+          "max": 0.3,
+          "p90": 0.3,
+          "p95": 0.3,
+          "stdev": 0.04
+        },
+        "mountToRows": {
+          "n": 10,
+          "median": 123.9,
+          "min": 96.6,
+          "max": 139.5,
+          "p90": 139.5,
+          "p95": 139.5,
+          "stdev": 9.91
+        },
+        "paintTail": {
+          "n": 10,
+          "median": 110.1,
+          "min": 103.6,
+          "max": 112.8,
+          "p90": 112.8,
+          "p95": 112.8,
+          "stdev": 2.3
+        },
+        "longTaskCount": { "sum": 9, "iterationsWithLongTasks": 9 },
+        "longTaskMs": {
+          "n": 9,
+          "median": 52,
+          "min": 50,
+          "max": 63,
+          "p90": 63,
+          "p95": 63,
+          "stdev": 3.68
+        },
+        "mutations": {
+          "records": {
+            "n": 10,
+            "median": 15314,
+            "min": 15314,
+            "max": 15314,
+            "p90": 15314,
+            "p95": 15314,
+            "stdev": 0
+          },
+          "addedNodes": {
+            "n": 10,
+            "median": 6459,
+            "min": 6459,
+            "max": 6459,
+            "p90": 6459,
+            "p95": 6459,
+            "stdev": 0
+          },
+          "removedNodes": {
+            "n": 10,
+            "median": 1,
+            "min": 1,
+            "max": 1,
+            "p90": 1,
+            "p95": 1,
+            "stdev": 0
+          }
+        },
+        "heapDeltaKb": {
+          "n": 10,
+          "median": -334.1,
+          "min": -7489.5,
+          "max": 6899.1,
+          "p90": 6899.1,
+          "p95": 6899.1,
+          "stdev": 6547.49
+        },
+        "nodesDelta": {
+          "n": 10,
+          "median": -115,
+          "min": -54152,
+          "max": 53816,
+          "p90": 53816,
+          "p95": 53816,
+          "stdev": 53947.91
+        },
+        "thresholds": { "gt50ms": 10, "gt100ms": 9, "gt200ms": 0 }
+      }
+    },
+    "1000": {
+      "react": {
+        "n": 10,
+        "iterations": [
+          {
+            "duration": 157.9,
+            "sync": 0.2,
+            "mountToRows": 157.7,
+            "paintTail": 110.2,
+            "rows": 1000,
+            "longTasks": [{ "start": 1185.3, "dur": 53 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 805.65,
+            "nodesDelta": 84066,
+            "checkOk": true
+          },
+          {
+            "duration": 155.6,
+            "sync": 0.1,
+            "mountToRows": 155.5,
+            "paintTail": 111.5,
+            "rows": 1000,
+            "longTasks": [{ "start": 1719.8, "dur": 56 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 6606.8,
+            "nodesDelta": 88115,
+            "checkOk": true
+          },
+          {
+            "duration": 165.1,
+            "sync": 0.2,
+            "mountToRows": 164.9,
+            "paintTail": 103.7,
+            "rows": 1000,
+            "longTasks": [{ "start": 2252.9, "dur": 63 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 985.96,
+            "nodesDelta": 88115,
+            "checkOk": true
+          },
+          {
+            "duration": 183.7,
+            "sync": 0.2,
+            "mountToRows": 183.5,
+            "paintTail": 117.4,
+            "rows": 1000,
+            "longTasks": [{ "start": 2786.6, "dur": 60 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": -10843.67,
+            "nodesDelta": -176680,
+            "checkOk": true
+          },
+          {
+            "duration": 161.1,
+            "sync": 0.1,
+            "mountToRows": 161,
+            "paintTail": 106,
+            "rows": 1000,
+            "longTasks": [{ "start": 3353.9, "dur": 61 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 6681.77,
+            "nodesDelta": 88115,
+            "checkOk": true
+          },
+          {
+            "duration": 154.4,
+            "sync": 0.1,
+            "mountToRows": 154.3,
+            "paintTail": 114.2,
+            "rows": 1000,
+            "longTasks": [{ "start": 3886.1, "dur": 58 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 6669.21,
+            "nodesDelta": 88115,
+            "checkOk": true
+          },
+          {
+            "duration": 152,
+            "sync": 0.1,
+            "mountToRows": 151.9,
+            "paintTail": 119.1,
+            "rows": 1000,
+            "longTasks": [{ "start": 4420.5, "dur": 57 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": -25439.39,
+            "nodesDelta": -262860,
+            "checkOk": true
+          },
+          {
+            "duration": 154.2,
+            "sync": 0.2,
+            "mountToRows": 154,
+            "paintTail": 112.9,
+            "rows": 1000,
+            "longTasks": [{ "start": 4954.7, "dur": 57 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 6664.72,
+            "nodesDelta": 88115,
+            "checkOk": true
+          },
+          {
+            "duration": 156.4,
+            "sync": 0.2,
+            "mountToRows": 156.2,
+            "paintTail": 112.2,
+            "rows": 1000,
+            "longTasks": [{ "start": 5488.2, "dur": 60 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": -12129.38,
+            "nodesDelta": -88379,
+            "checkOk": true
+          },
+          {
+            "duration": 154.1,
+            "sync": 0.2,
+            "mountToRows": 153.9,
+            "paintTail": 114.3,
+            "rows": 1000,
+            "longTasks": [{ "start": 6020.7, "dur": 56 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 6638.4,
+            "nodesDelta": 88115,
+            "checkOk": true
+          }
+        ],
+        "checksPassed": 10,
+        "duration": {
+          "n": 10,
+          "median": 156,
+          "min": 152,
+          "max": 183.7,
+          "p90": 183.7,
+          "p95": 183.7,
+          "stdev": 8.87
+        },
+        "sync": {
+          "n": 10,
+          "median": 0.2,
+          "min": 0.1,
+          "max": 0.2,
+          "p90": 0.2,
+          "p95": 0.2,
+          "stdev": 0.05
+        },
+        "mountToRows": {
+          "n": 10,
+          "median": 155.9,
+          "min": 151.9,
+          "max": 183.5,
+          "p90": 183.5,
+          "p95": 183.5,
+          "stdev": 8.85
+        },
+        "paintTail": {
+          "n": 10,
+          "median": 112.6,
+          "min": 103.7,
+          "max": 119.1,
+          "p90": 119.1,
+          "p95": 119.1,
+          "stdev": 4.46
+        },
+        "longTaskCount": { "sum": 10, "iterationsWithLongTasks": 10 },
+        "longTaskMs": {
+          "n": 10,
+          "median": 57.5,
+          "min": 53,
+          "max": 63,
+          "p90": 63,
+          "p95": 63,
+          "stdev": 2.77
+        },
+        "mutations": {
+          "records": { "n": 10, "median": 2, "min": 2, "max": 2, "p90": 2, "p95": 2, "stdev": 0 },
+          "addedNodes": {
+            "n": 10,
+            "median": 1,
+            "min": 1,
+            "max": 1,
+            "p90": 1,
+            "p95": 1,
+            "stdev": 0
+          },
+          "removedNodes": {
+            "n": 10,
+            "median": 1,
+            "min": 1,
+            "max": 1,
+            "p90": 1,
+            "p95": 1,
+            "stdev": 0
+          }
+        },
+        "heapDeltaKb": {
+          "n": 10,
+          "median": 3796.4,
+          "min": -25439.4,
+          "max": 6681.8,
+          "p90": 6681.8,
+          "p95": 6681.8,
+          "stdev": 10568.36
+        },
+        "nodesDelta": {
+          "n": 10,
+          "median": 88115,
+          "min": -262860,
+          "max": 88115,
+          "p90": 88115,
+          "p95": 88115,
+          "stdev": 126907.42
+        },
+        "thresholds": { "gt50ms": 10, "gt100ms": 10, "gt200ms": 0 }
+      },
+      "angular": {
+        "n": 10,
+        "iterations": [
+          {
+            "duration": 187.6,
+            "sync": 0,
+            "mountToRows": 187.6,
+            "paintTail": 113.4,
+            "rows": 1000,
+            "longTasks": [{ "start": 1264, "dur": 74 }],
+            "mutations": { "n": 25514, "added": 10759, "removed": 1 },
+            "heapDeltaKb": 9425.79,
+            "nodesDelta": 89616,
+            "checkOk": true
+          },
+          {
+            "duration": 199.4,
+            "sync": 0.2,
+            "mountToRows": 199.2,
+            "paintTail": 107.9,
+            "rows": 1000,
+            "longTasks": [{ "start": 1830.8, "dur": 89 }],
+            "mutations": { "n": 25514, "added": 10759, "removed": 1 },
+            "heapDeltaKb": -4160.24,
+            "nodesDelta": -2301,
+            "checkOk": true
+          },
+          {
+            "duration": 188.7,
+            "sync": 0.1,
+            "mountToRows": 188.6,
+            "paintTail": 120.1,
+            "rows": 1000,
+            "longTasks": [{ "start": 2398.4, "dur": 77 }],
+            "mutations": { "n": 25514, "added": 10759, "removed": 1 },
+            "heapDeltaKb": -7979.67,
+            "nodesDelta": -89837,
+            "checkOk": true
+          },
+          {
+            "duration": 179.3,
+            "sync": 0.1,
+            "mountToRows": 179.2,
+            "paintTail": 105,
+            "rows": 1000,
+            "longTasks": [{ "start": 2981.4, "dur": 66 }],
+            "mutations": { "n": 25514, "added": 10759, "removed": 1 },
+            "heapDeltaKb": 10498.77,
+            "nodesDelta": 89616,
+            "checkOk": true
+          },
+          {
+            "duration": 168.6,
+            "sync": 0.1,
+            "mountToRows": 168.5,
+            "paintTail": 115.2,
+            "rows": 1000,
+            "longTasks": [],
+            "mutations": { "n": 25514, "added": 10759, "removed": 1 },
+            "heapDeltaKb": -11316.92,
+            "nodesDelta": -89740,
+            "checkOk": true
+          },
+          {
+            "duration": 170,
+            "sync": 0.1,
+            "mountToRows": 169.9,
+            "paintTail": 113.8,
+            "rows": 1000,
+            "longTasks": [{ "start": 4066.1, "dur": 63 }],
+            "mutations": { "n": 25514, "added": 10759, "removed": 1 },
+            "heapDeltaKb": 10503.51,
+            "nodesDelta": 89616,
+            "checkOk": true
+          },
+          {
+            "duration": 197.1,
+            "sync": 0.1,
+            "mountToRows": 197,
+            "paintTail": 105.5,
+            "rows": 1000,
+            "longTasks": [{ "start": 4615.5, "dur": 73 }],
+            "mutations": { "n": 25514, "added": 10759, "removed": 1 },
+            "heapDeltaKb": -11203.6,
+            "nodesDelta": -89846,
+            "checkOk": true
+          },
+          {
+            "duration": 170,
+            "sync": 0.1,
+            "mountToRows": 169.9,
+            "paintTail": 114.7,
+            "rows": 1000,
+            "longTasks": [{ "start": 5182.2, "dur": 63 }],
+            "mutations": { "n": 25514, "added": 10759, "removed": 1 },
+            "heapDeltaKb": 10445.96,
+            "nodesDelta": 89616,
+            "checkOk": true
+          },
+          {
+            "duration": 209.6,
+            "sync": 0.1,
+            "mountToRows": 209.5,
+            "paintTail": 108.2,
+            "rows": 1000,
+            "longTasks": [{ "start": 5733, "dur": 69 }],
+            "mutations": { "n": 25514, "added": 10759, "removed": 1 },
+            "heapDeltaKb": -5674.36,
+            "nodesDelta": -2234,
+            "checkOk": true
+          },
+          {
+            "duration": 168.6,
+            "sync": 0.2,
+            "mountToRows": 168.4,
+            "paintTail": 116.4,
+            "rows": 1000,
+            "longTasks": [{ "start": 6316, "dur": 57 }],
+            "mutations": { "n": 25514, "added": 10759, "removed": 1 },
+            "heapDeltaKb": 10304.93,
+            "nodesDelta": 89616,
+            "checkOk": true
+          }
+        ],
+        "checksPassed": 10,
+        "duration": {
+          "n": 10,
+          "median": 183.5,
+          "min": 168.6,
+          "max": 209.6,
+          "p90": 209.6,
+          "p95": 209.6,
+          "stdev": 14.1
+        },
+        "sync": {
+          "n": 10,
+          "median": 0.1,
+          "min": 0,
+          "max": 0.2,
+          "p90": 0.2,
+          "p95": 0.2,
+          "stdev": 0.05
+        },
+        "mountToRows": {
+          "n": 10,
+          "median": 183.4,
+          "min": 168.4,
+          "max": 209.5,
+          "p90": 209.5,
+          "p95": 209.5,
+          "stdev": 14.1
+        },
+        "paintTail": {
+          "n": 10,
+          "median": 113.6,
+          "min": 105,
+          "max": 120.1,
+          "p90": 120.1,
+          "p95": 120.1,
+          "stdev": 4.8
+        },
+        "longTaskCount": { "sum": 9, "iterationsWithLongTasks": 9 },
+        "longTaskMs": {
+          "n": 9,
+          "median": 69,
+          "min": 57,
+          "max": 89,
+          "p90": 89,
+          "p95": 89,
+          "stdev": 8.94
+        },
+        "mutations": {
+          "records": {
+            "n": 10,
+            "median": 25514,
+            "min": 25514,
+            "max": 25514,
+            "p90": 25514,
+            "p95": 25514,
+            "stdev": 0
+          },
+          "addedNodes": {
+            "n": 10,
+            "median": 10759,
+            "min": 10759,
+            "max": 10759,
+            "p90": 10759,
+            "p95": 10759,
+            "stdev": 0
+          },
+          "removedNodes": {
+            "n": 10,
+            "median": 1,
+            "min": 1,
+            "max": 1,
+            "p90": 1,
+            "p95": 1,
+            "stdev": 0
+          }
+        },
+        "heapDeltaKb": {
+          "n": 10,
+          "median": 2632.8,
+          "min": -11316.9,
+          "max": 10503.5,
+          "p90": 10503.5,
+          "p95": 10503.5,
+          "stdev": 9379.33
+        },
+        "nodesDelta": {
+          "n": 10,
+          "median": 43691,
+          "min": -89846,
+          "max": 89616,
+          "p90": 89616,
+          "p95": 89616,
+          "stdev": 78313.37
+        },
+        "thresholds": { "gt50ms": 10, "gt100ms": 10, "gt200ms": 1 }
+      }
+    },
+    "1500": {
+      "react": {
+        "n": 10,
+        "iterations": [
+          {
+            "duration": 256.8,
+            "sync": 0.1,
+            "mountToRows": 256.7,
+            "paintTail": 128.5,
+            "rows": 1500,
+            "longTasks": [{ "start": 1287.2, "dur": 104 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 4026.15,
+            "nodesDelta": 129016,
+            "checkOk": true
+          },
+          {
+            "duration": 235.3,
+            "sync": 0.2,
+            "mountToRows": 235.1,
+            "paintTail": 133.2,
+            "rows": 1500,
+            "longTasks": [{ "start": 1954, "dur": 78 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": -10166.12,
+            "nodesDelta": -132370,
+            "checkOk": true
+          },
+          {
+            "duration": 217.8,
+            "sync": 0.2,
+            "mountToRows": 217.6,
+            "paintTail": 133.2,
+            "rows": 1500,
+            "longTasks": [{ "start": 2604.6, "dur": 74 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 9982.73,
+            "nodesDelta": 132115,
+            "checkOk": true
+          },
+          {
+            "duration": 226,
+            "sync": 0.2,
+            "mountToRows": 225.8,
+            "paintTail": 125.9,
+            "rows": 1500,
+            "longTasks": [{ "start": 3238.1, "dur": 71 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": -18130.79,
+            "nodesDelta": -132256,
+            "checkOk": true
+          },
+          {
+            "duration": 216.8,
+            "sync": 0.1,
+            "mountToRows": 216.7,
+            "paintTail": 117.5,
+            "rows": 1500,
+            "longTasks": [{ "start": 3855.3, "dur": 72 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 9993.43,
+            "nodesDelta": 132115,
+            "checkOk": true
+          },
+          {
+            "duration": 232,
+            "sync": 0.2,
+            "mountToRows": 231.8,
+            "paintTail": 125.4,
+            "rows": 1500,
+            "longTasks": [{ "start": 4472.1, "dur": 81 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": -6673.78,
+            "nodesDelta": 125966,
+            "checkOk": true
+          },
+          {
+            "duration": 226.9,
+            "sync": 0.1,
+            "mountToRows": 226.8,
+            "paintTail": 108.9,
+            "rows": 1500,
+            "longTasks": [{ "start": 5088.7, "dur": 65 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 9926.13,
+            "nodesDelta": 132115,
+            "checkOk": true
+          },
+          {
+            "duration": 218.6,
+            "sync": 0.1,
+            "mountToRows": 218.5,
+            "paintTail": 116.2,
+            "rows": 1500,
+            "longTasks": [{ "start": 5689.1, "dur": 69 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 1038.08,
+            "nodesDelta": 132115,
+            "checkOk": true
+          },
+          {
+            "duration": 230.2,
+            "sync": 0.1,
+            "mountToRows": 230.1,
+            "paintTail": 107.6,
+            "rows": 1500,
+            "longTasks": [{ "start": 6306.1, "dur": 76 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 1772.49,
+            "nodesDelta": 132115,
+            "checkOk": true
+          },
+          {
+            "duration": 244.1,
+            "sync": 0.2,
+            "mountToRows": 243.9,
+            "paintTail": 124.8,
+            "rows": 1500,
+            "longTasks": [{ "start": 6922.7, "dur": 72 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": -40688.32,
+            "nodesDelta": -655218,
+            "checkOk": true
+          }
+        ],
+        "checksPassed": 10,
+        "duration": {
+          "n": 10,
+          "median": 228.6,
+          "min": 216.8,
+          "max": 256.8,
+          "p90": 256.8,
+          "p95": 256.8,
+          "stdev": 11.94
+        },
+        "sync": {
+          "n": 10,
+          "median": 0.2,
+          "min": 0.1,
+          "max": 0.2,
+          "p90": 0.2,
+          "p95": 0.2,
+          "stdev": 0.05
+        },
+        "mountToRows": {
+          "n": 10,
+          "median": 228.5,
+          "min": 216.7,
+          "max": 256.7,
+          "p90": 256.7,
+          "p95": 256.7,
+          "stdev": 11.94
+        },
+        "paintTail": {
+          "n": 10,
+          "median": 125.1,
+          "min": 107.6,
+          "max": 133.2,
+          "p90": 133.2,
+          "p95": 133.2,
+          "stdev": 8.72
+        },
+        "longTaskCount": { "sum": 10, "iterationsWithLongTasks": 10 },
+        "longTaskMs": {
+          "n": 10,
+          "median": 73,
+          "min": 65,
+          "max": 104,
+          "p90": 104,
+          "p95": 104,
+          "stdev": 10.22
+        },
+        "mutations": {
+          "records": { "n": 10, "median": 2, "min": 2, "max": 2, "p90": 2, "p95": 2, "stdev": 0 },
+          "addedNodes": {
+            "n": 10,
+            "median": 1,
+            "min": 1,
+            "max": 1,
+            "p90": 1,
+            "p95": 1,
+            "stdev": 0
+          },
+          "removedNodes": {
+            "n": 10,
+            "median": 1,
+            "min": 1,
+            "max": 1,
+            "p90": 1,
+            "p95": 1,
+            "stdev": 0
+          }
+        },
+        "heapDeltaKb": {
+          "n": 10,
+          "median": 1405.3,
+          "min": -40688.3,
+          "max": 9993.4,
+          "p90": 9993.4,
+          "p95": 9993.4,
+          "stdev": 15162.98
+        },
+        "nodesDelta": {
+          "n": 10,
+          "median": 130565.5,
+          "min": -655218,
+          "max": 132115,
+          "p90": 132115,
+          "p95": 132115,
+          "stdev": 241682.99
+        },
+        "thresholds": { "gt50ms": 10, "gt100ms": 10, "gt200ms": 10 }
+      },
+      "angular": {
+        "n": 10,
+        "iterations": [
+          {
+            "duration": 283.6,
+            "sync": 0.2,
+            "mountToRows": 283.4,
+            "paintTail": 118.5,
+            "rows": 1500,
+            "longTasks": [{ "start": 1328.1, "dur": 117 }],
+            "mutations": { "n": 38264, "added": 16134, "removed": 1 },
+            "heapDeltaKb": 6465.5,
+            "nodesDelta": 131247,
+            "checkOk": true
+          },
+          {
+            "duration": 290,
+            "sync": 0.2,
+            "mountToRows": 289.8,
+            "paintTail": 128,
+            "rows": 1500,
+            "longTasks": [{ "start": 1995.7, "dur": 114 }],
+            "mutations": { "n": 38264, "added": 16134, "removed": 1 },
+            "heapDeltaKb": -11734.32,
+            "nodesDelta": -134587,
+            "checkOk": true
+          },
+          {
+            "duration": 239.9,
+            "sync": 0.2,
+            "mountToRows": 239.7,
+            "paintTail": 128.6,
+            "rows": 1500,
+            "longTasks": [{ "start": 2678.2, "dur": 72 }],
+            "mutations": { "n": 38264, "added": 16134, "removed": 1 },
+            "heapDeltaKb": 15954.05,
+            "nodesDelta": 134366,
+            "checkOk": true
+          },
+          {
+            "duration": 289.9,
+            "sync": 0.1,
+            "mountToRows": 289.8,
+            "paintTail": 128.4,
+            "rows": 1500,
+            "longTasks": [{ "start": 3328.9, "dur": 83 }],
+            "mutations": { "n": 38264, "added": 16134, "removed": 1 },
+            "heapDeltaKb": -8935.79,
+            "nodesDelta": -3128,
+            "checkOk": true
+          },
+          {
+            "duration": 247.3,
+            "sync": 0.1,
+            "mountToRows": 247.2,
+            "paintTail": 120.9,
+            "rows": 1500,
+            "longTasks": [{ "start": 4029.3, "dur": 85 }],
+            "mutations": { "n": 38264, "added": 16134, "removed": 1 },
+            "heapDeltaKb": 15820.77,
+            "nodesDelta": 134366,
+            "checkOk": true
+          },
+          {
+            "duration": 273,
+            "sync": 0.2,
+            "mountToRows": 272.8,
+            "paintTail": 128.4,
+            "rows": 1500,
+            "longTasks": [{ "start": 4679.8, "dur": 97 }],
+            "mutations": { "n": 38264, "added": 16134, "removed": 1 },
+            "heapDeltaKb": 5080,
+            "nodesDelta": 134366,
+            "checkOk": true
+          },
+          {
+            "duration": 317.9,
+            "sync": 0.1,
+            "mountToRows": 317.8,
+            "paintTail": 117.4,
+            "rows": 1500,
+            "longTasks": [{ "start": 5363.3, "dur": 91 }],
+            "mutations": { "n": 38264, "added": 16134, "removed": 1 },
+            "heapDeltaKb": 1131.57,
+            "nodesDelta": 125327,
+            "checkOk": true
+          },
+          {
+            "duration": 243.2,
+            "sync": 0.1,
+            "mountToRows": 243.1,
+            "paintTail": 125.1,
+            "rows": 1500,
+            "longTasks": [{ "start": 6063.5, "dur": 81 }],
+            "mutations": { "n": 38264, "added": 16134, "removed": 1 },
+            "heapDeltaKb": 15652.64,
+            "nodesDelta": 134366,
+            "checkOk": true
+          },
+          {
+            "duration": 276.2,
+            "sync": 0.2,
+            "mountToRows": 276,
+            "paintTail": 125.4,
+            "rows": 1500,
+            "longTasks": [{ "start": 6697.2, "dur": 102 }],
+            "mutations": { "n": 38264, "added": 16134, "removed": 1 },
+            "heapDeltaKb": 5238.7,
+            "nodesDelta": 134366,
+            "checkOk": true
+          },
+          {
+            "duration": 255.2,
+            "sync": 0.1,
+            "mountToRows": 255.1,
+            "paintTail": 130.1,
+            "rows": 1500,
+            "longTasks": [{ "start": 7380.5, "dur": 81 }],
+            "mutations": { "n": 38264, "added": 16134, "removed": 1 },
+            "heapDeltaKb": 9659.63,
+            "nodesDelta": 134366,
+            "checkOk": true
+          }
+        ],
+        "checksPassed": 10,
+        "duration": {
+          "n": 10,
+          "median": 274.6,
+          "min": 239.9,
+          "max": 317.9,
+          "p90": 317.9,
+          "p95": 317.9,
+          "stdev": 23.78
+        },
+        "sync": {
+          "n": 10,
+          "median": 0.2,
+          "min": 0.1,
+          "max": 0.2,
+          "p90": 0.2,
+          "p95": 0.2,
+          "stdev": 0.05
+        },
+        "mountToRows": {
+          "n": 10,
+          "median": 274.4,
+          "min": 239.7,
+          "max": 317.8,
+          "p90": 317.8,
+          "p95": 317.8,
+          "stdev": 23.78
+        },
+        "paintTail": {
+          "n": 10,
+          "median": 126.7,
+          "min": 117.4,
+          "max": 130.1,
+          "p90": 130.1,
+          "p95": 130.1,
+          "stdev": 4.34
+        },
+        "longTaskCount": { "sum": 10, "iterationsWithLongTasks": 10 },
+        "longTaskMs": {
+          "n": 10,
+          "median": 88,
+          "min": 72,
+          "max": 117,
+          "p90": 117,
+          "p95": 117,
+          "stdev": 14.16
+        },
+        "mutations": {
+          "records": {
+            "n": 10,
+            "median": 38264,
+            "min": 38264,
+            "max": 38264,
+            "p90": 38264,
+            "p95": 38264,
+            "stdev": 0
+          },
+          "addedNodes": {
+            "n": 10,
+            "median": 16134,
+            "min": 16134,
+            "max": 16134,
+            "p90": 16134,
+            "p95": 16134,
+            "stdev": 0
+          },
+          "removedNodes": {
+            "n": 10,
+            "median": 1,
+            "min": 1,
+            "max": 1,
+            "p90": 1,
+            "p95": 1,
+            "stdev": 0
+          }
+        },
+        "heapDeltaKb": {
+          "n": 10,
+          "median": 5852.1,
+          "min": -11734.3,
+          "max": 15954.1,
+          "p90": 15954.1,
+          "p95": 15954.1,
+          "stdev": 9283.39
+        },
+        "nodesDelta": {
+          "n": 10,
+          "median": 134366,
+          "min": -134587,
+          "max": 134366,
+          "p90": 134366,
+          "p95": 134366,
+          "stdev": 85912.01
+        },
+        "thresholds": { "gt50ms": 10, "gt100ms": 10, "gt200ms": 10 }
+      }
+    },
+    "3000": {
+      "react": {
+        "n": 10,
+        "iterations": [
+          {
+            "duration": 467.2,
+            "sync": 0.3,
+            "mountToRows": 466.9,
+            "paintTail": 134.4,
+            "rows": 3000,
+            "longTasks": [{ "start": 1537.2, "dur": 129 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 3275.88,
+            "nodesDelta": 252339,
+            "checkOk": true
+          },
+          {
+            "duration": 415.2,
+            "sync": 0.2,
+            "mountToRows": 415,
+            "paintTail": 119.6,
+            "rows": 3000,
+            "longTasks": [{ "start": 2437.5, "dur": 114 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 18060.91,
+            "nodesDelta": 264115,
+            "checkOk": true
+          },
+          {
+            "duration": 430.3,
+            "sync": 0.2,
+            "mountToRows": 430.1,
+            "paintTail": 121.2,
+            "rows": 3000,
+            "longTasks": [{ "start": 3288, "dur": 126 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 17916.05,
+            "nodesDelta": 264115,
+            "checkOk": true
+          },
+          {
+            "duration": 487.9,
+            "sync": 0.1,
+            "mountToRows": 487.8,
+            "paintTail": 129.6,
+            "rows": 3000,
+            "longTasks": [{ "start": 4154.7, "dur": 118 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": -52255.48,
+            "nodesDelta": -528626,
+            "checkOk": true
+          },
+          {
+            "duration": 405.3,
+            "sync": 0.2,
+            "mountToRows": 405.1,
+            "paintTail": 129.5,
+            "rows": 3000,
+            "longTasks": [{ "start": 5055.4, "dur": 115 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 18097.08,
+            "nodesDelta": 264115,
+            "checkOk": true
+          },
+          {
+            "duration": 395.2,
+            "sync": 0.2,
+            "mountToRows": 395,
+            "paintTail": 122.9,
+            "rows": 3000,
+            "longTasks": [{ "start": 5922.6, "dur": 112 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 19365.37,
+            "nodesDelta": 264115,
+            "checkOk": true
+          },
+          {
+            "duration": 451.1,
+            "sync": 0.1,
+            "mountToRows": 451,
+            "paintTail": 120.2,
+            "rows": 3000,
+            "longTasks": [{ "start": 6756.1, "dur": 110 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": -43247.58,
+            "nodesDelta": -528626,
+            "checkOk": true
+          },
+          {
+            "duration": 405.4,
+            "sync": 0.2,
+            "mountToRows": 405.2,
+            "paintTail": 130.1,
+            "rows": 3000,
+            "longTasks": [{ "start": 7622.6, "dur": 114 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 18045.55,
+            "nodesDelta": 264115,
+            "checkOk": true
+          },
+          {
+            "duration": 393.5,
+            "sync": 0.1,
+            "mountToRows": 393.4,
+            "paintTail": 124.5,
+            "rows": 3000,
+            "longTasks": [{ "start": 8473.9, "dur": 112 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 17828.14,
+            "nodesDelta": 264115,
+            "checkOk": true
+          },
+          {
+            "duration": 448,
+            "sync": 0.2,
+            "mountToRows": 447.8,
+            "paintTail": 110,
+            "rows": 3000,
+            "longTasks": [{ "start": 9290.6, "dur": 113 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": -51456.84,
+            "nodesDelta": -528626,
+            "checkOk": true
+          }
+        ],
+        "checksPassed": 10,
+        "duration": {
+          "n": 10,
+          "median": 422.8,
+          "min": 393.5,
+          "max": 487.9,
+          "p90": 487.9,
+          "p95": 487.9,
+          "stdev": 30.79
+        },
+        "sync": {
+          "n": 10,
+          "median": 0.2,
+          "min": 0.1,
+          "max": 0.3,
+          "p90": 0.3,
+          "p95": 0.3,
+          "stdev": 0.06
+        },
+        "mountToRows": {
+          "n": 10,
+          "median": 422.6,
+          "min": 393.4,
+          "max": 487.8,
+          "p90": 487.8,
+          "p95": 487.8,
+          "stdev": 30.8
+        },
+        "paintTail": {
+          "n": 10,
+          "median": 123.7,
+          "min": 110,
+          "max": 134.4,
+          "p90": 134.4,
+          "p95": 134.4,
+          "stdev": 6.68
+        },
+        "longTaskCount": { "sum": 10, "iterationsWithLongTasks": 10 },
+        "longTaskMs": {
+          "n": 10,
+          "median": 114,
+          "min": 110,
+          "max": 129,
+          "p90": 129,
+          "p95": 129,
+          "stdev": 5.98
+        },
+        "mutations": {
+          "records": { "n": 10, "median": 2, "min": 2, "max": 2, "p90": 2, "p95": 2, "stdev": 0 },
+          "addedNodes": {
+            "n": 10,
+            "median": 1,
+            "min": 1,
+            "max": 1,
+            "p90": 1,
+            "p95": 1,
+            "stdev": 0
+          },
+          "removedNodes": {
+            "n": 10,
+            "median": 1,
+            "min": 1,
+            "max": 1,
+            "p90": 1,
+            "p95": 1,
+            "stdev": 0
+          }
+        },
+        "heapDeltaKb": {
+          "n": 10,
+          "median": 17872.1,
+          "min": -52255.5,
+          "max": 19365.4,
+          "p90": 19365.4,
+          "p95": 19365.4,
+          "stdev": 30223.46
+        },
+        "nodesDelta": {
+          "n": 10,
+          "median": 264115,
+          "min": -528626,
+          "max": 264115,
+          "p90": 264115,
+          "p95": 264115,
+          "stdev": 362525.04
+        },
+        "thresholds": { "gt50ms": 10, "gt100ms": 10, "gt200ms": 10 }
+      },
+      "angular": {
+        "n": 10,
+        "iterations": [
+          {
+            "duration": 504.4,
+            "sync": 0.1,
+            "mountToRows": 504.3,
+            "paintTail": 130.9,
+            "rows": 3000,
+            "longTasks": [{ "start": 1664.6, "dur": 157 }],
+            "mutations": { "n": 76514, "added": 32259, "removed": 1 },
+            "heapDeltaKb": 21679.27,
+            "nodesDelta": 268616,
+            "checkOk": true
+          },
+          {
+            "duration": 610.3,
+            "sync": 0.1,
+            "mountToRows": 610.2,
+            "paintTail": 108.8,
+            "rows": 3000,
+            "longTasks": [
+              { "start": 2614.8, "dur": 157 },
+              { "start": 3169.5, "dur": 53 }
+            ],
+            "mutations": { "n": 76514, "added": 32259, "removed": 1 },
+            "heapDeltaKb": -9116.64,
+            "nodesDelta": -230,
+            "checkOk": true
+          },
+          {
+            "duration": 470.8,
+            "sync": 0.1,
+            "mountToRows": 470.7,
+            "paintTail": 132.3,
+            "rows": 3000,
+            "longTasks": [{ "start": 3631.8, "dur": 135 }],
+            "mutations": { "n": 76514, "added": 32259, "removed": 1 },
+            "heapDeltaKb": 22165.74,
+            "nodesDelta": 268616,
+            "checkOk": true
+          },
+          {
+            "duration": 482.7,
+            "sync": 0.1,
+            "mountToRows": 482.6,
+            "paintTail": 118.8,
+            "rows": 3000,
+            "longTasks": [{ "start": 4566.4, "dur": 150 }],
+            "mutations": { "n": 76514, "added": 32259, "removed": 1 },
+            "heapDeltaKb": 19176.74,
+            "nodesDelta": 268616,
+            "checkOk": true
+          },
+          {
+            "duration": 650.4,
+            "sync": 0.1,
+            "mountToRows": 650.3,
+            "paintTail": 117.1,
+            "rows": 3000,
+            "longTasks": [
+              { "start": 5483.2, "dur": 161 },
+              { "start": 6023.7, "dur": 107 }
+            ],
+            "mutations": { "n": 76514, "added": 32259, "removed": 1 },
+            "heapDeltaKb": -13064.01,
+            "nodesDelta": -18039,
+            "checkOk": true
+          },
+          {
+            "duration": 471.4,
+            "sync": 0.1,
+            "mountToRows": 471.3,
+            "paintTail": 130.2,
+            "rows": 3000,
+            "longTasks": [{ "start": 6533.7, "dur": 137 }],
+            "mutations": { "n": 76514, "added": 32259, "removed": 1 },
+            "heapDeltaKb": 22139.88,
+            "nodesDelta": 268616,
+            "checkOk": true
+          },
+          {
+            "duration": 504.4,
+            "sync": 0,
+            "mountToRows": 504.4,
+            "paintTail": 130.4,
+            "rows": 3000,
+            "longTasks": [{ "start": 7451.1, "dur": 170 }],
+            "mutations": { "n": 76514, "added": 32259, "removed": 1 },
+            "heapDeltaKb": 19140.58,
+            "nodesDelta": 268616,
+            "checkOk": true
+          },
+          {
+            "duration": 494.6,
+            "sync": 0,
+            "mountToRows": 494.6,
+            "paintTail": 124.5,
+            "rows": 3000,
+            "longTasks": [{ "start": 8400.6, "dur": 133 }],
+            "mutations": { "n": 76514, "added": 32259, "removed": 1 },
+            "heapDeltaKb": 25484.72,
+            "nodesDelta": 268616,
+            "checkOk": true
+          },
+          {
+            "duration": 775.4,
+            "sync": 0.1,
+            "mountToRows": 775.3,
+            "paintTail": 116.4,
+            "rows": 3000,
+            "longTasks": [
+              { "start": 9351.9, "dur": 167 },
+              { "start": 9892.4, "dur": 232 }
+            ],
+            "mutations": { "n": 76514, "added": 32259, "removed": 1 },
+            "heapDeltaKb": -8121.66,
+            "nodesDelta": 244564,
+            "checkOk": true
+          },
+          {
+            "duration": 468.3,
+            "sync": 0,
+            "mountToRows": 468.3,
+            "paintTail": 116.8,
+            "rows": 3000,
+            "longTasks": [{ "start": 10518.9, "dur": 140 }],
+            "mutations": { "n": 76514, "added": 32259, "removed": 1 },
+            "heapDeltaKb": 22135.87,
+            "nodesDelta": 268616,
+            "checkOk": true
+          }
+        ],
+        "checksPassed": 10,
+        "duration": {
+          "n": 10,
+          "median": 499.5,
+          "min": 468.3,
+          "max": 775.4,
+          "p90": 775.4,
+          "p95": 775.4,
+          "stdev": 97.44
+        },
+        "sync": {
+          "n": 10,
+          "median": 0.1,
+          "min": 0,
+          "max": 0.1,
+          "p90": 0.1,
+          "p95": 0.1,
+          "stdev": 0.05
+        },
+        "mountToRows": {
+          "n": 10,
+          "median": 499.5,
+          "min": 468.3,
+          "max": 775.3,
+          "p90": 775.3,
+          "p95": 775.3,
+          "stdev": 97.43
+        },
+        "paintTail": {
+          "n": 10,
+          "median": 121.7,
+          "min": 108.8,
+          "max": 132.3,
+          "p90": 132.3,
+          "p95": 132.3,
+          "stdev": 7.7
+        },
+        "longTaskCount": { "sum": 13, "iterationsWithLongTasks": 10 },
+        "longTaskMs": {
+          "n": 13,
+          "median": 150,
+          "min": 53,
+          "max": 232,
+          "p90": 170,
+          "p95": 232,
+          "stdev": 38.7
+        },
+        "mutations": {
+          "records": {
+            "n": 10,
+            "median": 76514,
+            "min": 76514,
+            "max": 76514,
+            "p90": 76514,
+            "p95": 76514,
+            "stdev": 0
+          },
+          "addedNodes": {
+            "n": 10,
+            "median": 32259,
+            "min": 32259,
+            "max": 32259,
+            "p90": 32259,
+            "p95": 32259,
+            "stdev": 0
+          },
+          "removedNodes": {
+            "n": 10,
+            "median": 1,
+            "min": 1,
+            "max": 1,
+            "p90": 1,
+            "p95": 1,
+            "stdev": 0
+          }
+        },
+        "heapDeltaKb": {
+          "n": 10,
+          "median": 20428,
+          "min": -13064,
+          "max": 25484.7,
+          "p90": 25484.7,
+          "p95": 25484.7,
+          "stdev": 14716.15
+        },
+        "nodesDelta": {
+          "n": 10,
+          "median": 268616,
+          "min": -18039,
+          "max": 268616,
+          "p90": 268616,
+          "p95": 268616,
+          "stdev": 110199.63
+        },
+        "thresholds": { "gt50ms": 10, "gt100ms": 10, "gt200ms": 10 }
+      }
+    }
+  },
+  "comparison": {
+    "300": {
+      "duration": {
+        "react": 68.8,
+        "angular": 76.5,
+        "deltaAngularMinusReact": 7.7,
+        "ratioAngularOverReact": 1.11
+      },
+      "p95": { "react": 78.2, "angular": 84.4, "deltaAngularMinusReact": 6.2 },
+      "sync": { "react": 0.3, "angular": 0.1 },
+      "longTasks": { "react": 0, "angular": 0 },
+      "thresholds": {
+        "react": { "gt50ms": 10, "gt100ms": 0, "gt200ms": 0 },
+        "angular": { "gt50ms": 10, "gt100ms": 0, "gt200ms": 0 }
+      }
+    },
+    "600": {
+      "duration": {
+        "react": 105.4,
+        "angular": 124.1,
+        "deltaAngularMinusReact": 18.7,
+        "ratioAngularOverReact": 1.18
+      },
+      "p95": { "react": 116, "angular": 139.7, "deltaAngularMinusReact": 23.7 },
+      "sync": { "react": 0.2, "angular": 0.2 },
+      "longTasks": { "react": 0, "angular": 9 },
+      "thresholds": {
+        "react": { "gt50ms": 10, "gt100ms": 9, "gt200ms": 0 },
+        "angular": { "gt50ms": 10, "gt100ms": 9, "gt200ms": 0 }
+      }
+    },
+    "1000": {
+      "duration": {
+        "react": 156,
+        "angular": 183.5,
+        "deltaAngularMinusReact": 27.5,
+        "ratioAngularOverReact": 1.18
+      },
+      "p95": { "react": 183.7, "angular": 209.6, "deltaAngularMinusReact": 25.9 },
+      "sync": { "react": 0.2, "angular": 0.1 },
+      "longTasks": { "react": 10, "angular": 9 },
+      "thresholds": {
+        "react": { "gt50ms": 10, "gt100ms": 10, "gt200ms": 0 },
+        "angular": { "gt50ms": 10, "gt100ms": 10, "gt200ms": 1 }
+      }
+    },
+    "1500": {
+      "duration": {
+        "react": 228.6,
+        "angular": 274.6,
+        "deltaAngularMinusReact": 46,
+        "ratioAngularOverReact": 1.2
+      },
+      "p95": { "react": 256.8, "angular": 317.9, "deltaAngularMinusReact": 61.1 },
+      "sync": { "react": 0.2, "angular": 0.2 },
+      "longTasks": { "react": 10, "angular": 10 },
+      "thresholds": {
+        "react": { "gt50ms": 10, "gt100ms": 10, "gt200ms": 10 },
+        "angular": { "gt50ms": 10, "gt100ms": 10, "gt200ms": 10 }
+      }
+    },
+    "3000": {
+      "duration": {
+        "react": 422.8,
+        "angular": 499.5,
+        "deltaAngularMinusReact": 76.7,
+        "ratioAngularOverReact": 1.18
+      },
+      "p95": { "react": 487.9, "angular": 775.4, "deltaAngularMinusReact": 287.5 },
+      "sync": { "react": 0.2, "angular": 0.1 },
+      "longTasks": { "react": 10, "angular": 13 },
+      "thresholds": {
+        "react": { "gt50ms": 10, "gt100ms": 10, "gt200ms": 10 },
+        "angular": { "gt50ms": 10, "gt100ms": 10, "gt200ms": 10 }
+      }
+    }
+  },
+  "growth": {
+    "duration": {
+      "react": {
+        "slopes": [
+          { "from": 300, "to": 600, "delta": 36.6, "per1000": 122 },
+          { "from": 600, "to": 1000, "delta": 50.6, "per1000": 126.5 },
+          { "from": 1000, "to": 1500, "delta": 72.6, "per1000": 145.2 },
+          { "from": 1500, "to": 3000, "delta": 194.2, "per1000": 129.47 }
+        ],
+        "shapes": ["primer-segmento", "lineal", "lineal", "lineal"]
+      },
+      "angular": {
+        "slopes": [
+          { "from": 300, "to": 600, "delta": 47.6, "per1000": 158.67 },
+          { "from": 600, "to": 1000, "delta": 59.4, "per1000": 148.5 },
+          { "from": 1000, "to": 1500, "delta": 91.1, "per1000": 182.2 },
+          { "from": 1500, "to": 3000, "delta": 224.9, "per1000": 149.93 }
+        ],
+        "shapes": ["primer-segmento", "lineal", "lineal", "lineal"]
+      }
+    },
+    "sync": {
+      "react": {
+        "slopes": [
+          { "from": 300, "to": 600, "delta": -0.1, "per1000": -0.33 },
+          { "from": 600, "to": 1000, "delta": 0, "per1000": 0 },
+          { "from": 1000, "to": 1500, "delta": 0, "per1000": 0 },
+          { "from": 1500, "to": 3000, "delta": 0, "per1000": 0 }
+        ],
+        "shapes": ["primer-segmento", "superlineal", "lineal", "lineal"]
+      },
+      "angular": {
+        "slopes": [
+          { "from": 300, "to": 600, "delta": 0.1, "per1000": 0.33 },
+          { "from": 600, "to": 1000, "delta": -0.1, "per1000": -0.25 },
+          { "from": 1000, "to": 1500, "delta": 0.1, "per1000": 0.2 },
+          { "from": 1500, "to": 3000, "delta": -0.1, "per1000": -0.07 }
+        ],
+        "shapes": ["primer-segmento", "sublineal", "superlineal", "sublineal"]
+      }
+    }
+  },
+  "overheadProbe": {
+    "dataset": 1000,
+    "react": {
+      "withObserver": { "durationMedian": 156, "syncMedian": 0.2 },
+      "withoutObserver": { "durationMedian": 147, "syncMedian": 0.2 },
+      "overheadDurationMs": 9
+    },
+    "angular": {
+      "withObserver": { "durationMedian": 183.5, "syncMedian": 0.1 },
+      "withoutObserver": { "durationMedian": 167.9, "syncMedian": 0.1 },
+      "overheadDurationMs": 15.6
+    }
+  },
+  "confirmations": {
+    "600": {
+      "react": {
+        "n": 10,
+        "iterations": [
+          {
+            "duration": 102.9,
+            "sync": 0.3,
+            "mountToRows": 102.6,
+            "paintTail": 115,
+            "rows": 600,
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 2721.13,
+            "nodesDelta": 52915,
+            "checkOk": true
+          },
+          {
+            "duration": 103,
+            "sync": 0.2,
+            "mountToRows": 102.8,
+            "paintTail": 114.8,
+            "rows": 600,
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 1415.32,
+            "nodesDelta": 52915,
+            "checkOk": true
+          },
+          {
+            "duration": 91.9,
+            "sync": 0.2,
+            "mountToRows": 91.7,
+            "paintTail": 125.7,
+            "rows": 600,
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 3615.96,
+            "nodesDelta": 51588,
+            "checkOk": true
+          },
+          {
+            "duration": 104.4,
+            "sync": 0.2,
+            "mountToRows": 104.2,
+            "paintTail": 113.8,
+            "rows": 600,
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 4009.67,
+            "nodesDelta": 52915,
+            "checkOk": true
+          },
+          {
+            "duration": 103.8,
+            "sync": 0.1,
+            "mountToRows": 103.7,
+            "paintTail": 114.5,
+            "rows": 600,
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": -7333.36,
+            "nodesDelta": -53179,
+            "checkOk": true
+          },
+          {
+            "duration": 113.2,
+            "sync": 0.3,
+            "mountToRows": 112.9,
+            "paintTail": 103.6,
+            "rows": 600,
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 4000.14,
+            "nodesDelta": 52915,
+            "checkOk": true
+          },
+          {
+            "duration": 110.3,
+            "sync": 0.3,
+            "mountToRows": 110,
+            "paintTail": 106.8,
+            "rows": 600,
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": -7324.4,
+            "nodesDelta": -53179,
+            "checkOk": true
+          },
+          {
+            "duration": 98.2,
+            "sync": 0.1,
+            "mountToRows": 98.1,
+            "paintTail": 103.4,
+            "rows": 600,
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 4032.71,
+            "nodesDelta": 52915,
+            "checkOk": true
+          },
+          {
+            "duration": 110.6,
+            "sync": 0.3,
+            "mountToRows": 110.3,
+            "paintTail": 108.8,
+            "rows": 600,
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": -7334.7,
+            "nodesDelta": -53179,
+            "checkOk": true
+          },
+          {
+            "duration": 106.1,
+            "sync": 0.2,
+            "mountToRows": 105.9,
+            "paintTail": 110.6,
+            "rows": 600,
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 4009.11,
+            "nodesDelta": 52915,
+            "checkOk": true
+          }
+        ],
+        "checksPassed": 10,
+        "duration": {
+          "n": 10,
+          "median": 104.1,
+          "min": 91.9,
+          "max": 113.2,
+          "p90": 113.2,
+          "p95": 113.2,
+          "stdev": 5.94
+        },
+        "sync": {
+          "n": 10,
+          "median": 0.2,
+          "min": 0.1,
+          "max": 0.3,
+          "p90": 0.3,
+          "p95": 0.3,
+          "stdev": 0.07
+        },
+        "mountToRows": {
+          "n": 10,
+          "median": 104,
+          "min": 91.7,
+          "max": 112.9,
+          "p90": 112.9,
+          "p95": 112.9,
+          "stdev": 5.9
+        },
+        "paintTail": {
+          "n": 10,
+          "median": 112.2,
+          "min": 103.4,
+          "max": 125.7,
+          "p90": 125.7,
+          "p95": 125.7,
+          "stdev": 6.3
+        },
+        "longTaskCount": { "sum": 0, "iterationsWithLongTasks": 0 },
+        "longTaskMs": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null,
+          "p90": null,
+          "p95": null,
+          "stdev": null
+        },
+        "mutations": {
+          "records": { "n": 10, "median": 2, "min": 2, "max": 2, "p90": 2, "p95": 2, "stdev": 0 },
+          "addedNodes": {
+            "n": 10,
+            "median": 1,
+            "min": 1,
+            "max": 1,
+            "p90": 1,
+            "p95": 1,
+            "stdev": 0
+          },
+          "removedNodes": {
+            "n": 10,
+            "median": 1,
+            "min": 1,
+            "max": 1,
+            "p90": 1,
+            "p95": 1,
+            "stdev": 0
+          }
+        },
+        "heapDeltaKb": {
+          "n": 10,
+          "median": 3168.5,
+          "min": -7334.7,
+          "max": 4032.7,
+          "p90": 4032.7,
+          "p95": 4032.7,
+          "stdev": 4977.87
+        },
+        "nodesDelta": {
+          "n": 10,
+          "median": 52915,
+          "min": -53179,
+          "max": 52915,
+          "p90": 52915,
+          "p95": 52915,
+          "stdev": 48533.06
+        },
+        "thresholds": { "gt50ms": 10, "gt100ms": 8, "gt200ms": 0 }
+      },
+      "angular": {
+        "n": 10,
+        "iterations": [
+          {
+            "duration": 120.3,
+            "sync": 0.1,
+            "mountToRows": 120.2,
+            "paintTail": 113.4,
+            "rows": 600,
+            "longTasks": [{ "start": 1174.9, "dur": 50 }],
+            "mutations": { "n": 15314, "added": 6459, "removed": 1 },
+            "heapDeltaKb": 4688.49,
+            "nodesDelta": 53816,
+            "checkOk": true
+          },
+          {
+            "duration": 134,
+            "sync": 0.1,
+            "mountToRows": 133.9,
+            "paintTail": 117.5,
+            "rows": 600,
+            "longTasks": [{ "start": 1675.2, "dur": 58 }],
+            "mutations": { "n": 15314, "added": 6459, "removed": 1 },
+            "heapDeltaKb": -5367.2,
+            "nodesDelta": -54109,
+            "checkOk": true
+          },
+          {
+            "duration": 127.7,
+            "sync": 0.1,
+            "mountToRows": 127.6,
+            "paintTail": 106.5,
+            "rows": 600,
+            "longTasks": [{ "start": 2192.3, "dur": 54 }],
+            "mutations": { "n": 15314, "added": 6459, "removed": 1 },
+            "heapDeltaKb": 6899.07,
+            "nodesDelta": 53816,
+            "checkOk": true
+          },
+          {
+            "duration": 124.8,
+            "sync": 0.2,
+            "mountToRows": 124.6,
+            "paintTail": 107.3,
+            "rows": 600,
+            "longTasks": [{ "start": 2694.6, "dur": 51 }],
+            "mutations": { "n": 15314, "added": 6459, "removed": 1 },
+            "heapDeltaKb": -7489.52,
+            "nodesDelta": -54046,
+            "checkOk": true
+          },
+          {
+            "duration": 128.2,
+            "sync": 0.3,
+            "mountToRows": 127.9,
+            "paintTail": 105.6,
+            "rows": 600,
+            "longTasks": [{ "start": 3193.5, "dur": 55 }],
+            "mutations": { "n": 15314, "added": 6459, "removed": 1 },
+            "heapDeltaKb": 6611.22,
+            "nodesDelta": 53816,
+            "checkOk": true
+          },
+          {
+            "duration": 131,
+            "sync": 0.3,
+            "mountToRows": 130.7,
+            "paintTail": 118.9,
+            "rows": 600,
+            "longTasks": [{ "start": 3695.1, "dur": 56 }],
+            "mutations": { "n": 15314, "added": 6459, "removed": 1 },
+            "heapDeltaKb": -7111.43,
+            "nodesDelta": -54046,
+            "checkOk": true
+          },
+          {
+            "duration": 126.1,
+            "sync": 0.3,
+            "mountToRows": 125.8,
+            "paintTail": 107.4,
+            "rows": 600,
+            "longTasks": [{ "start": 4194.4, "dur": 53 }],
+            "mutations": { "n": 15314, "added": 6459, "removed": 1 },
+            "heapDeltaKb": 6480.72,
+            "nodesDelta": 53816,
+            "checkOk": true
+          },
+          {
+            "duration": 126.9,
+            "sync": 0.2,
+            "mountToRows": 126.7,
+            "paintTail": 107.2,
+            "rows": 600,
+            "longTasks": [{ "start": 4676.9, "dur": 53 }],
+            "mutations": { "n": 15314, "added": 6459, "removed": 1 },
+            "heapDeltaKb": -6990.77,
+            "nodesDelta": -54046,
+            "checkOk": true
+          },
+          {
+            "duration": 125.6,
+            "sync": 0.2,
+            "mountToRows": 125.4,
+            "paintTail": 108.1,
+            "rows": 600,
+            "longTasks": [{ "start": 5161, "dur": 54 }],
+            "mutations": { "n": 15314, "added": 6459, "removed": 1 },
+            "heapDeltaKb": 6454.67,
+            "nodesDelta": 53816,
+            "checkOk": true
+          },
+          {
+            "duration": 122.2,
+            "sync": 0.3,
+            "mountToRows": 121.9,
+            "paintTail": 110.2,
+            "rows": 600,
+            "longTasks": [{ "start": 5661.8, "dur": 53 }],
+            "mutations": { "n": 15314, "added": 6459, "removed": 1 },
+            "heapDeltaKb": -6973.19,
+            "nodesDelta": -54152,
+            "checkOk": true
+          }
+        ],
+        "checksPassed": 10,
+        "duration": {
+          "n": 10,
+          "median": 126.5,
+          "min": 120.3,
+          "max": 134,
+          "p90": 134,
+          "p95": 134,
+          "stdev": 3.76
+        },
+        "sync": {
+          "n": 10,
+          "median": 0.2,
+          "min": 0.1,
+          "max": 0.3,
+          "p90": 0.3,
+          "p95": 0.3,
+          "stdev": 0.08
+        },
+        "mountToRows": {
+          "n": 10,
+          "median": 126.3,
+          "min": 120.2,
+          "max": 133.9,
+          "p90": 133.9,
+          "p95": 133.9,
+          "stdev": 3.77
+        },
+        "paintTail": {
+          "n": 10,
+          "median": 107.8,
+          "min": 105.6,
+          "max": 118.9,
+          "p90": 118.9,
+          "p95": 118.9,
+          "stdev": 4.51
+        },
+        "longTaskCount": { "sum": 10, "iterationsWithLongTasks": 10 },
+        "longTaskMs": {
+          "n": 10,
+          "median": 53.5,
+          "min": 50,
+          "max": 58,
+          "p90": 58,
+          "p95": 58,
+          "stdev": 2.19
+        },
+        "mutations": {
+          "records": {
+            "n": 10,
+            "median": 15314,
+            "min": 15314,
+            "max": 15314,
+            "p90": 15314,
+            "p95": 15314,
+            "stdev": 0
+          },
+          "addedNodes": {
+            "n": 10,
+            "median": 6459,
+            "min": 6459,
+            "max": 6459,
+            "p90": 6459,
+            "p95": 6459,
+            "stdev": 0
+          },
+          "removedNodes": {
+            "n": 10,
+            "median": 1,
+            "min": 1,
+            "max": 1,
+            "p90": 1,
+            "p95": 1,
+            "stdev": 0
+          }
+        },
+        "heapDeltaKb": {
+          "n": 10,
+          "median": -339.4,
+          "min": -7489.5,
+          "max": 6899.1,
+          "p90": 6899.1,
+          "p95": 6899.1,
+          "stdev": 6550.84
+        },
+        "nodesDelta": {
+          "n": 10,
+          "median": -115,
+          "min": -54152,
+          "max": 53816,
+          "p90": 53816,
+          "p95": 53816,
+          "stdev": 53947.91
+        },
+        "thresholds": { "gt50ms": 10, "gt100ms": 10, "gt200ms": 0 }
+      }
+    },
+    "1000": {
+      "react": {
+        "n": 10,
+        "iterations": [
+          {
+            "duration": 156,
+            "sync": 0.2,
+            "mountToRows": 155.8,
+            "paintTail": 127.3,
+            "rows": 1000,
+            "longTasks": [{ "start": 1172.7, "dur": 53 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 830.95,
+            "nodesDelta": 84066,
+            "checkOk": true
+          },
+          {
+            "duration": 159.4,
+            "sync": 0.2,
+            "mountToRows": 159.2,
+            "paintTail": 107.4,
+            "rows": 1000,
+            "longTasks": [{ "start": 1722.4, "dur": 58 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 6607.17,
+            "nodesDelta": 88115,
+            "checkOk": true
+          },
+          {
+            "duration": 167.5,
+            "sync": 0.1,
+            "mountToRows": 167.4,
+            "paintTail": 117,
+            "rows": 1000,
+            "longTasks": [{ "start": 2255, "dur": 65 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 950.85,
+            "nodesDelta": 88115,
+            "checkOk": true
+          },
+          {
+            "duration": 183.6,
+            "sync": 0.2,
+            "mountToRows": 183.4,
+            "paintTail": 117.1,
+            "rows": 1000,
+            "longTasks": [{ "start": 2806.1, "dur": 64 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": -11138.38,
+            "nodesDelta": -176680,
+            "checkOk": true
+          },
+          {
+            "duration": 157.3,
+            "sync": 0.2,
+            "mountToRows": 157.1,
+            "paintTail": 109.8,
+            "rows": 1000,
+            "longTasks": [{ "start": 3372.5, "dur": 58 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 6682,
+            "nodesDelta": 88115,
+            "checkOk": true
+          },
+          {
+            "duration": 149,
+            "sync": 0.1,
+            "mountToRows": 148.9,
+            "paintTail": 102.1,
+            "rows": 1000,
+            "longTasks": [{ "start": 3906.4, "dur": 53 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 6669.46,
+            "nodesDelta": 88115,
+            "checkOk": true
+          },
+          {
+            "duration": 155.9,
+            "sync": 0.1,
+            "mountToRows": 155.8,
+            "paintTail": 112.6,
+            "rows": 1000,
+            "longTasks": [{ "start": 4405.9, "dur": 61 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": -25847.26,
+            "nodesDelta": -262860,
+            "checkOk": true
+          },
+          {
+            "duration": 142.7,
+            "sync": 0.1,
+            "mountToRows": 142.6,
+            "paintTail": 108.7,
+            "rows": 1000,
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 6664.95,
+            "nodesDelta": 88115,
+            "checkOk": true
+          },
+          {
+            "duration": 154.5,
+            "sync": 0.2,
+            "mountToRows": 154.3,
+            "paintTail": 112.4,
+            "rows": 1000,
+            "longTasks": [{ "start": 5456.6, "dur": 58 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": -12333.12,
+            "nodesDelta": -88379,
+            "checkOk": true
+          },
+          {
+            "duration": 144.7,
+            "sync": 0,
+            "mountToRows": 144.7,
+            "paintTail": 106.4,
+            "rows": 1000,
+            "longTasks": [],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 6617.95,
+            "nodesDelta": 88115,
+            "checkOk": true
+          }
+        ],
+        "checksPassed": 10,
+        "duration": {
+          "n": 10,
+          "median": 156,
+          "min": 142.7,
+          "max": 183.6,
+          "p90": 183.6,
+          "p95": 183.6,
+          "stdev": 11.19
+        },
+        "sync": {
+          "n": 10,
+          "median": 0.2,
+          "min": 0,
+          "max": 0.2,
+          "p90": 0.2,
+          "p95": 0.2,
+          "stdev": 0.07
+        },
+        "mountToRows": {
+          "n": 10,
+          "median": 155.8,
+          "min": 142.6,
+          "max": 183.4,
+          "p90": 183.4,
+          "p95": 183.4,
+          "stdev": 11.15
+        },
+        "paintTail": {
+          "n": 10,
+          "median": 111.1,
+          "min": 102.1,
+          "max": 127.3,
+          "p90": 127.3,
+          "p95": 127.3,
+          "stdev": 6.72
+        },
+        "longTaskCount": { "sum": 8, "iterationsWithLongTasks": 8 },
+        "longTaskMs": {
+          "n": 8,
+          "median": 58,
+          "min": 53,
+          "max": 65,
+          "p90": 65,
+          "p95": 65,
+          "stdev": 4.18
+        },
+        "mutations": {
+          "records": { "n": 10, "median": 2, "min": 2, "max": 2, "p90": 2, "p95": 2, "stdev": 0 },
+          "addedNodes": {
+            "n": 10,
+            "median": 1,
+            "min": 1,
+            "max": 1,
+            "p90": 1,
+            "p95": 1,
+            "stdev": 0
+          },
+          "removedNodes": {
+            "n": 10,
+            "median": 1,
+            "min": 1,
+            "max": 1,
+            "p90": 1,
+            "p95": 1,
+            "stdev": 0
+          }
+        },
+        "heapDeltaKb": {
+          "n": 10,
+          "median": 3779,
+          "min": -25847.3,
+          "max": 6682,
+          "p90": 6682,
+          "p95": 6682,
+          "stdev": 10707.07
+        },
+        "nodesDelta": {
+          "n": 10,
+          "median": 88115,
+          "min": -262860,
+          "max": 88115,
+          "p90": 88115,
+          "p95": 88115,
+          "stdev": 126907.42
+        },
+        "thresholds": { "gt50ms": 10, "gt100ms": 10, "gt200ms": 0 }
+      },
+      "angular": {
+        "n": 10,
+        "iterations": [
+          {
+            "duration": 179.1,
+            "sync": 0.1,
+            "mountToRows": 179,
+            "paintTail": 105.9,
+            "rows": 1000,
+            "longTasks": [{ "start": 1231.6, "dur": 66 }],
+            "mutations": { "n": 25514, "added": 10759, "removed": 1 },
+            "heapDeltaKb": 9407.09,
+            "nodesDelta": 89616,
+            "checkOk": true
+          },
+          {
+            "duration": 197.6,
+            "sync": 0.2,
+            "mountToRows": 197.4,
+            "paintTail": 108.4,
+            "rows": 1000,
+            "longTasks": [{ "start": 1782.5, "dur": 86 }],
+            "mutations": { "n": 25514, "added": 10759, "removed": 1 },
+            "heapDeltaKb": -4207.2,
+            "nodesDelta": -2301,
+            "checkOk": true
+          },
+          {
+            "duration": 188.6,
+            "sync": 0.2,
+            "mountToRows": 188.4,
+            "paintTail": 120.4,
+            "rows": 1000,
+            "longTasks": [{ "start": 2349.4, "dur": 78 }],
+            "mutations": { "n": 25514, "added": 10759, "removed": 1 },
+            "heapDeltaKb": -7921.26,
+            "nodesDelta": -89837,
+            "checkOk": true
+          },
+          {
+            "duration": 183.1,
+            "sync": 0.1,
+            "mountToRows": 183,
+            "paintTail": 117.9,
+            "rows": 1000,
+            "longTasks": [{ "start": 2933.1, "dur": 70 }],
+            "mutations": { "n": 25514, "added": 10759, "removed": 1 },
+            "heapDeltaKb": 10498.75,
+            "nodesDelta": 89616,
+            "checkOk": true
+          },
+          {
+            "duration": 190.1,
+            "sync": 0.2,
+            "mountToRows": 189.9,
+            "paintTail": 128,
+            "rows": 1000,
+            "longTasks": [{ "start": 3499.9, "dur": 70 }],
+            "mutations": { "n": 25514, "added": 10759, "removed": 1 },
+            "heapDeltaKb": -11316.29,
+            "nodesDelta": -89740,
+            "checkOk": true
+          },
+          {
+            "duration": 164.6,
+            "sync": 0.1,
+            "mountToRows": 164.5,
+            "paintTail": 103.1,
+            "rows": 1000,
+            "longTasks": [{ "start": 4084.1, "dur": 59 }],
+            "mutations": { "n": 25514, "added": 10759, "removed": 1 },
+            "heapDeltaKb": 10504.23,
+            "nodesDelta": 89616,
+            "checkOk": true
+          },
+          {
+            "duration": 193.5,
+            "sync": 0,
+            "mountToRows": 193.5,
+            "paintTail": 108.1,
+            "rows": 1000,
+            "longTasks": [{ "start": 4616.8, "dur": 73 }],
+            "mutations": { "n": 25514, "added": 10759, "removed": 1 },
+            "heapDeltaKb": -11204.89,
+            "nodesDelta": -89846,
+            "checkOk": true
+          },
+          {
+            "duration": 166.5,
+            "sync": 0.1,
+            "mountToRows": 166.4,
+            "paintTail": 102,
+            "rows": 1000,
+            "longTasks": [{ "start": 5183.8, "dur": 60 }],
+            "mutations": { "n": 25514, "added": 10759, "removed": 1 },
+            "heapDeltaKb": 10445.89,
+            "nodesDelta": 89616,
+            "checkOk": true
+          },
+          {
+            "duration": 196.3,
+            "sync": 0.1,
+            "mountToRows": 196.2,
+            "paintTail": 106.6,
+            "rows": 1000,
+            "longTasks": [{ "start": 5718, "dur": 74 }],
+            "mutations": { "n": 25514, "added": 10759, "removed": 1 },
+            "heapDeltaKb": -10947.86,
+            "nodesDelta": -89846,
+            "checkOk": true
+          },
+          {
+            "duration": 167.3,
+            "sync": 0.1,
+            "mountToRows": 167.2,
+            "paintTail": 102,
+            "rows": 1000,
+            "longTasks": [{ "start": 6283.7, "dur": 59 }],
+            "mutations": { "n": 25514, "added": 10759, "removed": 1 },
+            "heapDeltaKb": 10304.23,
+            "nodesDelta": 89616,
+            "checkOk": true
+          }
+        ],
+        "checksPassed": 10,
+        "duration": {
+          "n": 10,
+          "median": 185.9,
+          "min": 164.6,
+          "max": 197.6,
+          "p90": 197.6,
+          "p95": 197.6,
+          "stdev": 12.06
+        },
+        "sync": {
+          "n": 10,
+          "median": 0.1,
+          "min": 0,
+          "max": 0.2,
+          "p90": 0.2,
+          "p95": 0.2,
+          "stdev": 0.06
+        },
+        "mountToRows": {
+          "n": 10,
+          "median": 185.7,
+          "min": 164.5,
+          "max": 197.4,
+          "p90": 197.4,
+          "p95": 197.4,
+          "stdev": 12.04
+        },
+        "paintTail": {
+          "n": 10,
+          "median": 107.4,
+          "min": 102,
+          "max": 128,
+          "p90": 128,
+          "p95": 128,
+          "stdev": 8.39
+        },
+        "longTaskCount": { "sum": 10, "iterationsWithLongTasks": 10 },
+        "longTaskMs": {
+          "n": 10,
+          "median": 70,
+          "min": 59,
+          "max": 86,
+          "p90": 86,
+          "p95": 86,
+          "stdev": 8.37
+        },
+        "mutations": {
+          "records": {
+            "n": 10,
+            "median": 25514,
+            "min": 25514,
+            "max": 25514,
+            "p90": 25514,
+            "p95": 25514,
+            "stdev": 0
+          },
+          "addedNodes": {
+            "n": 10,
+            "median": 10759,
+            "min": 10759,
+            "max": 10759,
+            "p90": 10759,
+            "p95": 10759,
+            "stdev": 0
+          },
+          "removedNodes": {
+            "n": 10,
+            "median": 1,
+            "min": 1,
+            "max": 1,
+            "p90": 1,
+            "p95": 1,
+            "stdev": 0
+          }
+        },
+        "heapDeltaKb": {
+          "n": 10,
+          "median": 2599.9,
+          "min": -11316.3,
+          "max": 10504.2,
+          "p90": 10504.2,
+          "p95": 10504.2,
+          "stdev": 9875.05
+        },
+        "nodesDelta": {
+          "n": 10,
+          "median": 43657.5,
+          "min": -89846,
+          "max": 89616,
+          "p90": 89616,
+          "p95": 89616,
+          "stdev": 84664.39
+        },
+        "thresholds": { "gt50ms": 10, "gt100ms": 10, "gt200ms": 0 }
+      }
+    },
+    "1500": {
+      "react": {
+        "n": 10,
+        "iterations": [
+          {
+            "duration": 253.8,
+            "sync": 0.2,
+            "mountToRows": 253.6,
+            "paintTail": 131.3,
+            "rows": 1500,
+            "longTasks": [{ "start": 1291.3, "dur": 107 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 4048.7,
+            "nodesDelta": 129016,
+            "checkOk": true
+          },
+          {
+            "duration": 222.5,
+            "sync": 0.2,
+            "mountToRows": 222.3,
+            "paintTail": 129.1,
+            "rows": 1500,
+            "longTasks": [{ "start": 1957.9, "dur": 73 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": -10176.52,
+            "nodesDelta": -132370,
+            "checkOk": true
+          },
+          {
+            "duration": 213.6,
+            "sync": 0.2,
+            "mountToRows": 213.4,
+            "paintTail": 105.6,
+            "rows": 1500,
+            "longTasks": [{ "start": 2590.4, "dur": 70 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 9984.02,
+            "nodesDelta": 132115,
+            "checkOk": true
+          },
+          {
+            "duration": 224.7,
+            "sync": 0.2,
+            "mountToRows": 224.5,
+            "paintTail": 126.7,
+            "rows": 1500,
+            "longTasks": [{ "start": 3175.4, "dur": 72 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": -18131.95,
+            "nodesDelta": -132256,
+            "checkOk": true
+          },
+          {
+            "duration": 211.8,
+            "sync": 0.1,
+            "mountToRows": 211.7,
+            "paintTail": 108.1,
+            "rows": 1500,
+            "longTasks": [{ "start": 3807.3, "dur": 67 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 9993.55,
+            "nodesDelta": 132115,
+            "checkOk": true
+          },
+          {
+            "duration": 228,
+            "sync": 0.2,
+            "mountToRows": 227.8,
+            "paintTail": 123.7,
+            "rows": 1500,
+            "longTasks": [{ "start": 4408.9, "dur": 75 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": -6674.59,
+            "nodesDelta": 125966,
+            "checkOk": true
+          },
+          {
+            "duration": 218.1,
+            "sync": 0.1,
+            "mountToRows": 218,
+            "paintTail": 133.4,
+            "rows": 1500,
+            "longTasks": [{ "start": 5025.8, "dur": 68 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 9927.86,
+            "nodesDelta": 132115,
+            "checkOk": true
+          },
+          {
+            "duration": 220.1,
+            "sync": 0.1,
+            "mountToRows": 220,
+            "paintTail": 114.7,
+            "rows": 1500,
+            "longTasks": [{ "start": 5659.7, "dur": 70 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 971.22,
+            "nodesDelta": 132115,
+            "checkOk": true
+          },
+          {
+            "duration": 227.9,
+            "sync": 0.2,
+            "mountToRows": 227.7,
+            "paintTail": 123.6,
+            "rows": 1500,
+            "longTasks": [{ "start": 6259.9, "dur": 78 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 1826.88,
+            "nodesDelta": 132115,
+            "checkOk": true
+          },
+          {
+            "duration": 268.5,
+            "sync": 0.1,
+            "mountToRows": 268.4,
+            "paintTail": 132.9,
+            "rows": 1500,
+            "longTasks": [{ "start": 6893.5, "dur": 71 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": -29185.02,
+            "nodesDelta": -396996,
+            "checkOk": true
+          }
+        ],
+        "checksPassed": 10,
+        "duration": {
+          "n": 10,
+          "median": 223.6,
+          "min": 211.8,
+          "max": 268.5,
+          "p90": 268.5,
+          "p95": 268.5,
+          "stdev": 17.23
+        },
+        "sync": {
+          "n": 10,
+          "median": 0.2,
+          "min": 0.1,
+          "max": 0.2,
+          "p90": 0.2,
+          "p95": 0.2,
+          "stdev": 0.05
+        },
+        "mountToRows": {
+          "n": 10,
+          "median": 223.4,
+          "min": 211.7,
+          "max": 268.4,
+          "p90": 268.4,
+          "p95": 268.4,
+          "stdev": 17.23
+        },
+        "paintTail": {
+          "n": 10,
+          "median": 125.2,
+          "min": 105.6,
+          "max": 133.4,
+          "p90": 133.4,
+          "p95": 133.4,
+          "stdev": 9.59
+        },
+        "longTaskCount": { "sum": 10, "iterationsWithLongTasks": 10 },
+        "longTaskMs": {
+          "n": 10,
+          "median": 71.5,
+          "min": 67,
+          "max": 107,
+          "p90": 107,
+          "p95": 107,
+          "stdev": 11.07
+        },
+        "mutations": {
+          "records": { "n": 10, "median": 2, "min": 2, "max": 2, "p90": 2, "p95": 2, "stdev": 0 },
+          "addedNodes": {
+            "n": 10,
+            "median": 1,
+            "min": 1,
+            "max": 1,
+            "p90": 1,
+            "p95": 1,
+            "stdev": 0
+          },
+          "removedNodes": {
+            "n": 10,
+            "median": 1,
+            "min": 1,
+            "max": 1,
+            "p90": 1,
+            "p95": 1,
+            "stdev": 0
+          }
+        },
+        "heapDeltaKb": {
+          "n": 10,
+          "median": 1399.1,
+          "min": -29185,
+          "max": 9993.6,
+          "p90": 9993.6,
+          "p95": 9993.6,
+          "stdev": 12539.01
+        },
+        "nodesDelta": {
+          "n": 10,
+          "median": 130565.5,
+          "min": -396996,
+          "max": 132115,
+          "p90": 132115,
+          "p95": 132115,
+          "stdev": 174915.81
+        },
+        "thresholds": { "gt50ms": 10, "gt100ms": 10, "gt200ms": 10 }
+      },
+      "angular": {
+        "n": 10,
+        "iterations": [
+          {
+            "duration": 281.3,
+            "sync": 0,
+            "mountToRows": 281.3,
+            "paintTail": 121,
+            "rows": 1500,
+            "longTasks": [{ "start": 1329.4, "dur": 115 }],
+            "mutations": { "n": 38264, "added": 16134, "removed": 1 },
+            "heapDeltaKb": 6494.08,
+            "nodesDelta": 131247,
+            "checkOk": true
+          },
+          {
+            "duration": 280.6,
+            "sync": 0.1,
+            "mountToRows": 280.5,
+            "paintTail": 120.3,
+            "rows": 1500,
+            "longTasks": [{ "start": 2013.2, "dur": 104 }],
+            "mutations": { "n": 38264, "added": 16134, "removed": 1 },
+            "heapDeltaKb": -11770.47,
+            "nodesDelta": -134587,
+            "checkOk": true
+          },
+          {
+            "duration": 250.2,
+            "sync": 0.2,
+            "mountToRows": 250,
+            "paintTail": 118.3,
+            "rows": 1500,
+            "longTasks": [{ "start": 2696.5, "dur": 83 }],
+            "mutations": { "n": 38264, "added": 16134, "removed": 1 },
+            "heapDeltaKb": 15948.86,
+            "nodesDelta": 134366,
+            "checkOk": true
+          },
+          {
+            "duration": 271.8,
+            "sync": 0.2,
+            "mountToRows": 271.6,
+            "paintTail": 113.6,
+            "rows": 1500,
+            "longTasks": [{ "start": 3346.8, "dur": 84 }],
+            "mutations": { "n": 38264, "added": 16134, "removed": 1 },
+            "heapDeltaKb": -16841.59,
+            "nodesDelta": -134490,
+            "checkOk": true
+          },
+          {
+            "duration": 226,
+            "sync": 0,
+            "mountToRows": 226,
+            "paintTail": 125.6,
+            "rows": 1500,
+            "longTasks": [{ "start": 3997.3, "dur": 63 }],
+            "mutations": { "n": 38264, "added": 16134, "removed": 1 },
+            "heapDeltaKb": 15820.72,
+            "nodesDelta": 134366,
+            "checkOk": true
+          },
+          {
+            "duration": 302.6,
+            "sync": 0.1,
+            "mountToRows": 302.5,
+            "paintTail": 132.5,
+            "rows": 1500,
+            "longTasks": [{ "start": 4630.9, "dur": 93 }],
+            "mutations": { "n": 38264, "added": 16134, "removed": 1 },
+            "heapDeltaKb": -8889.62,
+            "nodesDelta": -3234,
+            "checkOk": true
+          },
+          {
+            "duration": 229.1,
+            "sync": 0.1,
+            "mountToRows": 229,
+            "paintTail": 106.4,
+            "rows": 1500,
+            "longTasks": [{ "start": 5347.3, "dur": 70 }],
+            "mutations": { "n": 38264, "added": 16134, "removed": 1 },
+            "heapDeltaKb": 15643.92,
+            "nodesDelta": 134366,
+            "checkOk": true
+          },
+          {
+            "duration": 260.1,
+            "sync": 0,
+            "mountToRows": 260.1,
+            "paintTail": 125,
+            "rows": 1500,
+            "longTasks": [{ "start": 5964.7, "dur": 86 }],
+            "mutations": { "n": 38264, "added": 16134, "removed": 1 },
+            "heapDeltaKb": 5181.52,
+            "nodesDelta": 134366,
+            "checkOk": true
+          },
+          {
+            "duration": 323.5,
+            "sync": 0.1,
+            "mountToRows": 323.4,
+            "paintTail": 111.8,
+            "rows": 1500,
+            "longTasks": [{ "start": 6648.6, "dur": 93 }],
+            "mutations": { "n": 38264, "added": 16134, "removed": 1 },
+            "heapDeltaKb": 1170.15,
+            "nodesDelta": 125327,
+            "checkOk": true
+          },
+          {
+            "duration": 247.6,
+            "sync": 0.1,
+            "mountToRows": 247.5,
+            "paintTail": 120.5,
+            "rows": 1500,
+            "longTasks": [{ "start": 7365.7, "dur": 84 }],
+            "mutations": { "n": 38264, "added": 16134, "removed": 1 },
+            "heapDeltaKb": 15651.82,
+            "nodesDelta": 134366,
+            "checkOk": true
+          }
+        ],
+        "checksPassed": 10,
+        "duration": {
+          "n": 10,
+          "median": 266,
+          "min": 226,
+          "max": 323.5,
+          "p90": 323.5,
+          "p95": 323.5,
+          "stdev": 29.49
+        },
+        "sync": {
+          "n": 10,
+          "median": 0.1,
+          "min": 0,
+          "max": 0.2,
+          "p90": 0.2,
+          "p95": 0.2,
+          "stdev": 0.07
+        },
+        "mountToRows": {
+          "n": 10,
+          "median": 265.9,
+          "min": 226,
+          "max": 323.4,
+          "p90": 323.4,
+          "p95": 323.4,
+          "stdev": 29.48
+        },
+        "paintTail": {
+          "n": 10,
+          "median": 120.4,
+          "min": 106.4,
+          "max": 132.5,
+          "p90": 132.5,
+          "p95": 132.5,
+          "stdev": 7.12
+        },
+        "longTaskCount": { "sum": 10, "iterationsWithLongTasks": 10 },
+        "longTaskMs": {
+          "n": 10,
+          "median": 85,
+          "min": 63,
+          "max": 115,
+          "p90": 115,
+          "p95": 115,
+          "stdev": 14.29
+        },
+        "mutations": {
+          "records": {
+            "n": 10,
+            "median": 38264,
+            "min": 38264,
+            "max": 38264,
+            "p90": 38264,
+            "p95": 38264,
+            "stdev": 0
+          },
+          "addedNodes": {
+            "n": 10,
+            "median": 16134,
+            "min": 16134,
+            "max": 16134,
+            "p90": 16134,
+            "p95": 16134,
+            "stdev": 0
+          },
+          "removedNodes": {
+            "n": 10,
+            "median": 1,
+            "min": 1,
+            "max": 1,
+            "p90": 1,
+            "p95": 1,
+            "stdev": 0
+          }
+        },
+        "heapDeltaKb": {
+          "n": 10,
+          "median": 5837.8,
+          "min": -16841.6,
+          "max": 15948.9,
+          "p90": 15948.9,
+          "p95": 15948.9,
+          "stdev": 11909.84
+        },
+        "nodesDelta": {
+          "n": 10,
+          "median": 132806.5,
+          "min": -134587,
+          "max": 134366,
+          "p90": 134366,
+          "p95": 134366,
+          "stdev": 107874.75
+        },
+        "thresholds": { "gt50ms": 10, "gt100ms": 10, "gt200ms": 10 }
+      }
+    },
+    "3000": {
+      "react": {
+        "n": 10,
+        "iterations": [
+          {
+            "duration": 472.4,
+            "sync": 0.1,
+            "mountToRows": 472.3,
+            "paintTail": 129.6,
+            "rows": 3000,
+            "longTasks": [{ "start": 1583.6, "dur": 129 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 3275.23,
+            "nodesDelta": 252098,
+            "checkOk": true
+          },
+          {
+            "duration": 420.6,
+            "sync": 0.1,
+            "mountToRows": 420.5,
+            "paintTail": 131.2,
+            "rows": 3000,
+            "longTasks": [{ "start": 2483.6, "dur": 117 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 18045.49,
+            "nodesDelta": 264115,
+            "checkOk": true
+          },
+          {
+            "duration": 417.4,
+            "sync": 0.2,
+            "mountToRows": 417.2,
+            "paintTail": 116.9,
+            "rows": 3000,
+            "longTasks": [{ "start": 3368.3, "dur": 122 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 17941.24,
+            "nodesDelta": 264115,
+            "checkOk": true
+          },
+          {
+            "duration": 473.4,
+            "sync": 0.2,
+            "mountToRows": 473.2,
+            "paintTail": 127.3,
+            "rows": 3000,
+            "longTasks": [{ "start": 4218, "dur": 120 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": -39490.94,
+            "nodesDelta": -528626,
+            "checkOk": true
+          },
+          {
+            "duration": 407.8,
+            "sync": 0.1,
+            "mountToRows": 407.7,
+            "paintTail": 127,
+            "rows": 3000,
+            "longTasks": [{ "start": 5101.8, "dur": 112 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 18048.63,
+            "nodesDelta": 264115,
+            "checkOk": true
+          },
+          {
+            "duration": 395.7,
+            "sync": 0.1,
+            "mountToRows": 395.6,
+            "paintTail": 122.2,
+            "rows": 3000,
+            "longTasks": [{ "start": 5969.1, "dur": 112 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 19365.56,
+            "nodesDelta": 264115,
+            "checkOk": true
+          },
+          {
+            "duration": 444.5,
+            "sync": 0.1,
+            "mountToRows": 444.4,
+            "paintTail": 123,
+            "rows": 3000,
+            "longTasks": [{ "start": 6802.4, "dur": 108 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": -43191.91,
+            "nodesDelta": -528626,
+            "checkOk": true
+          },
+          {
+            "duration": 406.5,
+            "sync": 0.1,
+            "mountToRows": 406.4,
+            "paintTail": 128.4,
+            "rows": 3000,
+            "longTasks": [{ "start": 7652.9, "dur": 111 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 18026.07,
+            "nodesDelta": 264115,
+            "checkOk": true
+          },
+          {
+            "duration": 401.8,
+            "sync": 0.1,
+            "mountToRows": 401.7,
+            "paintTail": 132.8,
+            "rows": 3000,
+            "longTasks": [{ "start": 8520.3, "dur": 116 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": 17915.5,
+            "nodesDelta": 264115,
+            "checkOk": true
+          },
+          {
+            "duration": 449.5,
+            "sync": 0.1,
+            "mountToRows": 449.4,
+            "paintTail": 110.8,
+            "rows": 3000,
+            "longTasks": [{ "start": 9370.4, "dur": 114 }],
+            "mutations": { "n": 2, "added": 1, "removed": 1 },
+            "heapDeltaKb": -51439.41,
+            "nodesDelta": -528626,
+            "checkOk": true
+          }
+        ],
+        "checksPassed": 10,
+        "duration": {
+          "n": 10,
+          "median": 419,
+          "min": 395.7,
+          "max": 473.4,
+          "p90": 473.4,
+          "p95": 473.4,
+          "stdev": 27.43
+        },
+        "sync": {
+          "n": 10,
+          "median": 0.1,
+          "min": 0.1,
+          "max": 0.2,
+          "p90": 0.2,
+          "p95": 0.2,
+          "stdev": 0.04
+        },
+        "mountToRows": {
+          "n": 10,
+          "median": 418.9,
+          "min": 395.6,
+          "max": 473.2,
+          "p90": 473.2,
+          "p95": 473.2,
+          "stdev": 27.42
+        },
+        "paintTail": {
+          "n": 10,
+          "median": 127.2,
+          "min": 110.8,
+          "max": 132.8,
+          "p90": 132.8,
+          "p95": 132.8,
+          "stdev": 6.48
+        },
+        "longTaskCount": { "sum": 10, "iterationsWithLongTasks": 10 },
+        "longTaskMs": {
+          "n": 10,
+          "median": 115,
+          "min": 108,
+          "max": 129,
+          "p90": 129,
+          "p95": 129,
+          "stdev": 5.89
+        },
+        "mutations": {
+          "records": { "n": 10, "median": 2, "min": 2, "max": 2, "p90": 2, "p95": 2, "stdev": 0 },
+          "addedNodes": {
+            "n": 10,
+            "median": 1,
+            "min": 1,
+            "max": 1,
+            "p90": 1,
+            "p95": 1,
+            "stdev": 0
+          },
+          "removedNodes": {
+            "n": 10,
+            "median": 1,
+            "min": 1,
+            "max": 1,
+            "p90": 1,
+            "p95": 1,
+            "stdev": 0
+          }
+        },
+        "heapDeltaKb": {
+          "n": 10,
+          "median": 17928.4,
+          "min": -51439.4,
+          "max": 19365.6,
+          "p90": 19365.6,
+          "p95": 19365.6,
+          "stdev": 28336.87
+        },
+        "nodesDelta": {
+          "n": 10,
+          "median": 264115,
+          "min": -528626,
+          "max": 264115,
+          "p90": 264115,
+          "p95": 264115,
+          "stdev": 362509.94
+        },
+        "thresholds": { "gt50ms": 10, "gt100ms": 10, "gt200ms": 10 }
+      },
+      "angular": {
+        "n": 10,
+        "iterations": [
+          {
+            "duration": 503.7,
+            "sync": 0.2,
+            "mountToRows": 503.5,
+            "paintTail": 131.1,
+            "rows": 3000,
+            "longTasks": [{ "start": 1675.5, "dur": 159 }],
+            "mutations": { "n": 76514, "added": 32259, "removed": 1 },
+            "heapDeltaKb": 21694.79,
+            "nodesDelta": 268616,
+            "checkOk": true
+          },
+          {
+            "duration": 566.3,
+            "sync": 0,
+            "mountToRows": 566.3,
+            "paintTail": 118.3,
+            "rows": 3000,
+            "longTasks": [{ "start": 2625.6, "dur": 160 }],
+            "mutations": { "n": 76514, "added": 32259, "removed": 1 },
+            "heapDeltaKb": -24762.21,
+            "nodesDelta": -262842,
+            "checkOk": true
+          },
+          {
+            "duration": 475.3,
+            "sync": 0.2,
+            "mountToRows": 475.1,
+            "paintTail": 126.4,
+            "rows": 3000,
+            "longTasks": [{ "start": 3609.6, "dur": 148 }],
+            "mutations": { "n": 76514, "added": 32259, "removed": 1 },
+            "heapDeltaKb": 22176.3,
+            "nodesDelta": 268616,
+            "checkOk": true
+          },
+          {
+            "duration": 500.3,
+            "sync": 0.1,
+            "mountToRows": 500.2,
+            "paintTail": 118,
+            "rows": 3000,
+            "longTasks": [{ "start": 4526.6, "dur": 146 }],
+            "mutations": { "n": 76514, "added": 32259, "removed": 1 },
+            "heapDeltaKb": -23967.71,
+            "nodesDelta": -274850,
+            "checkOk": true
+          },
+          {
+            "duration": 472.6,
+            "sync": 0,
+            "mountToRows": 472.6,
+            "paintTail": 129.7,
+            "rows": 3000,
+            "longTasks": [{ "start": 5426.3, "dur": 140 }],
+            "mutations": { "n": 76514, "added": 32259, "removed": 1 },
+            "heapDeltaKb": 22127.92,
+            "nodesDelta": 268616,
+            "checkOk": true
+          },
+          {
+            "duration": 503.7,
+            "sync": 0.2,
+            "mountToRows": 503.5,
+            "paintTail": 114.4,
+            "rows": 3000,
+            "longTasks": [{ "start": 6344.1, "dur": 143 }],
+            "mutations": { "n": 76514, "added": 32259, "removed": 1 },
+            "heapDeltaKb": -24123.69,
+            "nodesDelta": -268846,
+            "checkOk": true
+          },
+          {
+            "duration": 465.9,
+            "sync": 0.1,
+            "mountToRows": 465.8,
+            "paintTail": 118.9,
+            "rows": 3000,
+            "longTasks": [{ "start": 7261.5, "dur": 137 }],
+            "mutations": { "n": 76514, "added": 32259, "removed": 1 },
+            "heapDeltaKb": 22078.01,
+            "nodesDelta": 268616,
+            "checkOk": true
+          },
+          {
+            "duration": 493.4,
+            "sync": 0.1,
+            "mountToRows": 493.3,
+            "paintTail": 109.1,
+            "rows": 3000,
+            "longTasks": [{ "start": 8161.6, "dur": 141 }],
+            "mutations": { "n": 76514, "added": 32259, "removed": 1 },
+            "heapDeltaKb": -24074.32,
+            "nodesDelta": -268846,
+            "checkOk": true
+          },
+          {
+            "duration": 476.7,
+            "sync": 0.1,
+            "mountToRows": 476.6,
+            "paintTail": 125.1,
+            "rows": 3000,
+            "longTasks": [{ "start": 9062, "dur": 143 }],
+            "mutations": { "n": 76514, "added": 32259, "removed": 1 },
+            "heapDeltaKb": 22136.42,
+            "nodesDelta": 268616,
+            "checkOk": true
+          },
+          {
+            "duration": 501.8,
+            "sync": 0.1,
+            "mountToRows": 501.7,
+            "paintTail": 116.5,
+            "rows": 3000,
+            "longTasks": [{ "start": 9979.3, "dur": 146 }],
+            "mutations": { "n": 76514, "added": 32259, "removed": 1 },
+            "heapDeltaKb": -24136.87,
+            "nodesDelta": -268846,
+            "checkOk": true
+          }
+        ],
+        "checksPassed": 10,
+        "duration": {
+          "n": 10,
+          "median": 496.9,
+          "min": 465.9,
+          "max": 566.3,
+          "p90": 566.3,
+          "p95": 566.3,
+          "stdev": 27.16
+        },
+        "sync": {
+          "n": 10,
+          "median": 0.1,
+          "min": 0,
+          "max": 0.2,
+          "p90": 0.2,
+          "p95": 0.2,
+          "stdev": 0.07
+        },
+        "mountToRows": {
+          "n": 10,
+          "median": 496.8,
+          "min": 465.8,
+          "max": 566.3,
+          "p90": 566.3,
+          "p95": 566.3,
+          "stdev": 27.17
+        },
+        "paintTail": {
+          "n": 10,
+          "median": 118.6,
+          "min": 109.1,
+          "max": 131.1,
+          "p90": 131.1,
+          "p95": 131.1,
+          "stdev": 6.7
+        },
+        "longTaskCount": { "sum": 10, "iterationsWithLongTasks": 10 },
+        "longTaskMs": {
+          "n": 10,
+          "median": 144.5,
+          "min": 137,
+          "max": 160,
+          "p90": 160,
+          "p95": 160,
+          "stdev": 7.27
+        },
+        "mutations": {
+          "records": {
+            "n": 10,
+            "median": 76514,
+            "min": 76514,
+            "max": 76514,
+            "p90": 76514,
+            "p95": 76514,
+            "stdev": 0
+          },
+          "addedNodes": {
+            "n": 10,
+            "median": 32259,
+            "min": 32259,
+            "max": 32259,
+            "p90": 32259,
+            "p95": 32259,
+            "stdev": 0
+          },
+          "removedNodes": {
+            "n": 10,
+            "median": 1,
+            "min": 1,
+            "max": 1,
+            "p90": 1,
+            "p95": 1,
+            "stdev": 0
+          }
+        },
+        "heapDeltaKb": {
+          "n": 10,
+          "median": -1136.5,
+          "min": -24762.2,
+          "max": 22176.3,
+          "p90": 22176.3,
+          "p95": 22176.3,
+          "stdev": 23129.02
+        },
+        "nodesDelta": {
+          "n": 10,
+          "median": 2887,
+          "min": -274850,
+          "max": 268616,
+          "p90": 268616,
+          "p95": 268616,
+          "stdev": 268744.41
+        },
+        "thresholds": { "gt50ms": 10, "gt100ms": 10, "gt200ms": 10 }
+      }
+    }
+  },
+  "limitations": [
+    "Mediciones en localhost sin throttling; no representan condiciones de campo.",
+    "El MutationObserver añade overhead asimétrico (Angular genera muchos más registros por construcción incremental); la sonda de overhead en 1000 lo cuantifica, pero el overhead del observador no es eliminable si se quiere contar mutaciones.",
+    "mountToRows usa polling de 16 ms: la resolución del instante en que la lista se completa es de ~16 ms (cuantización del poll), incluida en la duración del montaje.",
+    "A 3000 filas (~265k nodos) el navegador headless puede acercarse a sus límites; si una sesión falla o no completa, se documenta y se detiene el escalado de forma controlada.",
+    "CDP Performance.getMetrics es poco fiable en este headless-shell (ScriptDuration en 0); solo JSHeapUsedSize y Nodes se usan como informativas.",
+    "Una máquina local; resultados indicativos, no benchmark científico (metrics.md §1).",
+    "Comparaciones de magnitud absoluta con Fase 7/9 solo como contexto; el protocolo mount-settle de esta fase es más robusto (espera a las N filas) que el de Fase 9 para S1."
+  ]
+}

@@ -26,6 +26,9 @@
     "evolution:measure": "node scripts/measure-evolution-phase6.mjs",
     "interaction:measure": "node scripts/measure-interaction-performance-phase7.mjs",
     "scalability:measure": "node scripts/measure-scalability-phase8.mjs",
+    "interaction:scalability": "node scripts/measure-interaction-scalability-phase9.mjs",
+    "interaction:large-dataset": "node scripts/measure-interaction-large-dataset-phase9-2.mjs",
+    "interaction:end-to-end": "node scripts/measure-interaction-end-to-end-phase9-3.mjs",
     "check": "pnpm lint && pnpm format:check && pnpm typecheck && pnpm test && pnpm build"
   },
   "devDependencies": {
