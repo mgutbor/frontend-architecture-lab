@@ -1,0 +1,548 @@
+{
+  "experiment": "debugging-multilayer-phase17",
+  "capturedAt": "2026-08-25T17:59:46.696Z",
+  "objective": "Medir el coste estructural de localizar y corregir bugs que atraviesan distintas capas (presentación / servicio / dominio) en React y Angular, sobre el mismo dominio y features, en copia aislada con historial propio.",
+  "method": {
+    "summary": "6 celdas (3 bugs × 2 frameworks). Cada celda: S0 baseline -> S1 bug introducido (type-valid, semántico) -> S2 suite con bug (tests que fallan) -> S3 localización (proxy estructural grep del símbolo afectado) -> S4 fix -> S5 test de regresión -> S6 validación completa. Métricas estructurales y reproducibles (diff/grep); NO se mide tiempo humano ni dificultad cognitiva. D1=presentación (badge label invertido, 1 capa), D2=servicio (filterTasks priority invertido, 2 capas), D3=dominio (TASK_TRANSITIONS permite todo->completed, 3 capas, compartido).",
+    "bugs": {
+      "D1": "priority-badge invierte el label low/high (type-valid, semántico)",
+      "D2": "filterTasks invierte la comparación de priority (high devuelve low)",
+      "D3": "TASK_TRANSITIONS permite todo -> completed (rompe máquina de estados documentada)"
+    },
+    "proxies": {
+      "filesInspected": "grep -rl del símbolo afectado en apps/ y packages/",
+      "filesModified": "git diff --name-only contra S0",
+      "loc": "git diff --numstat contra S0",
+      "blastRadius": "archivos funcionales + tests afectados + features afectadas + capas"
+    },
+    "limitations": "Una máquina; proxies estructurales, no tiempo humano; D3 es compartido (la celda angular mide la misma causa con detección vía store de Angular); Angular no tiene spec unitaria de filters (detección de D2 vía spec integrado de tasks + spec de regresión nueva)."
+  },
+  "results": {
+    "D1:react": {
+      "bug": "D1",
+      "bugLabel": "presentacion",
+      "app": "react",
+      "layers": 1,
+      "causeToSymptomDistance": 1,
+      "path": "presentacion -> presentacion (componente badge)",
+      "distanceReason": "El síntoma (label de prioridad en la lista) y la causa (mapeo del badge) están en la misma capa de presentación; 1 frontera de componente.",
+      "filesModified": ["apps/react-app/src/features/tasks/tasks-page.test.tsx"],
+      "filesInspected": [
+        "apps/react-app/src/features/tasks/tasks-page.tsx",
+        "apps/react-app/src/features/projects/project-detail.tsx",
+        "apps/react-app/src/components/priority-badge.tsx",
+        "apps/angular-app/src/app/features/tasks/tasks.component.ts",
+        "apps/angular-app/src/app/features/projects/project-detail.component.ts",
+        "apps/angular-app/src/app/components/priority-badge.component.ts"
+      ],
+      "loc": {
+        "added": 7,
+        "removed": 0,
+        "net": 7,
+        "perFile": ["apps/react-app/src/components/priority-badge.tsx"]
+      },
+      "testsFailingInitially": [
+        "\u001b[31m❯\u001b[39m src/features/projects/projects-page.test.tsx \u001b[2m(\u001b[22m\u001b[2m13 tests\u001b[22m\u001b[2m | \u001b[22m\u001b[31m1 failed\u001b[39m\u001b[2m)\u001b[22m\u001b[33m 972\u001b[2mms\u001b[22m\u001b[39m",
+        "\u001b[31m shows description, owner, team and tasks with status and priority (PRJ-VIEW-1/2)\u001b[39m\u001b[32m 37\u001b[2mms\u001b[22m\u001b[39m",
+        "\u001b[2m Test Files \u001b[22m \u001b[1m\u001b[31m1 failed\u001b[39m\u001b[22m\u001b[2m | \u001b[22m\u001b[1m\u001b[32m8 passed\u001b[39m\u001b[22m\u001b[90m (9)\u001b[39m",
+        "\u001b[2m      Tests \u001b[22m \u001b[1m\u001b[31m1 failed\u001b[39m\u001b[22m\u001b[2m | \u001b[22m\u001b[1m\u001b[32m83 passed\u001b[39m\u001b[22m\u001b[90m (84)\u001b[39m",
+        "react-app@0.1.0 test: `vitest run`"
+      ],
+      "testsFailingCount": 1,
+      "regressionTestsAdded": 1,
+      "testsAffectedIndirectly": 0,
+      "unrelatedFeaturesTouched": 1,
+      "domainFilesModified": [],
+      "blastRadius": 5,
+      "featuresAffected": ["tasks", "projects"],
+      "importsFeatureToFeature": 0,
+      "invariantsOk": true,
+      "invariantViolations": [],
+      "buildOk": true,
+      "typecheckOk": true,
+      "lintOk": true,
+      "formatOk": true,
+      "steps": {
+        "S1_bug_introducido": ["apps/react-app/src/components/priority-badge.tsx"],
+        "S2_bug_detectado": {
+          "suiteOk": false,
+          "failing": [
+            "\u001b[31m❯\u001b[39m src/features/projects/projects-page.test.tsx \u001b[2m(\u001b[22m\u001b[2m13 tests\u001b[22m\u001b[2m | \u001b[22m\u001b[31m1 failed\u001b[39m\u001b[2m)\u001b[22m\u001b[33m 972\u001b[2mms\u001b[22m\u001b[39m",
+            "\u001b[31m shows description, owner, team and tasks with status and priority (PRJ-VIEW-1/2)\u001b[39m\u001b[32m 37\u001b[2mms\u001b[22m\u001b[39m",
+            "\u001b[2m Test Files \u001b[22m \u001b[1m\u001b[31m1 failed\u001b[39m\u001b[22m\u001b[2m | \u001b[22m\u001b[1m\u001b[32m8 passed\u001b[39m\u001b[22m\u001b[90m (9)\u001b[39m",
+            "\u001b[2m      Tests \u001b[22m \u001b[1m\u001b[31m1 failed\u001b[39m\u001b[22m\u001b[2m | \u001b[22m\u001b[1m\u001b[32m83 passed\u001b[39m\u001b[22m\u001b[90m (84)\u001b[39m",
+            "react-app@0.1.0 test: `vitest run`"
+          ]
+        },
+        "S3_bug_localizado": {
+          "via": "grep de símbolo afectado (proxy estructural reproducible)",
+          "filesInspected": [
+            "apps/react-app/src/features/tasks/tasks-page.tsx",
+            "apps/react-app/src/features/projects/project-detail.tsx",
+            "apps/react-app/src/components/priority-badge.tsx",
+            "apps/angular-app/src/app/features/tasks/tasks.component.ts",
+            "apps/angular-app/src/app/features/projects/project-detail.component.ts",
+            "apps/angular-app/src/app/components/priority-badge.component.ts"
+          ]
+        },
+        "S4_fix_aplicado": ["apps/react-app/src/components/priority-badge.tsx"],
+        "S5_regression_test": "apps/react-app/src/features/tasks/tasks-page.test.tsx",
+        "S6_validacion": {
+          "suiteOk": true,
+          "failing": []
+        }
+      },
+      "firstFailingTestDetected": "suite failed (ver testsFailingInitially)",
+      "filesTouchedByScript": [
+        "apps/react-app/src/components/priority-badge.tsx",
+        "apps/react-app/src/features/tasks/tasks-page.test.tsx"
+      ]
+    },
+    "D1:angular": {
+      "bug": "D1",
+      "bugLabel": "presentacion",
+      "app": "angular",
+      "layers": 1,
+      "causeToSymptomDistance": 1,
+      "path": "presentacion -> presentacion (componente badge)",
+      "distanceReason": "El síntoma (label de prioridad en la lista) y la causa (mapeo del badge) están en la misma capa de presentación; 1 frontera de componente.",
+      "filesModified": ["apps/angular-app/src/app/features/tasks/tasks.component.spec.ts"],
+      "filesInspected": [
+        "apps/angular-app/src/app/features/tasks/tasks.component.ts",
+        "apps/angular-app/src/app/features/tasks/tasks.component.html",
+        "apps/angular-app/src/app/features/projects/project-detail.component.html",
+        "apps/angular-app/src/app/features/projects/project-detail.component.ts",
+        "apps/angular-app/src/app/components/priority-badge.component.ts"
+      ],
+      "loc": {
+        "added": 8,
+        "removed": 0,
+        "net": 8,
+        "perFile": ["apps/angular-app/src/app/components/priority-badge.component.ts"]
+      },
+      "testsFailingInitially": [
+        "\u001b[31m combines status and priority filters (TSK-LIST-2)\u001b[39m\u001b[32m 24\u001b[2mms\u001b[22m\u001b[39m",
+        "\u001b[2m Test Files \u001b[22m \u001b[1m\u001b[31m1 failed\u001b[39m\u001b[22m\u001b[2m | \u001b[22m\u001b[1m\u001b[32m7 passed\u001b[39m\u001b[22m\u001b[90m (8)\u001b[39m",
+        "\u001b[2m      Tests \u001b[22m \u001b[1m\u001b[31m1 failed\u001b[39m\u001b[22m\u001b[2m | \u001b[22m\u001b[1m\u001b[32m60 passed\u001b[39m\u001b[22m\u001b[90m (61)\u001b[39m",
+        "angular-app@0.1.0 test: `ng test --watch=false`"
+      ],
+      "testsFailingCount": 1,
+      "regressionTestsAdded": 1,
+      "testsAffectedIndirectly": 0,
+      "unrelatedFeaturesTouched": 0,
+      "domainFilesModified": [],
+      "blastRadius": 4,
+      "featuresAffected": ["tasks"],
+      "importsFeatureToFeature": 0,
+      "invariantsOk": true,
+      "invariantViolations": [],
+      "buildOk": true,
+      "typecheckOk": true,
+      "lintOk": true,
+      "formatOk": true,
+      "steps": {
+        "S1_bug_introducido": ["apps/angular-app/src/app/components/priority-badge.component.ts"],
+        "S2_bug_detectado": {
+          "suiteOk": false,
+          "failing": [
+            "\u001b[31m combines status and priority filters (TSK-LIST-2)\u001b[39m\u001b[32m 24\u001b[2mms\u001b[22m\u001b[39m",
+            "\u001b[2m Test Files \u001b[22m \u001b[1m\u001b[31m1 failed\u001b[39m\u001b[22m\u001b[2m | \u001b[22m\u001b[1m\u001b[32m7 passed\u001b[39m\u001b[22m\u001b[90m (8)\u001b[39m",
+            "\u001b[2m      Tests \u001b[22m \u001b[1m\u001b[31m1 failed\u001b[39m\u001b[22m\u001b[2m | \u001b[22m\u001b[1m\u001b[32m60 passed\u001b[39m\u001b[22m\u001b[90m (61)\u001b[39m",
+            "angular-app@0.1.0 test: `ng test --watch=false`"
+          ]
+        },
+        "S3_bug_localizado": {
+          "via": "grep de símbolo afectado (proxy estructural reproducible)",
+          "filesInspected": [
+            "apps/angular-app/src/app/features/tasks/tasks.component.ts",
+            "apps/angular-app/src/app/features/tasks/tasks.component.html",
+            "apps/angular-app/src/app/features/projects/project-detail.component.html",
+            "apps/angular-app/src/app/features/projects/project-detail.component.ts",
+            "apps/angular-app/src/app/components/priority-badge.component.ts"
+          ]
+        },
+        "S4_fix_aplicado": ["apps/angular-app/src/app/components/priority-badge.component.ts"],
+        "S5_regression_test": "apps/angular-app/src/app/features/tasks/tasks.component.spec.ts",
+        "S6_validacion": {
+          "suiteOk": true,
+          "failing": []
+        }
+      },
+      "firstFailingTestDetected": "suite failed (ver testsFailingInitially)",
+      "filesTouchedByScript": [
+        "apps/angular-app/src/app/components/priority-badge.component.ts",
+        "apps/angular-app/src/app/features/tasks/tasks.component.spec.ts"
+      ]
+    },
+    "D2:react": {
+      "bug": "D2",
+      "bugLabel": "servicio",
+      "app": "react",
+      "layers": 2,
+      "causeToSymptomDistance": 2,
+      "path": "presentacion -> servicio (filters)",
+      "distanceReason": "La UI (tasks) consume el contrato del filtro; la causa está en el servicio de filtrado; 2 capas (presentación -> servicio).",
+      "filesModified": ["apps/react-app/src/services/filters.test.ts"],
+      "filesInspected": [
+        "apps/react-app/src/features/tasks/tasks-page.tsx",
+        "apps/react-app/src/services/filters.ts",
+        "apps/react-app/src/services/filters.test.ts",
+        "apps/angular-app/src/app/features/tasks/tasks.component.ts",
+        "apps/angular-app/src/app/services/filters.ts"
+      ],
+      "loc": {
+        "added": 5,
+        "removed": 0,
+        "net": 5,
+        "perFile": ["apps/react-app/src/services/filters.ts"]
+      },
+      "testsFailingInitially": [
+        "\u001b[31m❯\u001b[39m src/services/filters.test.ts \u001b[2m(\u001b[22m\u001b[2m13 tests\u001b[22m\u001b[2m | \u001b[22m\u001b[31m2 failed\u001b[39m\u001b[2m)\u001b[22m\u001b[32m 8\u001b[2mms\u001b[22m\u001b[39m",
+        "\u001b[31m filters by priority\u001b[39m\u001b[32m 3\u001b[2mms\u001b[22m\u001b[39m",
+        "\u001b[31m TSK-LIST-2: combines status, priority and title search with AND\u001b[39m\u001b[32m 2\u001b[2mms\u001b[22m\u001b[39m",
+        "\u001b[31m❯\u001b[39m src/features/tasks/tasks-page.test.tsx \u001b[2m(\u001b[22m\u001b[2m10 tests\u001b[22m\u001b[2m | \u001b[22m\u001b[31m1 failed\u001b[39m\u001b[2m)\u001b[22m\u001b[33m 1276\u001b[2mms\u001b[22m\u001b[39m",
+        "\u001b[31m combines status, priority and title filters with AND (TSK-LIST-2)\u001b[39m\u001b[32m 289\u001b[2mms\u001b[22m\u001b[39m",
+        "\u001b[2m Test Files \u001b[22m \u001b[1m\u001b[31m2 failed\u001b[39m\u001b[22m\u001b[2m | \u001b[22m\u001b[1m\u001b[32m7 passed\u001b[39m\u001b[22m\u001b[90m (9)\u001b[39m",
+        "\u001b[2m      Tests \u001b[22m \u001b[1m\u001b[31m3 failed\u001b[39m\u001b[22m\u001b[2m | \u001b[22m\u001b[1m\u001b[32m81 passed\u001b[39m\u001b[22m\u001b[90m (84)\u001b[39m",
+        "react-app@0.1.0 test: `vitest run`",
+        "\u001b[22m\u001b[49m src/services/filters.test.ts\u001b[2m > \u001b[22mfilterTasks\u001b[2m > \u001b[22mfilters by priority",
+        "\u001b[22m\u001b[49m src/services/filters.test.ts\u001b[2m > \u001b[22mfilterTasks\u001b[2m > \u001b[22mTSK-LIST-2: combines status, priority and title search with AND"
+      ],
+      "testsFailingCount": 1,
+      "regressionTestsAdded": 1,
+      "testsAffectedIndirectly": 0,
+      "unrelatedFeaturesTouched": 0,
+      "domainFilesModified": [],
+      "blastRadius": 5,
+      "featuresAffected": ["tasks"],
+      "importsFeatureToFeature": 0,
+      "invariantsOk": true,
+      "invariantViolations": [],
+      "buildOk": true,
+      "typecheckOk": true,
+      "lintOk": true,
+      "formatOk": true,
+      "steps": {
+        "S1_bug_introducido": ["apps/react-app/src/services/filters.ts"],
+        "S2_bug_detectado": {
+          "suiteOk": false,
+          "failing": [
+            "\u001b[31m❯\u001b[39m src/services/filters.test.ts \u001b[2m(\u001b[22m\u001b[2m13 tests\u001b[22m\u001b[2m | \u001b[22m\u001b[31m2 failed\u001b[39m\u001b[2m)\u001b[22m\u001b[32m 8\u001b[2mms\u001b[22m\u001b[39m",
+            "\u001b[31m filters by priority\u001b[39m\u001b[32m 3\u001b[2mms\u001b[22m\u001b[39m",
+            "\u001b[31m TSK-LIST-2: combines status, priority and title search with AND\u001b[39m\u001b[32m 2\u001b[2mms\u001b[22m\u001b[39m",
+            "\u001b[31m❯\u001b[39m src/features/tasks/tasks-page.test.tsx \u001b[2m(\u001b[22m\u001b[2m10 tests\u001b[22m\u001b[2m | \u001b[22m\u001b[31m1 failed\u001b[39m\u001b[2m)\u001b[22m\u001b[33m 1276\u001b[2mms\u001b[22m\u001b[39m",
+            "\u001b[31m combines status, priority and title filters with AND (TSK-LIST-2)\u001b[39m\u001b[32m 289\u001b[2mms\u001b[22m\u001b[39m",
+            "\u001b[2m Test Files \u001b[22m \u001b[1m\u001b[31m2 failed\u001b[39m\u001b[22m\u001b[2m | \u001b[22m\u001b[1m\u001b[32m7 passed\u001b[39m\u001b[22m\u001b[90m (9)\u001b[39m",
+            "\u001b[2m      Tests \u001b[22m \u001b[1m\u001b[31m3 failed\u001b[39m\u001b[22m\u001b[2m | \u001b[22m\u001b[1m\u001b[32m81 passed\u001b[39m\u001b[22m\u001b[90m (84)\u001b[39m",
+            "react-app@0.1.0 test: `vitest run`",
+            "\u001b[22m\u001b[49m src/services/filters.test.ts\u001b[2m > \u001b[22mfilterTasks\u001b[2m > \u001b[22mfilters by priority",
+            "\u001b[22m\u001b[49m src/services/filters.test.ts\u001b[2m > \u001b[22mfilterTasks\u001b[2m > \u001b[22mTSK-LIST-2: combines status, priority and title search with AND"
+          ]
+        },
+        "S3_bug_localizado": {
+          "via": "grep de símbolo afectado (proxy estructural reproducible)",
+          "filesInspected": [
+            "apps/react-app/src/features/tasks/tasks-page.tsx",
+            "apps/react-app/src/services/filters.ts",
+            "apps/react-app/src/services/filters.test.ts",
+            "apps/angular-app/src/app/features/tasks/tasks.component.ts",
+            "apps/angular-app/src/app/services/filters.ts"
+          ]
+        },
+        "S4_fix_aplicado": ["apps/react-app/src/services/filters.ts"],
+        "S5_regression_test": "apps/react-app/src/services/filters.test.ts",
+        "S6_validacion": {
+          "suiteOk": true,
+          "failing": []
+        }
+      },
+      "firstFailingTestDetected": "suite failed (ver testsFailingInitially)",
+      "filesTouchedByScript": [
+        "apps/react-app/src/services/filters.ts",
+        "apps/react-app/src/services/filters.test.ts"
+      ]
+    },
+    "D2:angular": {
+      "bug": "D2",
+      "bugLabel": "servicio",
+      "app": "angular",
+      "layers": 2,
+      "causeToSymptomDistance": 2,
+      "path": "presentacion -> servicio (filters)",
+      "distanceReason": "La UI (tasks) consume el contrato del filtro; la causa está en el servicio de filtrado; 2 capas (presentación -> servicio).",
+      "filesModified": ["apps/angular-app/src/app/services/filters.spec.ts"],
+      "filesInspected": [
+        "apps/react-app/src/features/tasks/tasks-page.tsx",
+        "apps/react-app/src/services/filters.ts",
+        "apps/react-app/src/services/filters.test.ts",
+        "apps/angular-app/src/app/features/tasks/tasks.component.ts",
+        "apps/angular-app/src/app/services/filters.ts"
+      ],
+      "loc": {
+        "added": 11,
+        "removed": 0,
+        "net": 11,
+        "perFile": ["apps/angular-app/src/app/services/filters.ts"]
+      },
+      "testsFailingInitially": [
+        "\u001b[31m combines status and priority filters (TSK-LIST-2)\u001b[39m\u001b[32m 24\u001b[2mms\u001b[22m\u001b[39m",
+        "\u001b[2m Test Files \u001b[22m \u001b[1m\u001b[31m1 failed\u001b[39m\u001b[22m\u001b[2m | \u001b[22m\u001b[1m\u001b[32m7 passed\u001b[39m\u001b[22m\u001b[90m (8)\u001b[39m",
+        "\u001b[2m      Tests \u001b[22m \u001b[1m\u001b[31m1 failed\u001b[39m\u001b[22m\u001b[2m | \u001b[22m\u001b[1m\u001b[32m60 passed\u001b[39m\u001b[22m\u001b[90m (61)\u001b[39m",
+        "angular-app@0.1.0 test: `ng test --watch=false`"
+      ],
+      "testsFailingCount": 1,
+      "regressionTestsAdded": 1,
+      "testsAffectedIndirectly": 0,
+      "unrelatedFeaturesTouched": 0,
+      "domainFilesModified": [],
+      "blastRadius": 4,
+      "featuresAffected": [],
+      "importsFeatureToFeature": 0,
+      "invariantsOk": true,
+      "invariantViolations": [],
+      "buildOk": true,
+      "typecheckOk": true,
+      "lintOk": true,
+      "formatOk": true,
+      "steps": {
+        "S1_bug_introducido": ["apps/angular-app/src/app/services/filters.ts"],
+        "S2_bug_detectado": {
+          "suiteOk": false,
+          "failing": [
+            "\u001b[31m combines status and priority filters (TSK-LIST-2)\u001b[39m\u001b[32m 24\u001b[2mms\u001b[22m\u001b[39m",
+            "\u001b[2m Test Files \u001b[22m \u001b[1m\u001b[31m1 failed\u001b[39m\u001b[22m\u001b[2m | \u001b[22m\u001b[1m\u001b[32m7 passed\u001b[39m\u001b[22m\u001b[90m (8)\u001b[39m",
+            "\u001b[2m      Tests \u001b[22m \u001b[1m\u001b[31m1 failed\u001b[39m\u001b[22m\u001b[2m | \u001b[22m\u001b[1m\u001b[32m60 passed\u001b[39m\u001b[22m\u001b[90m (61)\u001b[39m",
+            "angular-app@0.1.0 test: `ng test --watch=false`"
+          ]
+        },
+        "S3_bug_localizado": {
+          "via": "grep de símbolo afectado (proxy estructural reproducible)",
+          "filesInspected": [
+            "apps/react-app/src/features/tasks/tasks-page.tsx",
+            "apps/react-app/src/services/filters.ts",
+            "apps/react-app/src/services/filters.test.ts",
+            "apps/angular-app/src/app/features/tasks/tasks.component.ts",
+            "apps/angular-app/src/app/services/filters.ts"
+          ]
+        },
+        "S4_fix_aplicado": ["apps/angular-app/src/app/services/filters.ts"],
+        "S5_regression_test": "apps/angular-app/src/app/services/filters.spec.ts",
+        "S6_validacion": {
+          "suiteOk": true,
+          "failing": []
+        }
+      },
+      "firstFailingTestDetected": "suite failed (ver testsFailingInitially)",
+      "filesTouchedByScript": [
+        "apps/angular-app/src/app/services/filters.ts",
+        "apps/angular-app/src/app/services/filters.spec.ts"
+      ]
+    },
+    "D3:react": {
+      "bug": "D3",
+      "bugLabel": "dominio",
+      "app": "react",
+      "layers": 3,
+      "causeToSymptomDistance": 3,
+      "path": "presentacion -> store -> dominio (transitions)",
+      "distanceReason": "El síntoma (transición inválida ofrecida en la UI) exige atravesar la feature, el store (que delega en canTransitionTask) y la regla de dominio; 3 capas.",
+      "filesModified": ["packages/domain/test/transitions.test.ts"],
+      "filesInspected": [
+        "apps/react-app/src/features/tasks/tasks-page.tsx",
+        "apps/react-app/src/components/transition-buttons.tsx",
+        "apps/react-app/src/services/domain-store.ts",
+        "apps/angular-app/src/app/features/tasks/tasks.component.ts",
+        "apps/angular-app/src/app/components/transition-buttons.component.ts",
+        "apps/angular-app/src/app/domain/domain.store.ts",
+        "packages/domain/test/transitions.test.ts",
+        "packages/domain/dist/src/transitions.d.ts",
+        "packages/domain/dist/src/index.d.ts",
+        "packages/domain/src/validation.ts",
+        "packages/domain/src/transitions.ts",
+        "packages/domain/src/index.ts"
+      ],
+      "loc": {
+        "added": 5,
+        "removed": 0,
+        "net": 5,
+        "perFile": ["packages/domain/src/transitions.ts"]
+      },
+      "testsFailingInitially": [
+        "\u001b[31m❯\u001b[39m test/validation.test.ts \u001b[2m(\u001b[22m\u001b[2m28 tests\u001b[22m\u001b[2m | \u001b[22m\u001b[31m1 failed\u001b[39m\u001b[2m)\u001b[22m\u001b[32m 7\u001b[2mms\u001b[22m\u001b[39m",
+        "\u001b[31m rejects an invalid status transition on edit\u001b[39m\u001b[32m 3\u001b[2mms\u001b[22m\u001b[39m",
+        "\u001b[31m❯\u001b[39m test/transitions.test.ts \u001b[2m(\u001b[22m\u001b[2m29 tests\u001b[22m\u001b[2m | \u001b[22m\u001b[31m2 failed\u001b[39m\u001b[2m)\u001b[22m\u001b[32m 13\u001b[2mms\u001b[22m\u001b[39m",
+        "\u001b[31m exposes exactly the documented transition map\u001b[39m\u001b[32m 5\u001b[2mms\u001b[22m\u001b[39m",
+        "\u001b[31m rejects todo -> completed\u001b[39m\u001b[32m 1\u001b[2mms\u001b[22m\u001b[39m",
+        "\u001b[2m Test Files \u001b[22m \u001b[1m\u001b[31m2 failed\u001b[39m\u001b[22m\u001b[2m | \u001b[22m\u001b[1m\u001b[32m3 passed\u001b[39m\u001b[22m\u001b[90m (5)\u001b[39m",
+        "\u001b[2m      Tests \u001b[22m \u001b[1m\u001b[31m3 failed\u001b[39m\u001b[22m\u001b[2m | \u001b[22m\u001b[1m\u001b[32m100 passed\u001b[39m\u001b[22m\u001b[90m (103)\u001b[39m",
+        "@operations-hub/domain@0.1.0 test: `vitest run`",
+        "\u001b[22m\u001b[49m test/transitions.test.ts\u001b[2m > \u001b[22mTask state machine (domain-model.md section 4.2)\u001b[2m > \u001b[22mexposes exactly the documented transition map",
+        "\u001b[22m\u001b[49m test/transitions.test.ts\u001b[2m > \u001b[22mTask state machine (domain-model.md section 4.2)\u001b[2m > \u001b[22mrejects todo -> completed",
+        "\u001b[22m\u001b[49m test/validation.test.ts\u001b[2m > \u001b[22mvalidateTaskInput\u001b[2m > \u001b[22mrejects an invalid status transition on edit"
+      ],
+      "testsFailingCount": 1,
+      "regressionTestsAdded": 1,
+      "testsAffectedIndirectly": 0,
+      "unrelatedFeaturesTouched": 0,
+      "domainFilesModified": ["packages/domain/test/transitions.test.ts"],
+      "blastRadius": 5,
+      "featuresAffected": [],
+      "importsFeatureToFeature": 0,
+      "invariantsOk": true,
+      "invariantViolations": [],
+      "buildOk": true,
+      "typecheckOk": true,
+      "lintOk": true,
+      "formatOk": true,
+      "steps": {
+        "S1_bug_introducido": ["packages/domain/src/transitions.ts"],
+        "S2_bug_detectado": {
+          "suiteOk": false,
+          "failing": [
+            "\u001b[31m❯\u001b[39m test/validation.test.ts \u001b[2m(\u001b[22m\u001b[2m28 tests\u001b[22m\u001b[2m | \u001b[22m\u001b[31m1 failed\u001b[39m\u001b[2m)\u001b[22m\u001b[32m 7\u001b[2mms\u001b[22m\u001b[39m",
+            "\u001b[31m rejects an invalid status transition on edit\u001b[39m\u001b[32m 3\u001b[2mms\u001b[22m\u001b[39m",
+            "\u001b[31m❯\u001b[39m test/transitions.test.ts \u001b[2m(\u001b[22m\u001b[2m29 tests\u001b[22m\u001b[2m | \u001b[22m\u001b[31m2 failed\u001b[39m\u001b[2m)\u001b[22m\u001b[32m 13\u001b[2mms\u001b[22m\u001b[39m",
+            "\u001b[31m exposes exactly the documented transition map\u001b[39m\u001b[32m 5\u001b[2mms\u001b[22m\u001b[39m",
+            "\u001b[31m rejects todo -> completed\u001b[39m\u001b[32m 1\u001b[2mms\u001b[22m\u001b[39m",
+            "\u001b[2m Test Files \u001b[22m \u001b[1m\u001b[31m2 failed\u001b[39m\u001b[22m\u001b[2m | \u001b[22m\u001b[1m\u001b[32m3 passed\u001b[39m\u001b[22m\u001b[90m (5)\u001b[39m",
+            "\u001b[2m      Tests \u001b[22m \u001b[1m\u001b[31m3 failed\u001b[39m\u001b[22m\u001b[2m | \u001b[22m\u001b[1m\u001b[32m100 passed\u001b[39m\u001b[22m\u001b[90m (103)\u001b[39m",
+            "@operations-hub/domain@0.1.0 test: `vitest run`",
+            "\u001b[22m\u001b[49m test/transitions.test.ts\u001b[2m > \u001b[22mTask state machine (domain-model.md section 4.2)\u001b[2m > \u001b[22mexposes exactly the documented transition map",
+            "\u001b[22m\u001b[49m test/transitions.test.ts\u001b[2m > \u001b[22mTask state machine (domain-model.md section 4.2)\u001b[2m > \u001b[22mrejects todo -> completed",
+            "\u001b[22m\u001b[49m test/validation.test.ts\u001b[2m > \u001b[22mvalidateTaskInput\u001b[2m > \u001b[22mrejects an invalid status transition on edit"
+          ]
+        },
+        "S3_bug_localizado": {
+          "via": "grep de símbolo afectado (proxy estructural reproducible)",
+          "filesInspected": [
+            "apps/react-app/src/features/tasks/tasks-page.tsx",
+            "apps/react-app/src/components/transition-buttons.tsx",
+            "apps/react-app/src/services/domain-store.ts",
+            "apps/angular-app/src/app/features/tasks/tasks.component.ts",
+            "apps/angular-app/src/app/components/transition-buttons.component.ts",
+            "apps/angular-app/src/app/domain/domain.store.ts",
+            "packages/domain/test/transitions.test.ts",
+            "packages/domain/dist/src/transitions.d.ts",
+            "packages/domain/dist/src/index.d.ts",
+            "packages/domain/src/validation.ts",
+            "packages/domain/src/transitions.ts",
+            "packages/domain/src/index.ts"
+          ]
+        },
+        "S4_fix_aplicado": ["packages/domain/src/transitions.ts"],
+        "S5_regression_test": "packages/domain/test/transitions.test.ts",
+        "S6_validacion": {
+          "suiteOk": true,
+          "failing": []
+        }
+      },
+      "firstFailingTestDetected": "suite failed (ver testsFailingInitially)",
+      "filesTouchedByScript": [
+        "packages/domain/src/transitions.ts",
+        "packages/domain/test/transitions.test.ts"
+      ]
+    },
+    "D3:angular": {
+      "bug": "D3",
+      "bugLabel": "dominio",
+      "app": "angular",
+      "layers": 3,
+      "causeToSymptomDistance": 3,
+      "path": "presentacion -> store -> dominio (transitions)",
+      "distanceReason": "El síntoma (transición inválida ofrecida en la UI) exige atravesar la feature, el store (que delega en canTransitionTask) y la regla de dominio; 3 capas.",
+      "filesModified": ["apps/angular-app/src/app/domain/domain.store.spec.ts"],
+      "filesInspected": [
+        "apps/react-app/src/features/tasks/tasks-page.tsx",
+        "apps/react-app/src/components/transition-buttons.tsx",
+        "apps/react-app/src/services/domain-store.ts",
+        "apps/angular-app/src/app/features/tasks/tasks.component.ts",
+        "apps/angular-app/src/app/components/transition-buttons.component.ts",
+        "apps/angular-app/src/app/domain/domain.store.ts",
+        "packages/domain/test/transitions.test.ts",
+        "packages/domain/dist/src/transitions.d.ts",
+        "packages/domain/dist/src/index.d.ts",
+        "packages/domain/src/validation.ts",
+        "packages/domain/src/transitions.ts",
+        "packages/domain/src/index.ts"
+      ],
+      "loc": {
+        "added": 6,
+        "removed": 0,
+        "net": 6,
+        "perFile": ["packages/domain/src/transitions.ts"]
+      },
+      "testsFailingInitially": [
+        "\u001b[31m does not offer invalid transitions (TSK-STATUS-2)\u001b[39m\u001b[32m 16\u001b[2mms\u001b[22m\u001b[39m",
+        "\u001b[2m Test Files \u001b[22m \u001b[1m\u001b[31m1 failed\u001b[39m\u001b[22m\u001b[2m | \u001b[22m\u001b[1m\u001b[32m7 passed\u001b[39m\u001b[22m\u001b[90m (8)\u001b[39m",
+        "\u001b[2m      Tests \u001b[22m \u001b[1m\u001b[31m1 failed\u001b[39m\u001b[22m\u001b[2m | \u001b[22m\u001b[1m\u001b[32m60 passed\u001b[39m\u001b[22m\u001b[90m (61)\u001b[39m",
+        "angular-app@0.1.0 test: `ng test --watch=false`"
+      ],
+      "testsFailingCount": 1,
+      "regressionTestsAdded": 1,
+      "testsAffectedIndirectly": 0,
+      "unrelatedFeaturesTouched": 0,
+      "domainFilesModified": [],
+      "blastRadius": 5,
+      "featuresAffected": [],
+      "importsFeatureToFeature": 0,
+      "invariantsOk": true,
+      "invariantViolations": [],
+      "buildOk": true,
+      "typecheckOk": true,
+      "lintOk": true,
+      "formatOk": true,
+      "steps": {
+        "S1_bug_introducido": ["packages/domain/src/transitions.ts"],
+        "S2_bug_detectado": {
+          "suiteOk": false,
+          "failing": [
+            "\u001b[31m does not offer invalid transitions (TSK-STATUS-2)\u001b[39m\u001b[32m 16\u001b[2mms\u001b[22m\u001b[39m",
+            "\u001b[2m Test Files \u001b[22m \u001b[1m\u001b[31m1 failed\u001b[39m\u001b[22m\u001b[2m | \u001b[22m\u001b[1m\u001b[32m7 passed\u001b[39m\u001b[22m\u001b[90m (8)\u001b[39m",
+            "\u001b[2m      Tests \u001b[22m \u001b[1m\u001b[31m1 failed\u001b[39m\u001b[22m\u001b[2m | \u001b[22m\u001b[1m\u001b[32m60 passed\u001b[39m\u001b[22m\u001b[90m (61)\u001b[39m",
+            "angular-app@0.1.0 test: `ng test --watch=false`"
+          ]
+        },
+        "S3_bug_localizado": {
+          "via": "grep de símbolo afectado (proxy estructural reproducible)",
+          "filesInspected": [
+            "apps/react-app/src/features/tasks/tasks-page.tsx",
+            "apps/react-app/src/components/transition-buttons.tsx",
+            "apps/react-app/src/services/domain-store.ts",
+            "apps/angular-app/src/app/features/tasks/tasks.component.ts",
+            "apps/angular-app/src/app/components/transition-buttons.component.ts",
+            "apps/angular-app/src/app/domain/domain.store.ts",
+            "packages/domain/test/transitions.test.ts",
+            "packages/domain/dist/src/transitions.d.ts",
+            "packages/domain/dist/src/index.d.ts",
+            "packages/domain/src/validation.ts",
+            "packages/domain/src/transitions.ts",
+            "packages/domain/src/index.ts"
+          ]
+        },
+        "S4_fix_aplicado": ["packages/domain/src/transitions.ts"],
+        "S5_regression_test": "apps/angular-app/src/app/domain/domain.store.spec.ts",
+        "S6_validacion": {
+          "suiteOk": true,
+          "failing": []
+        }
+      },
+      "firstFailingTestDetected": "suite failed (ver testsFailingInitially)",
+      "filesTouchedByScript": [
+        "packages/domain/src/transitions.ts",
+        "apps/angular-app/src/app/domain/domain.store.spec.ts"
+      ]
+    }
+  },
+  "hypotheses": {
+    "H111": "El coste estructural de debugging aumenta con la profundidad del bug",
+    "H112": "Los bugs de presentación presentan menor distancia causa -> síntoma que los de dominio",
+    "H113": "Los bugs de dominio afectan a más capas que los de presentación",
+    "H114": "El blast radius crece con la profundidad de la causa",
+    "H115": "React y Angular presentan costes estructurales comparables para bugs equivalentes",
+    "H116": "Las diferencias dependen más de la arquitectura/capa que del framework",
+    "H117": "Los tests reducen el espacio de búsqueda de forma medible",
+    "H118": "Un bug semántico de dominio no detectable por TS presenta mayor coste de localización",
+    "H119": "La distancia causa -> síntoma es más estable que LOC",
+    "H120": "Los bugs de dominio mantienen el aislamiento arquitectónico (0 imports feature->feature, 0 deps nuevas)"
+  }
+}

@@ -36,6 +36,7 @@
     "maintenance:runtime": "node scripts/measure-maintenance-runtime-phase14.mjs",
     "cpu:throttling": "node scripts/measure-cpu-throttling-phase15.mjs",
     "lighthouse:user-flows-throttled": "node scripts/run-lighthouse-user-flows-throttled-phase16.mjs",
+    "debugging:multilayer": "node scripts/measure-debugging-multilayer-phase17.mjs",
     "check": "pnpm lint && pnpm format:check && pnpm typecheck && pnpm test && pnpm build"
   },
   "devDependencies": {
