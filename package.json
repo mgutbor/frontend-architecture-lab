@@ -34,6 +34,7 @@
     "contracts:versioned": "node scripts/measure-versioned-contracts-phase12.mjs",
     "maintainability:measure": "node scripts/measure-maintainability-phase13.mjs",
     "maintenance:runtime": "node scripts/measure-maintenance-runtime-phase14.mjs",
+    "cpu:throttling": "node scripts/measure-cpu-throttling-phase15.mjs",
     "check": "pnpm lint && pnpm format:check && pnpm typecheck && pnpm test && pnpm build"
   },
   "devDependencies": {
