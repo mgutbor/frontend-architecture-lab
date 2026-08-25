@@ -38,6 +38,7 @@
     "lighthouse:user-flows-throttled": "node scripts/run-lighthouse-user-flows-throttled-phase16.mjs",
     "debugging:multilayer": "node scripts/measure-debugging-multilayer-phase17.mjs",
     "coupling:measure": "node scripts/measure-coupling-phase18.mjs",
+    "architecture:scalability": "node scripts/measure-architecture-scalability-phase19.mjs",
     "check": "pnpm lint && pnpm format:check && pnpm typecheck && pnpm test && pnpm build"
   },
   "devDependencies": {
