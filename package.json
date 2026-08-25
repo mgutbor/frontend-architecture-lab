@@ -33,6 +33,7 @@
     "domain:evolution": "node scripts/measure-domain-evolution-phase11.mjs",
     "contracts:versioned": "node scripts/measure-versioned-contracts-phase12.mjs",
     "maintainability:measure": "node scripts/measure-maintainability-phase13.mjs",
+    "maintenance:runtime": "node scripts/measure-maintenance-runtime-phase14.mjs",
     "check": "pnpm lint && pnpm format:check && pnpm typecheck && pnpm test && pnpm build"
   },
   "devDependencies": {
