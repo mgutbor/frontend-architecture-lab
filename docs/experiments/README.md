@@ -56,6 +56,7 @@ Este directorio contiene la documentación de cada experimento de arquitectura f
 - CPU throttling (degradación bajo CDP setCPUThrottlingRate 1×/4×/6×: Fase 15, `scripts/measure-cpu-throttling-phase15.mjs`)
 - Lighthouse user flows throttled (INP/TBT/MTW bajo CPU 1×/4×/6×: Fase 16, `scripts/run-lighthouse-user-flows-throttled-phase16.mjs`)
 - Debugging multilayer (coste estructural de localizar bugs D1/D2/D3: Fase 17, `scripts/measure-debugging-multilayer-phase17.mjs`)
+- Architectural coupling (blast radius y búsqueda bajo acoplamiento inducido feature→feature y duplicación de reglas: Fase 18, `scripts/measure-coupling-phase18.mjs`)
 - Web Components
 - Lit
 - Microfrontends
