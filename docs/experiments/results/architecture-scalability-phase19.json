@@ -8,34 +8,21 @@
       "totalFeatures": 5,
       "synthetic": 2,
       "edges": 1,
-      "chain": [
-        "catalog-01",
-        "catalog-02"
-      ]
+      "chain": ["catalog-01", "catalog-02"]
     },
     {
       "id": "S2",
       "totalFeatures": 10,
       "synthetic": 7,
       "edges": 2,
-      "chain": [
-        "catalog-01",
-        "catalog-02",
-        "catalog-03"
-      ]
+      "chain": ["catalog-01", "catalog-02", "catalog-03"]
     },
     {
       "id": "S3",
       "totalFeatures": 20,
       "synthetic": 17,
       "edges": 4,
-      "chain": [
-        "catalog-01",
-        "catalog-02",
-        "catalog-03",
-        "catalog-04",
-        "catalog-05"
-      ]
+      "chain": ["catalog-01", "catalog-02", "catalog-03", "catalog-04", "catalog-05"]
     },
     {
       "id": "S4",
@@ -2568,14 +2555,10 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/react-app/src/features/catalog-02/catalog-02-page.tsx"
-      ],
+      "filesChanged": ["apps/react-app/src/features/catalog-02/catalog-02-page.tsx"],
       "locAdded": 1,
       "locRemoved": 0,
-      "featuresAffected": [
-        "catalog-02"
-      ],
+      "featuresAffected": ["catalog-02"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
@@ -2622,14 +2605,10 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/angular-app/src/app/features/catalog-02/catalog-02.component.html"
-      ],
+      "filesChanged": ["apps/angular-app/src/app/features/catalog-02/catalog-02.component.html"],
       "locAdded": 1,
       "locRemoved": 0,
-      "featuresAffected": [
-        "catalog-02"
-      ],
+      "featuresAffected": ["catalog-02"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
@@ -2676,22 +2655,16 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/react-app/src/features/catalog-01/catalog-01-page.tsx"
-      ],
+      "filesChanged": ["apps/react-app/src/features/catalog-01/catalog-01-page.tsx"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
       "typecheckOk": true,
       "typecheckErrors": 0,
-      "testsFailing": [
-        "src/features/catalog-01/catalog-01-page.test.tsx"
-      ],
+      "testsFailing": ["src/features/catalog-01/catalog-01-page.test.tsx"],
       "testsFailingCount": 1,
       "regressionTestsNeeded": 1,
       "suiteOkAfter": true,
@@ -2732,22 +2705,16 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/angular-app/src/app/features/catalog-01/catalog-01.component.ts"
-      ],
+      "filesChanged": ["apps/angular-app/src/app/features/catalog-01/catalog-01.component.ts"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
       "typecheckOk": true,
       "typecheckErrors": 0,
-      "testsFailing": [
-        "src/app/features/catalog-01/catalog-01.component.spec.ts"
-      ],
+      "testsFailing": ["src/app/features/catalog-01/catalog-01.component.spec.ts"],
       "testsFailingCount": 1,
       "regressionTestsNeeded": 1,
       "suiteOkAfter": true,
@@ -2788,9 +2755,7 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "packages/domain/src/catalogs/shared.ts"
-      ],
+      "filesChanged": ["packages/domain/src/catalogs/shared.ts"],
       "locAdded": 2,
       "locRemoved": 2,
       "featuresAffected": [],
@@ -2844,9 +2809,7 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "packages/domain/src/catalogs/shared.ts"
-      ],
+      "filesChanged": ["packages/domain/src/catalogs/shared.ts"],
       "locAdded": 2,
       "locRemoved": 2,
       "featuresAffected": [],
@@ -2916,9 +2879,7 @@
       ],
       "locAdded": 6,
       "locRemoved": 395,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 13,
       "filesInspected": 12,
@@ -2995,9 +2956,7 @@
       ],
       "locAdded": 6,
       "locRemoved": 395,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 13,
       "filesInspected": 12,
@@ -3058,9 +3017,7 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "packages/domain/src/catalogs/shared.ts"
-      ],
+      "filesChanged": ["packages/domain/src/catalogs/shared.ts"],
       "locAdded": 1,
       "locRemoved": 1,
       "featuresAffected": [],
@@ -3117,9 +3074,7 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "packages/domain/src/catalogs/shared.ts"
-      ],
+      "filesChanged": ["packages/domain/src/catalogs/shared.ts"],
       "locAdded": 1,
       "locRemoved": 1,
       "featuresAffected": [],
@@ -3176,14 +3131,10 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/react-app/src/features/catalog-02/catalog-02-page.tsx"
-      ],
+      "filesChanged": ["apps/react-app/src/features/catalog-02/catalog-02-page.tsx"],
       "locAdded": 2,
       "locRemoved": 2,
-      "featuresAffected": [
-        "catalog-02"
-      ],
+      "featuresAffected": ["catalog-02"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
@@ -3236,9 +3187,7 @@
       ],
       "locAdded": 2,
       "locRemoved": 2,
-      "featuresAffected": [
-        "catalog-02"
-      ],
+      "featuresAffected": ["catalog-02"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 3,
       "filesInspected": 2,
@@ -3285,23 +3234,17 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/react-app/src/features/catalog-02/catalog-02-page.tsx"
-      ],
+      "filesChanged": ["apps/react-app/src/features/catalog-02/catalog-02-page.tsx"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-02"
-      ],
+      "featuresAffected": ["catalog-02"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
       "causeToSymptomDistance": 1,
       "typecheckOk": true,
       "typecheckErrors": 0,
-      "testsFailing": [
-        "src/features/catalog-02/catalog-02-page.test.tsx"
-      ],
+      "testsFailing": ["src/features/catalog-02/catalog-02-page.test.tsx"],
       "testsFailingCount": 1,
       "regressionTestsNeeded": 1,
       "suiteOkAfter": true,
@@ -3342,23 +3285,17 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/angular-app/src/app/features/catalog-02/catalog-02.component.ts"
-      ],
+      "filesChanged": ["apps/angular-app/src/app/features/catalog-02/catalog-02.component.ts"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-02"
-      ],
+      "featuresAffected": ["catalog-02"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
       "causeToSymptomDistance": 1,
       "typecheckOk": true,
       "typecheckErrors": 0,
-      "testsFailing": [
-        "src/app/features/catalog-02/catalog-02.component.spec.ts"
-      ],
+      "testsFailing": ["src/app/features/catalog-02/catalog-02.component.spec.ts"],
       "testsFailingCount": 1,
       "regressionTestsNeeded": 1,
       "suiteOkAfter": true,
@@ -3399,23 +3336,17 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/react-app/src/features/catalog-01/catalog-01-page.tsx"
-      ],
+      "filesChanged": ["apps/react-app/src/features/catalog-01/catalog-01-page.tsx"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
       "causeToSymptomDistance": 1,
       "typecheckOk": true,
       "typecheckErrors": 0,
-      "testsFailing": [
-        "src/features/catalog-01/catalog-01-page.test.tsx"
-      ],
+      "testsFailing": ["src/features/catalog-01/catalog-01-page.test.tsx"],
       "testsFailingCount": 1,
       "regressionTestsNeeded": 1,
       "suiteOkAfter": true,
@@ -3456,23 +3387,17 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/angular-app/src/app/features/catalog-01/catalog-01.component.ts"
-      ],
+      "filesChanged": ["apps/angular-app/src/app/features/catalog-01/catalog-01.component.ts"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
       "causeToSymptomDistance": 1,
       "typecheckOk": true,
       "typecheckErrors": 0,
-      "testsFailing": [
-        "src/app/features/catalog-01/catalog-01.component.spec.ts"
-      ],
+      "testsFailing": ["src/app/features/catalog-01/catalog-01.component.spec.ts"],
       "testsFailingCount": 1,
       "regressionTestsNeeded": 1,
       "suiteOkAfter": true,
@@ -3518,14 +3443,10 @@
         "rootTransitiveConsumers": 1,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/react-app/src/features/catalog-02/catalog-02-page.tsx"
-      ],
+      "filesChanged": ["apps/react-app/src/features/catalog-02/catalog-02-page.tsx"],
       "locAdded": 1,
       "locRemoved": 0,
-      "featuresAffected": [
-        "catalog-02"
-      ],
+      "featuresAffected": ["catalog-02"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
@@ -3577,14 +3498,10 @@
         "rootTransitiveConsumers": 1,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/angular-app/src/app/features/catalog-02/catalog-02.component.html"
-      ],
+      "filesChanged": ["apps/angular-app/src/app/features/catalog-02/catalog-02.component.html"],
       "locAdded": 1,
       "locRemoved": 0,
-      "featuresAffected": [
-        "catalog-02"
-      ],
+      "featuresAffected": ["catalog-02"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
@@ -3636,14 +3553,10 @@
         "rootTransitiveConsumers": 1,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/react-app/src/features/catalog-01/catalog-01-page.tsx"
-      ],
+      "filesChanged": ["apps/react-app/src/features/catalog-01/catalog-01-page.tsx"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
@@ -3698,14 +3611,10 @@
         "rootTransitiveConsumers": 1,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/angular-app/src/app/features/catalog-01/catalog-01.component.ts"
-      ],
+      "filesChanged": ["apps/angular-app/src/app/features/catalog-01/catalog-01.component.ts"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
@@ -3760,9 +3669,7 @@
         "rootTransitiveConsumers": 1,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "packages/domain/src/catalogs/shared.ts"
-      ],
+      "filesChanged": ["packages/domain/src/catalogs/shared.ts"],
       "locAdded": 2,
       "locRemoved": 2,
       "featuresAffected": [],
@@ -3821,9 +3728,7 @@
         "rootTransitiveConsumers": 1,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "packages/domain/src/catalogs/shared.ts"
-      ],
+      "filesChanged": ["packages/domain/src/catalogs/shared.ts"],
       "locAdded": 2,
       "locRemoved": 2,
       "featuresAffected": [],
@@ -3898,9 +3803,7 @@
       ],
       "locAdded": 6,
       "locRemoved": 395,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 13,
       "filesInspected": 12,
@@ -3982,9 +3885,7 @@
       ],
       "locAdded": 6,
       "locRemoved": 395,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 13,
       "filesInspected": 12,
@@ -4050,9 +3951,7 @@
         "rootTransitiveConsumers": 1,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "packages/domain/src/catalogs/shared.ts"
-      ],
+      "filesChanged": ["packages/domain/src/catalogs/shared.ts"],
       "locAdded": 1,
       "locRemoved": 1,
       "featuresAffected": [],
@@ -4114,9 +4013,7 @@
         "rootTransitiveConsumers": 1,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "packages/domain/src/catalogs/shared.ts"
-      ],
+      "filesChanged": ["packages/domain/src/catalogs/shared.ts"],
       "locAdded": 1,
       "locRemoved": 1,
       "featuresAffected": [],
@@ -4178,14 +4075,10 @@
         "rootTransitiveConsumers": 1,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/react-app/src/features/catalog-02/catalog-02-page.tsx"
-      ],
+      "filesChanged": ["apps/react-app/src/features/catalog-02/catalog-02-page.tsx"],
       "locAdded": 2,
       "locRemoved": 2,
-      "featuresAffected": [
-        "catalog-02"
-      ],
+      "featuresAffected": ["catalog-02"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
@@ -4243,9 +4136,7 @@
       ],
       "locAdded": 2,
       "locRemoved": 2,
-      "featuresAffected": [
-        "catalog-02"
-      ],
+      "featuresAffected": ["catalog-02"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 3,
       "filesInspected": 2,
@@ -4297,23 +4188,17 @@
         "rootTransitiveConsumers": 1,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/react-app/src/features/catalog-02/catalog-02-page.tsx"
-      ],
+      "filesChanged": ["apps/react-app/src/features/catalog-02/catalog-02-page.tsx"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-02"
-      ],
+      "featuresAffected": ["catalog-02"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
       "causeToSymptomDistance": 1,
       "typecheckOk": true,
       "typecheckErrors": 0,
-      "testsFailing": [
-        "src/features/catalog-02/catalog-02-page.test.tsx"
-      ],
+      "testsFailing": ["src/features/catalog-02/catalog-02-page.test.tsx"],
       "testsFailingCount": 1,
       "regressionTestsNeeded": 1,
       "suiteOkAfter": true,
@@ -4359,23 +4244,17 @@
         "rootTransitiveConsumers": 1,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/angular-app/src/app/features/catalog-02/catalog-02.component.ts"
-      ],
+      "filesChanged": ["apps/angular-app/src/app/features/catalog-02/catalog-02.component.ts"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-02"
-      ],
+      "featuresAffected": ["catalog-02"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
       "causeToSymptomDistance": 1,
       "typecheckOk": true,
       "typecheckErrors": 0,
-      "testsFailing": [
-        "src/app/features/catalog-02/catalog-02.component.spec.ts"
-      ],
+      "testsFailing": ["src/app/features/catalog-02/catalog-02.component.spec.ts"],
       "testsFailingCount": 1,
       "regressionTestsNeeded": 1,
       "suiteOkAfter": true,
@@ -4421,14 +4300,10 @@
         "rootTransitiveConsumers": 1,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/react-app/src/features/catalog-01/catalog-01-page.tsx"
-      ],
+      "filesChanged": ["apps/react-app/src/features/catalog-01/catalog-01-page.tsx"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 2,
@@ -4484,14 +4359,10 @@
         "rootTransitiveConsumers": 1,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/angular-app/src/app/features/catalog-01/catalog-01.component.ts"
-      ],
+      "filesChanged": ["apps/angular-app/src/app/features/catalog-01/catalog-01.component.ts"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 2,
@@ -4552,14 +4423,10 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/react-app/src/features/catalog-03/catalog-03-page.tsx"
-      ],
+      "filesChanged": ["apps/react-app/src/features/catalog-03/catalog-03-page.tsx"],
       "locAdded": 1,
       "locRemoved": 0,
-      "featuresAffected": [
-        "catalog-03"
-      ],
+      "featuresAffected": ["catalog-03"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
@@ -4616,14 +4483,10 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/angular-app/src/app/features/catalog-03/catalog-03.component.html"
-      ],
+      "filesChanged": ["apps/angular-app/src/app/features/catalog-03/catalog-03.component.html"],
       "locAdded": 1,
       "locRemoved": 0,
-      "featuresAffected": [
-        "catalog-03"
-      ],
+      "featuresAffected": ["catalog-03"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
@@ -4680,22 +4543,16 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/react-app/src/features/catalog-01/catalog-01-page.tsx"
-      ],
+      "filesChanged": ["apps/react-app/src/features/catalog-01/catalog-01-page.tsx"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
       "typecheckOk": true,
       "typecheckErrors": 0,
-      "testsFailing": [
-        "src/features/catalog-01/catalog-01-page.test.tsx"
-      ],
+      "testsFailing": ["src/features/catalog-01/catalog-01-page.test.tsx"],
       "testsFailingCount": 1,
       "regressionTestsNeeded": 1,
       "suiteOkAfter": true,
@@ -4746,22 +4603,16 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/angular-app/src/app/features/catalog-01/catalog-01.component.ts"
-      ],
+      "filesChanged": ["apps/angular-app/src/app/features/catalog-01/catalog-01.component.ts"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
       "typecheckOk": true,
       "typecheckErrors": 0,
-      "testsFailing": [
-        "src/app/features/catalog-01/catalog-01.component.spec.ts"
-      ],
+      "testsFailing": ["src/app/features/catalog-01/catalog-01.component.spec.ts"],
       "testsFailingCount": 1,
       "regressionTestsNeeded": 1,
       "suiteOkAfter": true,
@@ -4812,9 +4663,7 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "packages/domain/src/catalogs/shared.ts"
-      ],
+      "filesChanged": ["packages/domain/src/catalogs/shared.ts"],
       "locAdded": 2,
       "locRemoved": 2,
       "featuresAffected": [],
@@ -4883,9 +4732,7 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "packages/domain/src/catalogs/shared.ts"
-      ],
+      "filesChanged": ["packages/domain/src/catalogs/shared.ts"],
       "locAdded": 2,
       "locRemoved": 2,
       "featuresAffected": [],
@@ -4970,9 +4817,7 @@
       ],
       "locAdded": 6,
       "locRemoved": 395,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 13,
       "filesInspected": 12,
@@ -5059,9 +4904,7 @@
       ],
       "locAdded": 6,
       "locRemoved": 395,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 13,
       "filesInspected": 12,
@@ -5132,9 +4975,7 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "packages/domain/src/catalogs/shared.ts"
-      ],
+      "filesChanged": ["packages/domain/src/catalogs/shared.ts"],
       "locAdded": 1,
       "locRemoved": 1,
       "featuresAffected": [],
@@ -5211,9 +5052,7 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "packages/domain/src/catalogs/shared.ts"
-      ],
+      "filesChanged": ["packages/domain/src/catalogs/shared.ts"],
       "locAdded": 1,
       "locRemoved": 1,
       "featuresAffected": [],
@@ -5290,14 +5129,10 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/react-app/src/features/catalog-02/catalog-02-page.tsx"
-      ],
+      "filesChanged": ["apps/react-app/src/features/catalog-02/catalog-02-page.tsx"],
       "locAdded": 2,
       "locRemoved": 2,
-      "featuresAffected": [
-        "catalog-02"
-      ],
+      "featuresAffected": ["catalog-02"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
@@ -5360,9 +5195,7 @@
       ],
       "locAdded": 2,
       "locRemoved": 2,
-      "featuresAffected": [
-        "catalog-02"
-      ],
+      "featuresAffected": ["catalog-02"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 3,
       "filesInspected": 2,
@@ -5419,23 +5252,17 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/react-app/src/features/catalog-03/catalog-03-page.tsx"
-      ],
+      "filesChanged": ["apps/react-app/src/features/catalog-03/catalog-03-page.tsx"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-03"
-      ],
+      "featuresAffected": ["catalog-03"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
       "causeToSymptomDistance": 1,
       "typecheckOk": true,
       "typecheckErrors": 0,
-      "testsFailing": [
-        "src/features/catalog-03/catalog-03-page.test.tsx"
-      ],
+      "testsFailing": ["src/features/catalog-03/catalog-03-page.test.tsx"],
       "testsFailingCount": 1,
       "regressionTestsNeeded": 1,
       "suiteOkAfter": true,
@@ -5486,23 +5313,17 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/angular-app/src/app/features/catalog-03/catalog-03.component.ts"
-      ],
+      "filesChanged": ["apps/angular-app/src/app/features/catalog-03/catalog-03.component.ts"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-03"
-      ],
+      "featuresAffected": ["catalog-03"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
       "causeToSymptomDistance": 1,
       "typecheckOk": true,
       "typecheckErrors": 0,
-      "testsFailing": [
-        "src/app/features/catalog-03/catalog-03.component.spec.ts"
-      ],
+      "testsFailing": ["src/app/features/catalog-03/catalog-03.component.spec.ts"],
       "testsFailingCount": 1,
       "regressionTestsNeeded": 1,
       "suiteOkAfter": true,
@@ -5553,23 +5374,17 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/react-app/src/features/catalog-01/catalog-01-page.tsx"
-      ],
+      "filesChanged": ["apps/react-app/src/features/catalog-01/catalog-01-page.tsx"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
       "causeToSymptomDistance": 1,
       "typecheckOk": true,
       "typecheckErrors": 0,
-      "testsFailing": [
-        "src/features/catalog-01/catalog-01-page.test.tsx"
-      ],
+      "testsFailing": ["src/features/catalog-01/catalog-01-page.test.tsx"],
       "testsFailingCount": 1,
       "regressionTestsNeeded": 1,
       "suiteOkAfter": true,
@@ -5620,23 +5435,17 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/angular-app/src/app/features/catalog-01/catalog-01.component.ts"
-      ],
+      "filesChanged": ["apps/angular-app/src/app/features/catalog-01/catalog-01.component.ts"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
       "causeToSymptomDistance": 1,
       "typecheckOk": true,
       "typecheckErrors": 0,
-      "testsFailing": [
-        "src/app/features/catalog-01/catalog-01.component.spec.ts"
-      ],
+      "testsFailing": ["src/app/features/catalog-01/catalog-01.component.spec.ts"],
       "testsFailingCount": 1,
       "regressionTestsNeeded": 1,
       "suiteOkAfter": true,
@@ -5696,14 +5505,10 @@
         "rootTransitiveConsumers": 2,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/react-app/src/features/catalog-03/catalog-03-page.tsx"
-      ],
+      "filesChanged": ["apps/react-app/src/features/catalog-03/catalog-03-page.tsx"],
       "locAdded": 1,
       "locRemoved": 0,
-      "featuresAffected": [
-        "catalog-03"
-      ],
+      "featuresAffected": ["catalog-03"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
@@ -5769,14 +5574,10 @@
         "rootTransitiveConsumers": 2,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/angular-app/src/app/features/catalog-03/catalog-03.component.html"
-      ],
+      "filesChanged": ["apps/angular-app/src/app/features/catalog-03/catalog-03.component.html"],
       "locAdded": 1,
       "locRemoved": 0,
-      "featuresAffected": [
-        "catalog-03"
-      ],
+      "featuresAffected": ["catalog-03"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
@@ -5842,14 +5643,10 @@
         "rootTransitiveConsumers": 2,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/react-app/src/features/catalog-01/catalog-01-page.tsx"
-      ],
+      "filesChanged": ["apps/react-app/src/features/catalog-01/catalog-01-page.tsx"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
@@ -5919,14 +5716,10 @@
         "rootTransitiveConsumers": 2,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/angular-app/src/app/features/catalog-01/catalog-01.component.ts"
-      ],
+      "filesChanged": ["apps/angular-app/src/app/features/catalog-01/catalog-01.component.ts"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
@@ -5996,9 +5789,7 @@
         "rootTransitiveConsumers": 2,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "packages/domain/src/catalogs/shared.ts"
-      ],
+      "filesChanged": ["packages/domain/src/catalogs/shared.ts"],
       "locAdded": 2,
       "locRemoved": 2,
       "featuresAffected": [],
@@ -6076,9 +5867,7 @@
         "rootTransitiveConsumers": 2,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "packages/domain/src/catalogs/shared.ts"
-      ],
+      "filesChanged": ["packages/domain/src/catalogs/shared.ts"],
       "locAdded": 2,
       "locRemoved": 2,
       "featuresAffected": [],
@@ -6172,9 +5961,7 @@
       ],
       "locAdded": 6,
       "locRemoved": 395,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 13,
       "filesInspected": 12,
@@ -6270,9 +6057,7 @@
       ],
       "locAdded": 6,
       "locRemoved": 395,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 13,
       "filesInspected": 12,
@@ -6352,9 +6137,7 @@
         "rootTransitiveConsumers": 2,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "packages/domain/src/catalogs/shared.ts"
-      ],
+      "filesChanged": ["packages/domain/src/catalogs/shared.ts"],
       "locAdded": 1,
       "locRemoved": 1,
       "featuresAffected": [],
@@ -6440,9 +6223,7 @@
         "rootTransitiveConsumers": 2,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "packages/domain/src/catalogs/shared.ts"
-      ],
+      "filesChanged": ["packages/domain/src/catalogs/shared.ts"],
       "locAdded": 1,
       "locRemoved": 1,
       "featuresAffected": [],
@@ -6528,14 +6309,10 @@
         "rootTransitiveConsumers": 2,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/react-app/src/features/catalog-02/catalog-02-page.tsx"
-      ],
+      "filesChanged": ["apps/react-app/src/features/catalog-02/catalog-02-page.tsx"],
       "locAdded": 2,
       "locRemoved": 2,
-      "featuresAffected": [
-        "catalog-02"
-      ],
+      "featuresAffected": ["catalog-02"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
@@ -6607,9 +6384,7 @@
       ],
       "locAdded": 2,
       "locRemoved": 2,
-      "featuresAffected": [
-        "catalog-02"
-      ],
+      "featuresAffected": ["catalog-02"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 3,
       "filesInspected": 2,
@@ -6675,23 +6450,17 @@
         "rootTransitiveConsumers": 2,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/react-app/src/features/catalog-03/catalog-03-page.tsx"
-      ],
+      "filesChanged": ["apps/react-app/src/features/catalog-03/catalog-03-page.tsx"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-03"
-      ],
+      "featuresAffected": ["catalog-03"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
       "causeToSymptomDistance": 1,
       "typecheckOk": true,
       "typecheckErrors": 0,
-      "testsFailing": [
-        "src/features/catalog-03/catalog-03-page.test.tsx"
-      ],
+      "testsFailing": ["src/features/catalog-03/catalog-03-page.test.tsx"],
       "testsFailingCount": 1,
       "regressionTestsNeeded": 1,
       "suiteOkAfter": true,
@@ -6751,23 +6520,17 @@
         "rootTransitiveConsumers": 2,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/angular-app/src/app/features/catalog-03/catalog-03.component.ts"
-      ],
+      "filesChanged": ["apps/angular-app/src/app/features/catalog-03/catalog-03.component.ts"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-03"
-      ],
+      "featuresAffected": ["catalog-03"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
       "causeToSymptomDistance": 1,
       "typecheckOk": true,
       "typecheckErrors": 0,
-      "testsFailing": [
-        "src/app/features/catalog-03/catalog-03.component.spec.ts"
-      ],
+      "testsFailing": ["src/app/features/catalog-03/catalog-03.component.spec.ts"],
       "testsFailingCount": 1,
       "regressionTestsNeeded": 1,
       "suiteOkAfter": true,
@@ -6827,14 +6590,10 @@
         "rootTransitiveConsumers": 2,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/react-app/src/features/catalog-01/catalog-01-page.tsx"
-      ],
+      "filesChanged": ["apps/react-app/src/features/catalog-01/catalog-01-page.tsx"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 2,
@@ -6905,14 +6664,10 @@
         "rootTransitiveConsumers": 2,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/angular-app/src/app/features/catalog-01/catalog-01.component.ts"
-      ],
+      "filesChanged": ["apps/angular-app/src/app/features/catalog-01/catalog-01.component.ts"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 2,
@@ -6994,14 +6749,10 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/react-app/src/features/catalog-05/catalog-05-page.tsx"
-      ],
+      "filesChanged": ["apps/react-app/src/features/catalog-05/catalog-05-page.tsx"],
       "locAdded": 1,
       "locRemoved": 0,
-      "featuresAffected": [
-        "catalog-05"
-      ],
+      "featuresAffected": ["catalog-05"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
@@ -7078,14 +6829,10 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/angular-app/src/app/features/catalog-05/catalog-05.component.html"
-      ],
+      "filesChanged": ["apps/angular-app/src/app/features/catalog-05/catalog-05.component.html"],
       "locAdded": 1,
       "locRemoved": 0,
-      "featuresAffected": [
-        "catalog-05"
-      ],
+      "featuresAffected": ["catalog-05"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
@@ -7162,22 +6909,16 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/react-app/src/features/catalog-01/catalog-01-page.tsx"
-      ],
+      "filesChanged": ["apps/react-app/src/features/catalog-01/catalog-01-page.tsx"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
       "typecheckOk": true,
       "typecheckErrors": 0,
-      "testsFailing": [
-        "src/features/catalog-01/catalog-01-page.test.tsx"
-      ],
+      "testsFailing": ["src/features/catalog-01/catalog-01-page.test.tsx"],
       "testsFailingCount": 1,
       "regressionTestsNeeded": 1,
       "suiteOkAfter": true,
@@ -7248,22 +6989,16 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/angular-app/src/app/features/catalog-01/catalog-01.component.ts"
-      ],
+      "filesChanged": ["apps/angular-app/src/app/features/catalog-01/catalog-01.component.ts"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
       "typecheckOk": true,
       "typecheckErrors": 0,
-      "testsFailing": [
-        "src/app/features/catalog-01/catalog-01.component.spec.ts"
-      ],
+      "testsFailing": ["src/app/features/catalog-01/catalog-01.component.spec.ts"],
       "testsFailingCount": 1,
       "regressionTestsNeeded": 1,
       "suiteOkAfter": true,
@@ -7334,9 +7069,7 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "packages/domain/src/catalogs/shared.ts"
-      ],
+      "filesChanged": ["packages/domain/src/catalogs/shared.ts"],
       "locAdded": 2,
       "locRemoved": 2,
       "featuresAffected": [],
@@ -7435,9 +7168,7 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "packages/domain/src/catalogs/shared.ts"
-      ],
+      "filesChanged": ["packages/domain/src/catalogs/shared.ts"],
       "locAdded": 2,
       "locRemoved": 2,
       "featuresAffected": [],
@@ -7552,9 +7283,7 @@
       ],
       "locAdded": 6,
       "locRemoved": 395,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 13,
       "filesInspected": 12,
@@ -7661,9 +7390,7 @@
       ],
       "locAdded": 6,
       "locRemoved": 395,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 13,
       "filesInspected": 12,
@@ -7754,9 +7481,7 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "packages/domain/src/catalogs/shared.ts"
-      ],
+      "filesChanged": ["packages/domain/src/catalogs/shared.ts"],
       "locAdded": 1,
       "locRemoved": 1,
       "featuresAffected": [],
@@ -7873,9 +7598,7 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "packages/domain/src/catalogs/shared.ts"
-      ],
+      "filesChanged": ["packages/domain/src/catalogs/shared.ts"],
       "locAdded": 1,
       "locRemoved": 1,
       "featuresAffected": [],
@@ -7992,14 +7715,10 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/react-app/src/features/catalog-02/catalog-02-page.tsx"
-      ],
+      "filesChanged": ["apps/react-app/src/features/catalog-02/catalog-02-page.tsx"],
       "locAdded": 2,
       "locRemoved": 2,
-      "featuresAffected": [
-        "catalog-02"
-      ],
+      "featuresAffected": ["catalog-02"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
@@ -8082,9 +7801,7 @@
       ],
       "locAdded": 2,
       "locRemoved": 2,
-      "featuresAffected": [
-        "catalog-02"
-      ],
+      "featuresAffected": ["catalog-02"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 3,
       "filesInspected": 2,
@@ -8161,23 +7878,17 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/react-app/src/features/catalog-05/catalog-05-page.tsx"
-      ],
+      "filesChanged": ["apps/react-app/src/features/catalog-05/catalog-05-page.tsx"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-05"
-      ],
+      "featuresAffected": ["catalog-05"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
       "causeToSymptomDistance": 1,
       "typecheckOk": true,
       "typecheckErrors": 0,
-      "testsFailing": [
-        "src/features/catalog-05/catalog-05-page.test.tsx"
-      ],
+      "testsFailing": ["src/features/catalog-05/catalog-05-page.test.tsx"],
       "testsFailingCount": 1,
       "regressionTestsNeeded": 1,
       "suiteOkAfter": true,
@@ -8248,23 +7959,17 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/angular-app/src/app/features/catalog-05/catalog-05.component.ts"
-      ],
+      "filesChanged": ["apps/angular-app/src/app/features/catalog-05/catalog-05.component.ts"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-05"
-      ],
+      "featuresAffected": ["catalog-05"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
       "causeToSymptomDistance": 1,
       "typecheckOk": true,
       "typecheckErrors": 0,
-      "testsFailing": [
-        "src/app/features/catalog-05/catalog-05.component.spec.ts"
-      ],
+      "testsFailing": ["src/app/features/catalog-05/catalog-05.component.spec.ts"],
       "testsFailingCount": 1,
       "regressionTestsNeeded": 1,
       "suiteOkAfter": true,
@@ -8335,23 +8040,17 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/react-app/src/features/catalog-01/catalog-01-page.tsx"
-      ],
+      "filesChanged": ["apps/react-app/src/features/catalog-01/catalog-01-page.tsx"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
       "causeToSymptomDistance": 1,
       "typecheckOk": true,
       "typecheckErrors": 0,
-      "testsFailing": [
-        "src/features/catalog-01/catalog-01-page.test.tsx"
-      ],
+      "testsFailing": ["src/features/catalog-01/catalog-01-page.test.tsx"],
       "testsFailingCount": 1,
       "regressionTestsNeeded": 1,
       "suiteOkAfter": true,
@@ -8422,23 +8121,17 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/angular-app/src/app/features/catalog-01/catalog-01.component.ts"
-      ],
+      "filesChanged": ["apps/angular-app/src/app/features/catalog-01/catalog-01.component.ts"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
       "causeToSymptomDistance": 1,
       "typecheckOk": true,
       "typecheckErrors": 0,
-      "testsFailing": [
-        "src/app/features/catalog-01/catalog-01.component.spec.ts"
-      ],
+      "testsFailing": ["src/app/features/catalog-01/catalog-01.component.spec.ts"],
       "testsFailingCount": 1,
       "regressionTestsNeeded": 1,
       "suiteOkAfter": true,
@@ -8526,14 +8219,10 @@
         "rootTransitiveConsumers": 4,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/react-app/src/features/catalog-05/catalog-05-page.tsx"
-      ],
+      "filesChanged": ["apps/react-app/src/features/catalog-05/catalog-05-page.tsx"],
       "locAdded": 1,
       "locRemoved": 0,
-      "featuresAffected": [
-        "catalog-05"
-      ],
+      "featuresAffected": ["catalog-05"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
@@ -8627,14 +8316,10 @@
         "rootTransitiveConsumers": 4,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/angular-app/src/app/features/catalog-05/catalog-05.component.html"
-      ],
+      "filesChanged": ["apps/angular-app/src/app/features/catalog-05/catalog-05.component.html"],
       "locAdded": 1,
       "locRemoved": 0,
-      "featuresAffected": [
-        "catalog-05"
-      ],
+      "featuresAffected": ["catalog-05"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
@@ -8728,14 +8413,10 @@
         "rootTransitiveConsumers": 4,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/react-app/src/features/catalog-01/catalog-01-page.tsx"
-      ],
+      "filesChanged": ["apps/react-app/src/features/catalog-01/catalog-01-page.tsx"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
@@ -8835,14 +8516,10 @@
         "rootTransitiveConsumers": 4,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/angular-app/src/app/features/catalog-01/catalog-01.component.ts"
-      ],
+      "filesChanged": ["apps/angular-app/src/app/features/catalog-01/catalog-01.component.ts"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
@@ -8942,9 +8619,7 @@
         "rootTransitiveConsumers": 4,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "packages/domain/src/catalogs/shared.ts"
-      ],
+      "filesChanged": ["packages/domain/src/catalogs/shared.ts"],
       "locAdded": 2,
       "locRemoved": 2,
       "featuresAffected": [],
@@ -9060,9 +8735,7 @@
         "rootTransitiveConsumers": 4,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "packages/domain/src/catalogs/shared.ts"
-      ],
+      "filesChanged": ["packages/domain/src/catalogs/shared.ts"],
       "locAdded": 2,
       "locRemoved": 2,
       "featuresAffected": [],
@@ -9194,9 +8867,7 @@
       ],
       "locAdded": 6,
       "locRemoved": 395,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 13,
       "filesInspected": 12,
@@ -9320,9 +8991,7 @@
       ],
       "locAdded": 6,
       "locRemoved": 395,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 13,
       "filesInspected": 12,
@@ -9430,9 +9099,7 @@
         "rootTransitiveConsumers": 4,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "packages/domain/src/catalogs/shared.ts"
-      ],
+      "filesChanged": ["packages/domain/src/catalogs/shared.ts"],
       "locAdded": 1,
       "locRemoved": 1,
       "featuresAffected": [],
@@ -9566,9 +9233,7 @@
         "rootTransitiveConsumers": 4,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "packages/domain/src/catalogs/shared.ts"
-      ],
+      "filesChanged": ["packages/domain/src/catalogs/shared.ts"],
       "locAdded": 1,
       "locRemoved": 1,
       "featuresAffected": [],
@@ -9702,14 +9367,10 @@
         "rootTransitiveConsumers": 4,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/react-app/src/features/catalog-02/catalog-02-page.tsx"
-      ],
+      "filesChanged": ["apps/react-app/src/features/catalog-02/catalog-02-page.tsx"],
       "locAdded": 2,
       "locRemoved": 2,
-      "featuresAffected": [
-        "catalog-02"
-      ],
+      "featuresAffected": ["catalog-02"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
@@ -9809,9 +9470,7 @@
       ],
       "locAdded": 2,
       "locRemoved": 2,
-      "featuresAffected": [
-        "catalog-02"
-      ],
+      "featuresAffected": ["catalog-02"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 3,
       "filesInspected": 2,
@@ -9905,23 +9564,17 @@
         "rootTransitiveConsumers": 4,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/react-app/src/features/catalog-05/catalog-05-page.tsx"
-      ],
+      "filesChanged": ["apps/react-app/src/features/catalog-05/catalog-05-page.tsx"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-05"
-      ],
+      "featuresAffected": ["catalog-05"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
       "causeToSymptomDistance": 1,
       "typecheckOk": true,
       "typecheckErrors": 0,
-      "testsFailing": [
-        "src/features/catalog-05/catalog-05-page.test.tsx"
-      ],
+      "testsFailing": ["src/features/catalog-05/catalog-05-page.test.tsx"],
       "testsFailingCount": 1,
       "regressionTestsNeeded": 1,
       "suiteOkAfter": true,
@@ -10009,23 +9662,17 @@
         "rootTransitiveConsumers": 4,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/angular-app/src/app/features/catalog-05/catalog-05.component.ts"
-      ],
+      "filesChanged": ["apps/angular-app/src/app/features/catalog-05/catalog-05.component.ts"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-05"
-      ],
+      "featuresAffected": ["catalog-05"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
       "causeToSymptomDistance": 1,
       "typecheckOk": true,
       "typecheckErrors": 0,
-      "testsFailing": [
-        "src/app/features/catalog-05/catalog-05.component.spec.ts"
-      ],
+      "testsFailing": ["src/app/features/catalog-05/catalog-05.component.spec.ts"],
       "testsFailingCount": 1,
       "regressionTestsNeeded": 1,
       "suiteOkAfter": true,
@@ -10113,14 +9760,10 @@
         "rootTransitiveConsumers": 4,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/react-app/src/features/catalog-01/catalog-01-page.tsx"
-      ],
+      "filesChanged": ["apps/react-app/src/features/catalog-01/catalog-01-page.tsx"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 2,
@@ -10221,14 +9864,10 @@
         "rootTransitiveConsumers": 4,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/angular-app/src/app/features/catalog-01/catalog-01.component.ts"
-      ],
+      "filesChanged": ["apps/angular-app/src/app/features/catalog-01/catalog-01.component.ts"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 2,
@@ -10332,14 +9971,10 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/react-app/src/features/catalog-07/catalog-07-page.tsx"
-      ],
+      "filesChanged": ["apps/react-app/src/features/catalog-07/catalog-07-page.tsx"],
       "locAdded": 1,
       "locRemoved": 0,
-      "featuresAffected": [
-        "catalog-07"
-      ],
+      "featuresAffected": ["catalog-07"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
@@ -10436,14 +10071,10 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/angular-app/src/app/features/catalog-07/catalog-07.component.html"
-      ],
+      "filesChanged": ["apps/angular-app/src/app/features/catalog-07/catalog-07.component.html"],
       "locAdded": 1,
       "locRemoved": 0,
-      "featuresAffected": [
-        "catalog-07"
-      ],
+      "featuresAffected": ["catalog-07"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
@@ -10540,22 +10171,16 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/react-app/src/features/catalog-01/catalog-01-page.tsx"
-      ],
+      "filesChanged": ["apps/react-app/src/features/catalog-01/catalog-01-page.tsx"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
       "typecheckOk": true,
       "typecheckErrors": 0,
-      "testsFailing": [
-        "src/features/catalog-01/catalog-01-page.test.tsx"
-      ],
+      "testsFailing": ["src/features/catalog-01/catalog-01-page.test.tsx"],
       "testsFailingCount": 1,
       "regressionTestsNeeded": 1,
       "suiteOkAfter": true,
@@ -10646,22 +10271,16 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/angular-app/src/app/features/catalog-01/catalog-01.component.ts"
-      ],
+      "filesChanged": ["apps/angular-app/src/app/features/catalog-01/catalog-01.component.ts"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
       "typecheckOk": true,
       "typecheckErrors": 0,
-      "testsFailing": [
-        "src/app/features/catalog-01/catalog-01.component.spec.ts"
-      ],
+      "testsFailing": ["src/app/features/catalog-01/catalog-01.component.spec.ts"],
       "testsFailingCount": 1,
       "regressionTestsNeeded": 1,
       "suiteOkAfter": true,
@@ -10752,9 +10371,7 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "packages/domain/src/catalogs/shared.ts"
-      ],
+      "filesChanged": ["packages/domain/src/catalogs/shared.ts"],
       "locAdded": 2,
       "locRemoved": 2,
       "featuresAffected": [],
@@ -10883,9 +10500,7 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "packages/domain/src/catalogs/shared.ts"
-      ],
+      "filesChanged": ["packages/domain/src/catalogs/shared.ts"],
       "locAdded": 2,
       "locRemoved": 2,
       "featuresAffected": [],
@@ -11030,9 +10645,7 @@
       ],
       "locAdded": 6,
       "locRemoved": 395,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 13,
       "filesInspected": 12,
@@ -11159,9 +10772,7 @@
       ],
       "locAdded": 6,
       "locRemoved": 395,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 13,
       "filesInspected": 12,
@@ -11272,9 +10883,7 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "packages/domain/src/catalogs/shared.ts"
-      ],
+      "filesChanged": ["packages/domain/src/catalogs/shared.ts"],
       "locAdded": 1,
       "locRemoved": 1,
       "featuresAffected": [],
@@ -11431,9 +11040,7 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "packages/domain/src/catalogs/shared.ts"
-      ],
+      "filesChanged": ["packages/domain/src/catalogs/shared.ts"],
       "locAdded": 1,
       "locRemoved": 1,
       "featuresAffected": [],
@@ -11590,14 +11197,10 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/react-app/src/features/catalog-02/catalog-02-page.tsx"
-      ],
+      "filesChanged": ["apps/react-app/src/features/catalog-02/catalog-02-page.tsx"],
       "locAdded": 2,
       "locRemoved": 2,
-      "featuresAffected": [
-        "catalog-02"
-      ],
+      "featuresAffected": ["catalog-02"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
@@ -11700,9 +11303,7 @@
       ],
       "locAdded": 2,
       "locRemoved": 2,
-      "featuresAffected": [
-        "catalog-02"
-      ],
+      "featuresAffected": ["catalog-02"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 3,
       "filesInspected": 2,
@@ -11799,23 +11400,17 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/react-app/src/features/catalog-07/catalog-07-page.tsx"
-      ],
+      "filesChanged": ["apps/react-app/src/features/catalog-07/catalog-07-page.tsx"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-07"
-      ],
+      "featuresAffected": ["catalog-07"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
       "causeToSymptomDistance": 1,
       "typecheckOk": true,
       "typecheckErrors": 0,
-      "testsFailing": [
-        "src/features/catalog-07/catalog-07-page.test.tsx"
-      ],
+      "testsFailing": ["src/features/catalog-07/catalog-07-page.test.tsx"],
       "testsFailingCount": 1,
       "regressionTestsNeeded": 1,
       "suiteOkAfter": true,
@@ -11906,23 +11501,17 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/angular-app/src/app/features/catalog-07/catalog-07.component.ts"
-      ],
+      "filesChanged": ["apps/angular-app/src/app/features/catalog-07/catalog-07.component.ts"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-07"
-      ],
+      "featuresAffected": ["catalog-07"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
       "causeToSymptomDistance": 1,
       "typecheckOk": true,
       "typecheckErrors": 0,
-      "testsFailing": [
-        "src/app/features/catalog-07/catalog-07.component.spec.ts"
-      ],
+      "testsFailing": ["src/app/features/catalog-07/catalog-07.component.spec.ts"],
       "testsFailingCount": 1,
       "regressionTestsNeeded": 1,
       "suiteOkAfter": true,
@@ -12013,23 +11602,17 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/react-app/src/features/catalog-01/catalog-01-page.tsx"
-      ],
+      "filesChanged": ["apps/react-app/src/features/catalog-01/catalog-01-page.tsx"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
       "causeToSymptomDistance": 1,
       "typecheckOk": true,
       "typecheckErrors": 0,
-      "testsFailing": [
-        "src/features/catalog-01/catalog-01-page.test.tsx"
-      ],
+      "testsFailing": ["src/features/catalog-01/catalog-01-page.test.tsx"],
       "testsFailingCount": 1,
       "regressionTestsNeeded": 1,
       "suiteOkAfter": true,
@@ -12120,23 +11703,17 @@
         "rootTransitiveConsumers": 0,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/angular-app/src/app/features/catalog-01/catalog-01.component.ts"
-      ],
+      "filesChanged": ["apps/angular-app/src/app/features/catalog-01/catalog-01.component.ts"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
       "causeToSymptomDistance": 1,
       "typecheckOk": true,
       "typecheckErrors": 0,
-      "testsFailing": [
-        "src/app/features/catalog-01/catalog-01.component.spec.ts"
-      ],
+      "testsFailing": ["src/app/features/catalog-01/catalog-01.component.spec.ts"],
       "testsFailingCount": 1,
       "regressionTestsNeeded": 1,
       "suiteOkAfter": true,
@@ -12252,14 +11829,10 @@
         "rootTransitiveConsumers": 6,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/react-app/src/features/catalog-07/catalog-07-page.tsx"
-      ],
+      "filesChanged": ["apps/react-app/src/features/catalog-07/catalog-07-page.tsx"],
       "locAdded": 1,
       "locRemoved": 0,
-      "featuresAffected": [
-        "catalog-07"
-      ],
+      "featuresAffected": ["catalog-07"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
@@ -12381,14 +11954,10 @@
         "rootTransitiveConsumers": 6,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/angular-app/src/app/features/catalog-07/catalog-07.component.html"
-      ],
+      "filesChanged": ["apps/angular-app/src/app/features/catalog-07/catalog-07.component.html"],
       "locAdded": 1,
       "locRemoved": 0,
-      "featuresAffected": [
-        "catalog-07"
-      ],
+      "featuresAffected": ["catalog-07"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
@@ -12510,14 +12079,10 @@
         "rootTransitiveConsumers": 6,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/react-app/src/features/catalog-01/catalog-01-page.tsx"
-      ],
+      "filesChanged": ["apps/react-app/src/features/catalog-01/catalog-01-page.tsx"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
@@ -12647,14 +12212,10 @@
         "rootTransitiveConsumers": 6,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/angular-app/src/app/features/catalog-01/catalog-01.component.ts"
-      ],
+      "filesChanged": ["apps/angular-app/src/app/features/catalog-01/catalog-01.component.ts"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
@@ -12784,9 +12345,7 @@
         "rootTransitiveConsumers": 6,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "packages/domain/src/catalogs/shared.ts"
-      ],
+      "filesChanged": ["packages/domain/src/catalogs/shared.ts"],
       "locAdded": 2,
       "locRemoved": 2,
       "featuresAffected": [],
@@ -12940,9 +12499,7 @@
         "rootTransitiveConsumers": 6,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "packages/domain/src/catalogs/shared.ts"
-      ],
+      "filesChanged": ["packages/domain/src/catalogs/shared.ts"],
       "locAdded": 2,
       "locRemoved": 2,
       "featuresAffected": [],
@@ -13112,9 +12669,7 @@
       ],
       "locAdded": 6,
       "locRemoved": 395,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 13,
       "filesInspected": 12,
@@ -13266,9 +12821,7 @@
       ],
       "locAdded": 6,
       "locRemoved": 395,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 13,
       "filesInspected": 12,
@@ -13404,9 +12957,7 @@
         "rootTransitiveConsumers": 6,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "packages/domain/src/catalogs/shared.ts"
-      ],
+      "filesChanged": ["packages/domain/src/catalogs/shared.ts"],
       "locAdded": 1,
       "locRemoved": 1,
       "featuresAffected": [],
@@ -13588,9 +13139,7 @@
         "rootTransitiveConsumers": 6,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "packages/domain/src/catalogs/shared.ts"
-      ],
+      "filesChanged": ["packages/domain/src/catalogs/shared.ts"],
       "locAdded": 1,
       "locRemoved": 1,
       "featuresAffected": [],
@@ -13772,14 +13321,10 @@
         "rootTransitiveConsumers": 6,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/react-app/src/features/catalog-02/catalog-02-page.tsx"
-      ],
+      "filesChanged": ["apps/react-app/src/features/catalog-02/catalog-02-page.tsx"],
       "locAdded": 2,
       "locRemoved": 2,
-      "featuresAffected": [
-        "catalog-02"
-      ],
+      "featuresAffected": ["catalog-02"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
@@ -13907,9 +13452,7 @@
       ],
       "locAdded": 2,
       "locRemoved": 2,
-      "featuresAffected": [
-        "catalog-02"
-      ],
+      "featuresAffected": ["catalog-02"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 3,
       "filesInspected": 2,
@@ -14031,23 +13574,17 @@
         "rootTransitiveConsumers": 6,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/react-app/src/features/catalog-07/catalog-07-page.tsx"
-      ],
+      "filesChanged": ["apps/react-app/src/features/catalog-07/catalog-07-page.tsx"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-07"
-      ],
+      "featuresAffected": ["catalog-07"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
       "causeToSymptomDistance": 1,
       "typecheckOk": true,
       "typecheckErrors": 0,
-      "testsFailing": [
-        "src/features/catalog-07/catalog-07-page.test.tsx"
-      ],
+      "testsFailing": ["src/features/catalog-07/catalog-07-page.test.tsx"],
       "testsFailingCount": 1,
       "regressionTestsNeeded": 1,
       "suiteOkAfter": true,
@@ -14163,23 +13700,17 @@
         "rootTransitiveConsumers": 6,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/angular-app/src/app/features/catalog-07/catalog-07.component.ts"
-      ],
+      "filesChanged": ["apps/angular-app/src/app/features/catalog-07/catalog-07.component.ts"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-07"
-      ],
+      "featuresAffected": ["catalog-07"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 1,
       "causeToSymptomDistance": 1,
       "typecheckOk": true,
       "typecheckErrors": 0,
-      "testsFailing": [
-        "src/app/features/catalog-07/catalog-07.component.spec.ts"
-      ],
+      "testsFailing": ["src/app/features/catalog-07/catalog-07.component.spec.ts"],
       "testsFailingCount": 1,
       "regressionTestsNeeded": 1,
       "suiteOkAfter": true,
@@ -14295,14 +13826,10 @@
         "rootTransitiveConsumers": 6,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/react-app/src/features/catalog-01/catalog-01-page.tsx"
-      ],
+      "filesChanged": ["apps/react-app/src/features/catalog-01/catalog-01-page.tsx"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 2,
@@ -14433,14 +13960,10 @@
         "rootTransitiveConsumers": 6,
         "duplicatedRules": 0
       },
-      "filesChanged": [
-        "apps/angular-app/src/app/features/catalog-01/catalog-01.component.ts"
-      ],
+      "filesChanged": ["apps/angular-app/src/app/features/catalog-01/catalog-01.component.ts"],
       "locAdded": 1,
       "locRemoved": 1,
-      "featuresAffected": [
-        "catalog-01"
-      ],
+      "featuresAffected": ["catalog-01"],
       "unrelatedFeaturesAffected": [],
       "blastRadius": 2,
       "filesInspected": 2,
