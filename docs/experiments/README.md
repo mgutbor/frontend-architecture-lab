@@ -2,6 +2,10 @@
 
 Este directorio contiene la documentación de cada experimento de arquitectura frontend y de la metodología de medición del laboratorio.
 
+> **EXPERIMENTAL PHASES COMPLETE: F1–F20**
+>
+> El laboratorio experimental queda cerrado. La síntesis definitiva está en [final-report.md](./final-report.md). No hay una Fase 21 en este alcance.
+
 > Reglas: documentación en español; todos los experimentos deben implementar requisitos funcionales equivalentes del dominio Operations Hub.
 
 ## Documentos
