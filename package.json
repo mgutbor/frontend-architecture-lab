@@ -39,6 +39,7 @@
     "debugging:multilayer": "node scripts/measure-debugging-multilayer-phase17.mjs",
     "coupling:measure": "node scripts/measure-coupling-phase18.mjs",
     "architecture:scalability": "node scripts/measure-architecture-scalability-phase19.mjs",
+    "architecture:density": "node scripts/measure-architecture-density-phase20.mjs",
     "check": "pnpm lint && pnpm format:check && pnpm typecheck && pnpm test && pnpm build"
   },
   "devDependencies": {
