@@ -40,7 +40,8 @@
     "coupling:measure": "node scripts/measure-coupling-phase18.mjs",
     "architecture:scalability": "node scripts/measure-architecture-scalability-phase19.mjs",
     "architecture:density": "node scripts/measure-architecture-density-phase20.mjs",
-    "check": "pnpm lint && pnpm format:check && pnpm typecheck && pnpm test && pnpm build"
+    "architecture:check": "node scripts/check-architecture.mjs",
+    "check": "pnpm lint && pnpm format:check && pnpm typecheck && pnpm test && pnpm build && pnpm architecture:check"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.5",
