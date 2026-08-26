@@ -6,10 +6,15 @@ Este directorio contiene los **ADR** (Architecture Decision Records) del proyect
 
 ## ADR publicados
 
-| ADR                                                                                                    | Decisión                                                                                        | Estado     |
-| ------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------- | ---------- |
-| [ADR-001 — Paquete de dominio compartido `@operations-hub/domain`](./ADR-001-shared-domain-package.md) | Fuente única de dominio y datos para todos los experimentos (Fase 1).                           | `Accepted` |
-| [ADR-002 — Gestión de estado en React y Angular](./ADR-002-state-management-react-angular.md)          | Estado de dominio/derivado/UI con mecanismos nativos de cada framework, sin librerías (Fase 2). | `Accepted` |
+| ADR                                                                                                                   | Decisión                                                                                        | Estado     |
+| --------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ---------- |
+| [ADR-001 — Paquete de dominio compartido `@operations-hub/domain`](./ADR-001-shared-domain-package.md)                | Fuente única de dominio y datos para todos los experimentos (Fase 1).                           | `Accepted` |
+| [ADR-002 — Gestión de estado en React y Angular](./ADR-002-state-management-react-angular.md)                         | Estado de dominio/derivado/UI con mecanismos nativos de cada framework, sin librerías (Fase 2). | `Accepted` |
+| [ADR-003 — Ownership del dominio compartido y contratos públicos](./ADR-003-domain-ownership-and-public-contracts.md) | Ownership único de reglas, contratos e invariantes en `packages/domain`.                        | `Accepted` |
+| [ADR-004 — Límites de dependencias entre capas y features](./ADR-004-dependency-boundaries.md)                        | Dirección de dependencias y aislamiento entre features.                                         | `Accepted` |
+| [ADR-005 — Compatibilidad temporal y migración de contratos](./ADR-005-contract-compatibility-and-migration.md)       | Compatibilidad localizada y temporal para cambios breaking.                                     | `Accepted` |
+
+Los ADR-003–005 formalizan las conclusiones arquitectónicas defendibles del laboratorio F1–F20. Complementan ADR-001 y ADR-002; no introducen guardrails de tooling ni modifican el código de producción.
 
 ## ¿Qué es un ADR?
 
